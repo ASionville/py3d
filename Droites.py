@@ -22,7 +22,7 @@ class Droite:
 	@classmethod
 	def par_points(self, PointA, PointB):
 		if isinstance(PointA, points.Point) and isinstance(PointB, points.Point):
-			u = vecteurs.Vecteur().par_points(PointA, PointB)
+			u = vecteurs.Vecteur(PointA, PointB)
 			self.vecteur = u
 			self.point = PointA
 			return self
