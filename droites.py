@@ -33,6 +33,7 @@ class Droite:
 			self.point = Point
 			self.vecteur = Vecteur
 			return self
+			
 		else:
 			type_point = Point.__class__.__name__
 			type_vector = Vecteur.__class__.__name__

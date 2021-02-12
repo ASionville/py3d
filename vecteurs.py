@@ -57,9 +57,9 @@ class Vecteur():
 			raise TypeError(f"Impossible de faire le produit scalaire entre [Vecteur] et [{type_}]")
 
 	def produit_vectoriel(self, VecteurB):
-		x = self.y * VecteurB.z - self.z * VecteurB.y
-		y = self.z * VecteurB.x - self.x * VecteurB.z
-		z = self.x * VecteurB.y - self.y * VecteurB.x
+		x = (self.y * VecteurB.z) - (self.z * VecteurB.y)
+		y = (self.z * VecteurB.x) - (self.x * VecteurB.z)
+		z = (self.x * VecteurB.y) - (self.y * VecteurB.x)
 		return Vecteur(x, y, z)
 
 	def norme(self):
