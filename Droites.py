@@ -1,5 +1,5 @@
-import Points
-import Vecteurs
+import points
+import vecteurs
 
 class Droite:
 
@@ -9,27 +9,27 @@ class Droite:
 
 	@classmethod
 	def axe_x(self):
-		return Droite().par_points(Points.Point.origine, Points.Point(1, 0, 0))
+		return Droite().par_points(points.origine, points.Point(1, 0, 0))
 
 	@classmethod
 	def axe_y(self):
-		return Droite().par_points(Points.Point.origine, Points.Point(0, 1, 0))
+		return Droite().par_points(points.origine, points.Point(0, 1, 0))
 
 	@classmethod
 	def axe_z(self):
-		return Droite().par_points(Points.Point.origine, Points.Point(0, 0, 1))
+		return Droite().par_points(points.origine, points.Point(0, 0, 1))
 
 	@classmethod
 	def par_points(self, PointA, PointB):
-		if isinstance(PointA, Points.Point) and isinstance(PointB, Points.Point):
-			u = Vecteurs.Vecteur().par_points(PointA, PointB)
+		if isinstance(PointA, points.Point) and isinstance(PointB, points.Point):
+			u = vecteurs.Vecteur().par_points(PointA, PointB)
 			self.vecteur = u
 			self.point = PointA
 			return self
 	
 	@classmethod
 	def par_point_vecteur(self, Point, Vecteur):
-		if isinstance(Point, Points.Point) and isinstance(Vecteur, Vecteurs.Vecteur):
+		if isinstance(Point, points.Point) and isinstance(Vecteur, vecteurs.Vecteur):
 			self.point = Point
 			self.vecteur = Vecteur
 			return self
@@ -40,8 +40,8 @@ class Droite:
 
 	def est_sur_droite(self, Point):
 		PointA = self.point
-		PointB = Points.Point(PointA.x + self.vecteur.x, PointA.y + self.vecteur.y, PointA.z + self.vecteur.z)
-		return bool(Points.collineaire(PointA, PointB, Point))
+		PointB = points.Point(PointA.x + self.vecteur.x, PointA.y + self.vecteur.y, PointA.z + self.vecteur.z)
+		return bool(points.collineaire(PointA, PointB, Point))
 
 	def __contains__(self, Point):
 		return self.est_sur_droite(Point)

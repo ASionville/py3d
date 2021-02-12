@@ -1,5 +1,5 @@
 from math import sqrt
-import Vecteurs
+import vecteurs
 
 def distance(PointA, PointB):
 	if isinstance(PointA, Point) and isinstance(PointB, Point):
@@ -25,7 +25,7 @@ def collineaire(PointA, PointB, *args):
 			else:
 				typeA = PointA.__class__.__name__
 				typeB = PointX.__class__.__name__
-				raise TypeError(f"Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]")
+				raise TypeError(f"Impossible de déterminer la collinéarité de points entre [{typeA}] et [{typeB}]")
 		
 		return True
 
@@ -49,3 +49,5 @@ class Point():
 		return (distance(self, Point(0, 0, 0)))
 
 origine = Point.origine()
+
+__all__ = ("Point", "origin")
