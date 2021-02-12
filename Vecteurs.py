@@ -2,11 +2,11 @@ from math import sqrt
 import points
 
 def collineaire(u, *args):
-	if isinstance(u, Vecteur) and isinstance(v, Vecteur):
+	if isinstance(u, Vecteur):
 
 		for v in args:
-			if isinstance(v, Point):
-				if abs(abs(u * v) - u.norme() * v.norme()) >= get_eps():
+			if isinstance(v, Vecteur):
+				if abs(abs(u.scalaire(v)) - u.norme() * v.norme()) >= 1/10*10:
 					return False
 		return True
 
@@ -25,14 +25,12 @@ class Vecteur():
 				self.x = b.x - a.x
 				self.y = b.y - a.y
 				self.z = b.z - a.z
-				return self
 
-			if all(isinstance(coord, int) or isinstance(coord, float) for coord in args):
+			elif all(isinstance(coord, int) or isinstance(coord, float) for coord in args):
 				a, b = args
 				self.x = a
 				self.y = b
 				self.z = 0
-				return self
 
 			else:
 				typeA = a.__class__.__name__
@@ -51,12 +49,18 @@ class Vecteur():
 		else:
 			raise ValueError("Un vecteur est créé à partir de deux points ou de coordonnées")
 
-	def scalaire(self, VectorB):
-		if isinstance(VectorB, Vecteur):
-			return self.x * VectorB.x + self.y * VectorB.y + self.z * VectorB.z
+	def scalaire(self, VecteurB):
+		if isinstance(VecteurB, Vecteur):
+			return self.x * VecteurB.x + self.y * VecteurB.y + self.z * VecteurB.z
 		else:
-			type_ = VectorB.__class__.__name__
+			type_ = VecteurB.__class__.__name__
 			raise TypeError(f"Impossible de faire le produit scalaire entre [Vecteur] et [{type_}]")
+
+	def produit_vectoriel(self, VecteurB):
+		x = self.y * VecteurB.z - self.z * VecteurB.y
+		y = self.z * VecteurB.x - self.x * VecteurB.z
+		z = self.x * VecteurB.y - self.y * VecteurB.x
+		return Vecteur(x, y, z)
 
 	def norme(self):
 		return sqrt((self.x)**2 + (self.y)**2 + (self.z)**2)
@@ -81,31 +85,32 @@ class Vecteur():
 	def est_nul(self):
 		return self.x == 0 and self.y == 0 and self.z == 0
 
-	def __add__(self, VectorB):
-		if isinstance(VectorB, Vecteur):
-			return Vecteur(self.x + VectorB.x, self.y + VectorB.y, self.z + VectorB.z)
+	def __add__(self, VecteurB):
+		if isinstance(VecteurB, Vecteur):
+			return Vecteur(self.x + VecteurB.x, self.y + VecteurB.y, self.z + VecteurB.z)
 		else:
-			type_ = VectorB.__class__.__name__
+			type_ = VecteurB.__class__.__name__
 			raise TypeError(f"Impossible d'additioner [Vecteur] et [{type_}]")
 
-	def __radd__(self, VectorB):
-		if VectorB == 0:
+	def __radd__(self, VecteurB):
+		if VecteurB == 0:
 			return self
 		else:
-			return self.__add__(VectorB)
+			return self.__add__(VecteurB)
 
 	def __neg__(self):
 		return Vecteur(-self.x, -self.y, -self.z)
 
-	def __sub__(self, VectorB):
-		return self.__add__(-VectorB)
+	def __sub__(self, VecteurB):
+		return self.__add__(-VecteurB)
 
-	def __rsub__(self, VectorB):
-		return self.__radd__(-VectorB)
+	def __rsub__(self, VecteurB):
+		return self.__radd__(-VecteurB)
 
 	def __mul__(self, valeur):
 		if isinstance(valeur, int) or isinstance(valeur, float):
 			return Vecteur(self.x * valeur, self.y * valeur, self.z * valeur)
+
 		else:
 			type_ = valeur.__class__.__name__
 			raise TypeError(f"Impossible de multiplier [Vecteur] et [{type_}]")
