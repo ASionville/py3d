@@ -36,10 +36,11 @@ Py3D :
       ✓ Axe Z @done
 
     ☐ Plans
-      ☐ Définition par deux vecteurs
+      ✓ Définition par point + vecteur normal @done
+      ✓ Définition par un point + deux vecteurs @done
       ☐ Définition par deux droites
-      ☐ Définition par trois points
-      ☐ Définition par equation cartésienne
+      ✓ Définition par trois points @done
+      ✓ Définition par equation cartésienne @done
       ☐ Equation cartésienne
       ☐ Est sur plan ?
       ☐ Parallèles ?
