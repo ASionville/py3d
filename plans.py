@@ -2,6 +2,26 @@ import droites
 import points
 import vecteurs
 
+def parallelles(planA, *args):
+	if isinstance(planA, Plan):
+
+		for planX in args:
+			if isinstance(planX, Plan):
+				if not(planX.vecteur_normal == planA.vecteur_normal):
+					return False
+			else:
+				typeA = u.__class__.__name__
+				typeB = v.__class__.__name__
+				raise TypeError(f"Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]")
+
+		return True
+
+	else:
+		typeA = u.__class__.__name__
+		typeB = v.__class__.__name__
+		raise TypeError(f"Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]")
+
+
 class Plan:
 
 	def __init__(self, *args):
