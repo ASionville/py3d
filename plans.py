@@ -118,7 +118,8 @@ class Plan:
 		d = -total_p
 		signe_d = "+ " if d >= 0 else ""
 
-		return f"{a}x {signe_b}{b}y {signe_c}{c}z {signe_d}{d} = 0"
+		str_equation = f"{a}x {signe_b}{b}y {signe_c}{c}z {signe_d}{d} = 0"
+		return (str_equation, (a, b, c, d))
 
 	def vecteur_normal(self):
 		return self.vecteur_n
