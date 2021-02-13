@@ -48,6 +48,12 @@ class Point():
 	def distance_origine(self):
 		return (distance(self, Point(0, 0, 0)))
 
+	def __str__(self):
+		return f'Point({self.x}, {self.y}, {self.z})'
+
+	def __repr__(self):
+		return f'Point({self.x}, {self.y}, {self.z})'
+
 origine = Point.origine()
 
 __all__ = ("Point", "origine", "distance", "est_meme_point", "alignes")
