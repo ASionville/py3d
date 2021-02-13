@@ -129,10 +129,3 @@ plan_yz = Plan(1, 0, 0, 0)
 plan_xz = Plan(0, 1, 0, 0)
 
 __all__ = ("Plan", "plan_xy", "plan_yz", "plan_xz")
-
-if __name__ == "__main__":
-	u = vecteurs.vecteur_unitaire_x
-	v = vecteurs.vecteur_unitaire_y
-	p = Plan(1, 1, -1, 1)
-	print(p.vecteur_n, p.point)
-	print(p.cartesienne())

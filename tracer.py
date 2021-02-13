@@ -113,3 +113,5 @@ class Trace3D:
 		self.draw_origin()
 		self.ax.legend(framealpha=0.2)
 		plt.show()
+
+__all__ = ("Trace3D")

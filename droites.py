@@ -82,8 +82,3 @@ axe_y = Droite(points.origine, points.Point(0, 1, 0))
 axe_z = Droite(points.origine, points.Point(0, 0, 1))
 
 __all__ = ("Droite", "axe_x", "axe_y", "axe_z")
-
-if __name__ == "__main__":
-	d = Droite(points.Point(0.25, 1, 0), points.Point(0, 0, -10))
-	print(d.parametrique())
-	print(parallelles(d, axe_x))
