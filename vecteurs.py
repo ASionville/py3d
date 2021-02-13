@@ -20,6 +20,9 @@ def orthogonaux(u, v):
 		if u.scalaire(v) == 0:
 			return True
 		return False
+	else:
+		typeA = u.__class__.__name__
+		typeB = v.__class__.__name__
 		raise TypeError(f"Impossible de déterminer l'orthogonalité entre [{typeA}] et [{typeB}]")
 
 class Vecteur():
@@ -74,6 +77,9 @@ class Vecteur():
 
 	def absolue(self):
 		return Vecteur(abs(self.x), abs(self.z), abs(self.z))
+
+	def normalise(self):
+		return self * float(1 / self.norme())
 
 	def normal(self):
 		if self.z == 0:
