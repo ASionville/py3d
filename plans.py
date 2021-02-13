@@ -12,7 +12,7 @@ class Plan:
 			#Deux vecteurs
 			if isinstance(a, vecteurs.Vecteur) and isinstance(b, vecteurs.Vecteur):
 				if not(a.est_nul() or b.est_nul()):
-					if not vecteurs.collineaire(a, b):
+					if not vecteurs.collineaires(a, b):
 						
 
 u = vecteurs.vecteur_unitaire_x

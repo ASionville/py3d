@@ -1,37 +1,37 @@
 from math import sqrt
 import vecteurs
 
-def distance(PointA, PointB):
-	if isinstance(PointA, Point) and isinstance(PointB, Point):
-		return sqrt((PointB.x - PointA.x)**2 + (PointB.y - PointA.y)**2 + (PointB.z - PointA.z)**2)
+def distance(pointA, pointB):
+	if isinstance(pointA, Point) and isinstance(pointB, Point):
+		return sqrt((pointB.x - pointA.x)**2 + (pointB.y - pointA.y)**2 + (pointB.z - pointA.z)**2)
 
 	else:
-		typeA = PointA.__class__.__name__
-		typeB = PointB.__class__.__name__
+		typeA = pointA.__class__.__name__
+		typeB = pointB.__class__.__name__
 		raise TypeError(f"Impossible de calculer la distance entre un [{typeA}] et [{typeB}]")
 
 
-def est_meme_point(PointA, PointB):
-	return distance(PointA, PointB) == 0
+def est_meme_point(pointA, pointB):
+	return distance(pointA, pointB) == 0
 
-def collineaire(PointA, PointB, *args):
-	if isinstance(PointA, Point) and isinstance(PointB, Point):
+def alignes(pointA, pointB, *args):
+	if isinstance(pointA, Point) and isinstance(pointB, Point):
 
-		for PointX in args:
-			if isinstance(PointX, Point):
-				if ((PointX.y - PointB.y)*(PointB.x - PointA.x) != (PointB.y - PointA.y)*(PointX.x - PointB.x)): 
+		for pointX in args:
+			if isinstance(pointX, Point):
+				if ((pointX.y - pointB.y)*(pointB.x - pointA.x) != (pointB.y - pointA.y)*(pointX.x - pointB.x)): 
 					return False
 			
 			else:
-				typeA = PointA.__class__.__name__
-				typeB = PointX.__class__.__name__
+				typeA = pointA.__class__.__name__
+				typeB = pointX.__class__.__name__
 				raise TypeError(f"Impossible de déterminer la collinéarité de points entre [{typeA}] et [{typeB}]")
 		
 		return True
 
 	else:
-		typeA = PointA.__class__.__name__
-		typeB = PointB.__class__.__name__
+		typeA = pointA.__class__.__name__
+		typeB = pointB.__class__.__name__
 		raise TypeError(f"Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]")
 
 class Point():
@@ -50,4 +50,4 @@ class Point():
 
 origine = Point.origine()
 
-__all__ = ("Point", "origin")
+__all__ = ("Point", "origine", "distance", "est_meme_point", "alignes")
