@@ -46,9 +46,16 @@ Py3D :
       ✓ Parallèles ? @done
       ☐ Sécants ?
       ☐ Othogonaux ?
-      ☐ Vecteur normal
+      ✓ Vecteur normal @done
       ✓ Plan XY @done
       ✓ Plan XZ @done
       ✓ Plan YZ @done
 
   ☐ Plot Matplotlib
+    ✓ Axes @done
+    ✓ Origine @done
+    ✓ Points @done
+    ✓ Droites @done
+    ☐ Plans
+    ✓ Labels @done
+    ✓ Couleurs @done
