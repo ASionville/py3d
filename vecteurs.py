@@ -8,6 +8,11 @@ def collineaires(u, *args):
 			if isinstance(v, Vecteur):
 				if abs(abs(u.scalaire(v)) - u.norme() * v.norme()) >= 1/10*10:
 					return False
+			else:
+				typeA = u.__class__.__name__
+				typeB = v.__class__.__name__
+				raise TypeError(f"Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]")
+				
 		return True
 
 	else:
@@ -133,6 +138,14 @@ class Vecteur():
 
 	def __str__(self):
 		return f"Vecteur ({self.x}, {self.y}, {self.z})"
+
+	def __eq__(self, v):
+		if isinstance(v, Vecteur):
+			return self.x == v.x and self.y = v.y and self.z == v.z
+
+		else:
+			type_ = v.__class__.__name__
+			raise TypeError(f"Impossible de comparer [Vecteur] et [{type_}]") 
 
 vecteur_unitaire_x = Vecteur(1, 0, 0)
 vecteur_unitaire_y = Vecteur(0, 1, 0)

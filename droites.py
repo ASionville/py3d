@@ -9,6 +9,11 @@ def parallelles(d, *args):
 			if isinstance(d2, Droite):
 				if not(vecteurs.collineaires(d.vecteur, d2.vecteur)):
 					return False
+			else:
+				typeA = u.__class__.__name__
+				typeB = v.__class__.__name__
+				raise TypeError(f"Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]")
+				
 		return True
 
 	else:
