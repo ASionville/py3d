@@ -100,6 +100,8 @@ class Plan:
 
 		return f"{a}x {signe_b}{b}y {signe_c}{c}z {signe_d}{d} = 0"
 
+	def vecteur_normal(self):
+		return self.vecteur_n
 
 plan_xy = Plan(0, 0, 1, 0)
 plan_yz = Plan(1, 0, 0, 0)
