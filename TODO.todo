@@ -41,14 +41,14 @@ Py3D :
       ☐ Définition par deux droites
       ✓ Définition par trois points @done
       ✓ Définition par equation cartésienne @done
-      ☐ Equation cartésienne
+      ✓ Equation cartésienne @done
       ☐ Est sur plan ?
       ☐ Parallèles ?
       ☐ Sécants ?
       ☐ Othogonaux ?
       ☐ Vecteur normal
-      ☐ Plan XY
-      ☐ Plan XZ
-      ☐ Plan YZ
+      ✓ Plan XY @done
+      ✓ Plan XZ @done
+      ✓ Plan YZ @done
 
   ☐ Plot Matplotlib

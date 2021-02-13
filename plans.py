@@ -85,7 +85,31 @@ class Plan:
 			else:
 				raise TypeError("Les paramètres de l'équation cartésienne doivent être des chiffres")
 
-u = vecteurs.vecteur_unitaire_x
-v = vecteurs.vecteur_unitaire_y
-p = Plan(1, 1, 1, 1)
-print(p.vecteur_n, p.point)
+	def cartesienne(self):
+		a = self.vecteur_n.x
+		b = self.vecteur_n.y
+		c = self.vecteur_n.z
+
+		signe_b = "+ " if b >= 0 else ""
+		signe_c = "+ " if c >= 0 else ""
+
+		total_p = a * self.point.x + b * self.point.y + c * self.point.z
+
+		d = -total_p
+		signe_d = "+ " if d >= 0 else ""
+
+		return f"{a}x {signe_b}{b}y {signe_c}{c}z {signe_d}{d} = 0"
+
+
+plan_xy = Plan(0, 0, 1, 0)
+plan_yz = Plan(1, 0, 0, 0)
+plan_xz = Plan(0, 1, 0, 0)
+
+__all__ = ("Plan", "plan_xy", "plan_yz", "plan_xz")
+
+if __name__ == "__main__":
+	u = vecteurs.vecteur_unitaire_x
+	v = vecteurs.vecteur_unitaire_y
+	p = Plan(1, 1, -1, 1)
+	print(p.vecteur_n, p.point)
+	print(p.cartesienne())
