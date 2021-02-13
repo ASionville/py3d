@@ -141,7 +141,7 @@ class Vecteur():
 
 	def __eq__(self, v):
 		if isinstance(v, Vecteur):
-			return self.x == v.x and self.y = v.y and self.z == v.z
+			return self.x == v.x and self.y == v.y and self.z == v.z
 
 		else:
 			type_ = v.__class__.__name__
