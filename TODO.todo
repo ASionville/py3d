@@ -1,7 +1,5 @@
 Py3D :
 
-  Géométrie :
-
     ✓ Points @done
       ✓ Distance @done
       ✓ Alignés @done
@@ -51,11 +49,13 @@ Py3D :
       ✓ Plan XZ @done
       ✓ Plan YZ @done
 
-  ☐ Plot Matplotlib
-    ✓ Axes @done
-    ✓ Origine @done
-    ✓ Points @done
-    ✓ Droites @done
-    ☐ Plans
-    ✓ Labels @done
-    ✓ Couleurs @done
+
+
+    ✓ Plot Matplotlib @done
+      ✓ Axes @done
+      ✓ Origine @done
+      ✓ Points @done
+      ✓ Droites @done
+      ✓ Plans @done
+      ✓ Labels @done
+      ✓ Couleurs @done

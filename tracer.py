@@ -12,30 +12,77 @@ class Trace3D:
 		self.fig = plt.figure()
 		self.ax = self.fig.gca(projection='3d')
 
-	def plot(self, objet, color="blue", longueur=10, label=""):
+	def ajouter(self, objet, couleur=None, longueur=10, label="", grille=0):
 		longueur *= 5
 
 		if isinstance(objet, points.Point):
 			if label == "":
-				self.ax.scatter(objet.x, objet.y, objet.z, marker="o")
+				if couleur == None:
+					self.ax.scatter(objet.x, objet.y, objet.z, marker="o")
+				else:
+					self.ax.scatter(objet.x, objet.y, objet.z, marker="o", couleur=couleur)
 			else:
-				self.ax.scatter(objet.x, objet.y, objet.z, marker="o", label=label)
+				if couleur == None:
+					self.ax.scatter(objet.x, objet.y, objet.z, marker="o", label=label)
+				else:
+					self.ax.scatter(objet.x, objet.y, objet.z, marker="o", label=label, couleur=couleur)
 
 		elif isinstance(objet, droites.Droite):
 
+			#Droites en bleu par défaut
+			couleur = "blue" if couleur == None else couleur
+			
 			x = [-(objet.point.x + objet.vecteur.x * longueur),
 				objet.point.x + objet.vecteur.x * longueur]
-				
+
 			y = [-(objet.point.y + objet.vecteur.y * longueur),
 				objet.point.y + objet.vecteur.y * longueur]
-				
+
 			z = [-(objet.point.z + objet.vecteur.z * longueur),
 				objet.point.z + objet.vecteur.z * longueur]
-				
+
 			if label == "":
-				self.ax.plot(x, y, z, color)
+				self.ax.plot(x, y, z, couleur)
 			else:
-				self.ax.plot(x, y, z, color, label=label)
+				self.ax.plot(x, y, z, couleur, label=label)
+
+		elif isinstance(objet, plans.Plan):
+
+			#Plans en orange par défaut
+			couleur = "orange" if couleur == None else couleur
+
+			longueur = int(longueur / 5)
+			a, b, c, d = objet.cartesienne()[1]
+
+			if c != 0:
+				x = np.linspace(-longueur/2, longueur/2, longueur*10)
+				y = np.linspace(-longueur/2, longueur/2, longueur*10)
+
+				X, Y = np.meshgrid(x, y)
+				Z = (d - a*X - b*Y) / c
+
+
+			elif b != 0:
+				x = np.linspace(-longueur/2, longueur/2, longueur*10)
+				z = np.linspace(-longueur/2, longueur/2, longueur*10)
+
+				X, Z = np.meshgrid(x, z)
+				Y = (d - a*X - c*Z) / b
+
+
+			else:
+				y = np.linspace(-longueur/2, longueur/2, longueur*10)
+				z = np.linspace(-longueur/2, longueur/2, longueur*10)
+
+				Y, Z = np.meshgrid(y, z)
+				X = (d - b*Y - c*Z) / a
+
+			if grille != 0:
+				#Mode grillage
+				self.ax.plot_wireframe(X, Y, Z, color=couleur, alpha=0.6,
+					rcount=grille, ccount=grille)
+			else:
+				self.ax.plot_surface(X, Y, Z, color=couleur, alpha=0.6)
 
 	def draw_axes(self):
 		#Ajout des axes
@@ -61,15 +108,8 @@ class Trace3D:
 		self.ax.scatter(0, 0, 0, color="black", label="Origine")
 
 
-	def show(self):
+	def afficher(self):
 		self.draw_axes()
 		self.draw_origin()
 		self.ax.legend(framealpha=0.2)
 		plt.show()
-
-trace3d = Trace3D()
-
-d = droites.Droite(points.origine, points.Point(0.1, 0.1, 0.1))
-
-trace3d.plot(d, label="Droite d")
-trace3d.show()
