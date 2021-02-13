@@ -58,10 +58,13 @@ class Droite:
 	def axe_z(self):
 		return Droite(points.origine, points.Point(0, 0, 1))
 
-	def est_sur_droite(self, Point):
-		PointA = self.point
-		PointB = points.Point(PointA.x + self.vecteur.x, PointA.y + self.vecteur.y, PointA.z + self.vecteur.z)
-		return bool(points.alignes(PointA, PointB, Point))
+	def est_sur_droite(self, point):
+		if isinstance(point, point.Point):
+			pointA = self.point
+			pointB = points.Point(pointA.x + self.vecteur.x, pointA.y + self.vecteur.y, pointA.z + self.vecteur.z)
+			return bool(points.alignes(pointA, pointB, point))
+		type_ = point.__class__.__name__
+		raise TypeError(f"Impossible de déterminer l'appartenance entre droite et [{type_}]")
 
 	def parametrique(self):
 		xp = Fraction(str(self.point.x))
@@ -74,8 +77,8 @@ class Droite:
 		
 		return f"x = {xp} + {xu}t\ny = {yp} + {yu}t\nz = {zp} + {zu}t"
 
-	def __contains__(self, Point):
-		return self.est_sur_droite(Point)
+	def __contains__(self, point):
+		return self.est_sur_droite(point)
 
 axe_x = Droite.axe_x()
 axe_y = Droite.axe_y()
