@@ -41,10 +41,6 @@ class Point():
 		self.y = y
 		self.z = z
 
-	@classmethod
-	def origine(self):
-		return Point(0, 0, 0)
-
 	def distance_origine(self):
 		return (distance(self, Point(0, 0, 0)))
 
@@ -54,6 +50,6 @@ class Point():
 	def __repr__(self):
 		return f'Point({self.x}, {self.y}, {self.z})'
 
-origine = Point.origine()
+origine = Point(0, 0, 0)
 
 __all__ = ("Point", "origine", "distance", "est_meme_point", "alignes")

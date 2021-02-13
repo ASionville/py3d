@@ -46,18 +46,6 @@ class Droite:
 		else:
 			raise ValueError(f"Une droite est créée à partir de deux points, ou d'un point et d'un vecteur")
 
-	@classmethod
-	def axe_x(self):
-		return Droite(points.origine, points.Point(1, 0, 0))
-
-	@classmethod
-	def axe_y(self):
-		return Droite(points.origine, points.Point(0, 1, 0))
-
-	@classmethod
-	def axe_z(self):
-		return Droite(points.origine, points.Point(0, 0, 1))
-
 	def est_sur_droite(self, point):
 		if isinstance(point, point.Point):
 			pointA = self.point
@@ -74,17 +62,23 @@ class Droite:
 		xu = Fraction(str(self.vecteur.x))
 		yu = Fraction(str(self.vecteur.y))
 		zu = Fraction(str(self.vecteur.z))
+
+		signe_xu = "+ " if xu >= 0 else ""
+		signe_yu = "+ " if yu >= 0 else ""
+		signe_zu = "+ " if zu >= 0 else ""
 		
-		return f"x = {xp} + {xu}t\ny = {yp} + {yu}t\nz = {zp} + {zu}t"
+		return f"x = {xp} {signe_xu}{xu}t\ny = {yp} {signe_yu}{yu}t\nz = {zp} {signe_zu}{zu}t"
 
 	def __contains__(self, point):
 		return self.est_sur_droite(point)
 
-axe_x = Droite.axe_x()
-axe_y = Droite.axe_y()
-axe_z = Droite.axe_z()
+axe_x = Droite(points.origine, points.Point(1, 0, 0))
+axe_y = Droite(points.origine, points.Point(0, 1, 0))
+axe_z = Droite(points.origine, points.Point(0, 0, 1))
 
 __all__ = ("Droite", "axe_x", "axe_y", "axe_z")
-d = Droite(points.Point(0.25, 0, 0), points.Point(0, 0, 0))
-print(d.parametrique())
-print(parallelles(d, axe_x))
+
+if __name__ == "__main__":
+	d = Droite(points.Point(0.25, 1, 0), points.Point(0, 0, -10))
+	print(d.parametrique())
+	print(parallelles(d, axe_x))
