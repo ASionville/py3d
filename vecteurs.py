@@ -1,7 +1,7 @@
 from math import sqrt
 import points
 
-def collineaire(u, *args):
+def collineaires(u, *args):
 	if isinstance(u, Vecteur):
 
 		for v in args:
@@ -14,6 +14,13 @@ def collineaire(u, *args):
 		typeA = u.__class__.__name__
 		typeB = v.__class__.__name__
 		raise TypeError(f"Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]")
+
+def orthogonaux(u, v):
+	if isinstance(u, Vecteur and isinstance(v, Vecteur)):
+		if u.scalaire(v) == 0:
+			return True
+		return False
+		raise TypeError(f"Impossible de déterminer l'orthogonalité entre [{typeA}] et [{typeB}]")
 
 class Vecteur():
 
@@ -49,17 +56,17 @@ class Vecteur():
 		else:
 			raise ValueError("Un vecteur est créé à partir de deux points ou de coordonnées")
 
-	def scalaire(self, VecteurB):
-		if isinstance(VecteurB, Vecteur):
-			return self.x * VecteurB.x + self.y * VecteurB.y + self.z * VecteurB.z
+	def scalaire(self, vecteurB):
+		if isinstance(vecteurB, Vecteur):
+			return self.x * vecteurB.x + self.y * vecteurB.y + self.z * vecteurB.z
 		else:
-			type_ = VecteurB.__class__.__name__
+			type_ = vecteurB.__class__.__name__
 			raise TypeError(f"Impossible de faire le produit scalaire entre [Vecteur] et [{type_}]")
 
-	def produit_vectoriel(self, VecteurB):
-		x = (self.y * VecteurB.z) - (self.z * VecteurB.y)
-		y = (self.z * VecteurB.x) - (self.x * VecteurB.z)
-		z = (self.x * VecteurB.y) - (self.y * VecteurB.x)
+	def produit_vectoriel(self, vecteurB):
+		x = (self.y * vecteurB.z) - (self.z * vecteurB.y)
+		y = (self.z * vecteurB.x) - (self.x * vecteurB.z)
+		z = (self.x * vecteurB.y) - (self.y * vecteurB.x)
 		return Vecteur(x, y, z)
 
 	def norme(self):
@@ -76,7 +83,7 @@ class Vecteur():
 		elif self.x == 0:
 			return Vecteur(0, self.z, -self.y)
 		else:
-			raise ValueError("L'implémentation du vecteur normal à un Vecteur 3D non effectuée")
+			raise NotImplementedError("L'implémentation du vecteur normal à un Vecteur 3D non effectuée")
 		return Vecteur(-self.y, self.x, 0)
 
 	def get_coordonnes(self):
@@ -85,27 +92,27 @@ class Vecteur():
 	def est_nul(self):
 		return self.x == 0 and self.y == 0 and self.z == 0
 
-	def __add__(self, VecteurB):
-		if isinstance(VecteurB, Vecteur):
-			return Vecteur(self.x + VecteurB.x, self.y + VecteurB.y, self.z + VecteurB.z)
+	def __add__(self, vecteurB):
+		if isinstance(vecteurB, Vecteur):
+			return Vecteur(self.x + vecteurB.x, self.y + vecteurB.y, self.z + vecteurB.z)
 		else:
-			type_ = VecteurB.__class__.__name__
+			type_ = vecteurB.__class__.__name__
 			raise TypeError(f"Impossible d'additioner [Vecteur] et [{type_}]")
 
-	def __radd__(self, VecteurB):
-		if VecteurB == 0:
+	def __radd__(self, vecteurB):
+		if vecteurB == 0:
 			return self
 		else:
-			return self.__add__(VecteurB)
+			return self.__add__(vecteurB)
 
 	def __neg__(self):
 		return Vecteur(-self.x, -self.y, -self.z)
 
-	def __sub__(self, VecteurB):
-		return self.__add__(-VecteurB)
+	def __sub__(self, vecteurB):
+		return self.__add__(-vecteurB)
 
-	def __rsub__(self, VecteurB):
-		return self.__radd__(-VecteurB)
+	def __rsub__(self, vecteurB):
+		return self.__radd__(-vecteurB)
 
 	def __mul__(self, valeur):
 		if isinstance(valeur, int) or isinstance(valeur, float):
@@ -126,4 +133,4 @@ vecteur_unitaire_y = Vecteur(0, 1, 0)
 vecteur_unitaire_z = Vecteur(0, 0, 1)
 vecteur_nul = Vecteur(0, 0, 0)
 
-__all__ = ("Vecteur", "vecteur_unitaire_x", "vecteur_unitaire_y", "vecteur_unitaire_z", "vecteur_nul")
+__all__ = ("Vecteur", "vecteur_unitaire_x", "vecteur_unitaire_y", "vecteur_unitaire_z", "vecteur_nul", "collineaires")
