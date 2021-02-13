@@ -1,0 +1,53 @@
+Py3D :
+
+  Géométrie :
+
+    ✓ Points @done
+      ✓ Distance @done
+      ✓ Alignés @done
+      ✓ Même point ? @done
+      ✓ Distance à l'origine @done
+      ✓ Origine @done
+
+    ☐ Vecteurs
+      ✓ Définition par points @done
+      ✓ Définition par coordonnées @done
+      ✓ Produit scalaire @done
+      ✓ Produit vectoriel @done
+      ✓ Normal en 2D @done
+      ☐ Normal en 3D
+      ✓ Norme @done
+      ✓ Valeur absolue @done
+      ✓ Coordonnées ? @done
+      ✓ Est nul ? @done
+      ✓ Vecteurs unitaire @done
+      ✓ Vecteur nul @done
+
+    ☐ Droites
+      ✓ Définition par points @done
+      ✓ Définition par point + vecteur @done
+      ✓ Equation paramétrique @done
+      ✓ Est sur droite ? @done
+      ✓ Parallèles ? @done
+      ☐ Sécantes ?
+      ☐ Orthogonales ?
+      ✓ Axe X @done
+      ✓ Axe Y @done
+      ✓ Axe Z @done
+
+    ☐ Plans
+      ☐ Définition par deux vecteurs
+      ☐ Définition par deux droites
+      ☐ Définition par trois points
+      ☐ Définition par equation cartésienne
+      ☐ Equation cartésienne
+      ☐ Est sur plan ?
+      ☐ Parallèles ?
+      ☐ Sécants ?
+      ☐ Othogonaux ?
+      ☐ Vecteur normal
+      ☐ Plan XY
+      ☐ Plan XZ
+      ☐ Plan YZ
+
+  ☐ Plot Matplotlib
