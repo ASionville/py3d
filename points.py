@@ -1,3 +1,5 @@
+"""Module points, contient la classe Point et des fonctions annexes
+"""
 from math import sqrt
 import vecteurs
 

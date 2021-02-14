@@ -1,3 +1,5 @@
+"""Module tracer, contient le nécessaire pour l'affichage dans un tracé 3D
+"""
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5,14 +7,28 @@ import numpy as np
 import points, droites, plans, vecteurs
 
 
-class Trace3D:
+class Repere3D:
 
+	"""Classe Trace3D, représente le repère 3D
+	"""
+	
 	def __init__(self):
-		#Création du graph
+		"""Initialisation du repère
+		"""
+		#Création du graphique
 		self.fig = plt.figure()
 		self.ax = self.fig.gca(projection='3d')
 
 	def ajouter(self, objet, couleur=None, longueur=10, label="", grille=0):
+		"""Ajoute un objet dans le repère
+		
+		Args:
+		    objet : Objet (Point / Droite / Plan) à ajouter
+		    couleur (str, optionnel): Couleur à utiliser (en anglais)
+		    longueur (int, optionnel): Longueur totale sur chaque axe (pour les droites)
+		    label (str, optionnel): Label à attribuer à l'objet
+		    grille (int, optionnel): Mode "grillage", avec {grille} lignes et {grille} colonnes (pour les plans)
+		"""
 		longueur *= 5
 
 		if isinstance(objet, points.Point):
@@ -84,7 +100,9 @@ class Trace3D:
 			else:
 				self.ax.plot_surface(X, Y, Z, color=couleur, alpha=0.6)
 
-	def draw_axes(self):
+	def dessiner_axes(self):
+		"""Ajoute les axes au repère
+		"""
 		#Ajout des axes
 		self.ax.set_xlabel("Axe X")
 		self.ax.set_ylabel("Axe Y")
@@ -103,15 +121,19 @@ class Trace3D:
 			axe_z.vecteur.x, axe_z.vecteur.y, axe_z.vecteur.z,
 			color="blue")
 
-	def draw_origin(self):
+	def dessiner_origine(self):
+		"""Ajoute l'origine au repère
+		"""
 		#Origine en rouge
 		self.ax.scatter(0, 0, 0, color="black", label="Origine")
 
 
 	def afficher(self):
-		self.draw_axes()
-		self.draw_origin()
+		"""Affiche le repère et la légende
+		"""
+		self.dessiner_axes()
+		self.dessiner_origine()
 		self.ax.legend(framealpha=0.2)
 		plt.show()
 
-__all__ = ("Trace3D", )
+__all__ = ("Repere3D", )
