@@ -64,7 +64,7 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si les points sont alignés, False sinon</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>pointA</code></strong> :&ensp;<code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
 <dd>Point A</dd>
@@ -73,12 +73,12 @@
 <dt><strong><code>*args</code></strong></dt>
 <dd>Autres points</dd>
 </dl>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>Points tous alignés ?</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si les objets donnés ne sont pas tous des points</dd>
@@ -95,19 +95,19 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Donne la distance entre deux points</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>pointA</code></strong> :&ensp;<code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
 <dd>Point A</dd>
 <dt><strong><code>pointB</code></strong> :&ensp;<code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
 <dd>Point B</dd>
 </dl>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>float</code></dt>
 <dd>Distance entre A et B</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si A ou B n'est pas un point</dd>
@@ -118,14 +118,14 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si les deux points sont au même endroit, False sinon</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>pointA</code></strong> :&ensp;<code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
 <dd>Point A</dd>
 <dt><strong><code>pointB</code></strong> :&ensp;<code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
 <dd>Point B</dd>
 </dl>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>A et B au même endroit ?</dd>
@@ -142,19 +142,19 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si les droites données sont parallèles, False sinon</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>d</code></strong> :&ensp;<code><a title="py3d.Droite" href="#py3d.Droite">Droite</a></code></dt>
 <dd>Droite de référence</dd>
 <dt><strong><code>*args</code></strong></dt>
 <dd>Autres droite</dd>
 </dl>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>Droites toutes parallèles ?</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si les objets donnés ne sont pas tous des droites</dd>
@@ -189,36 +189,36 @@
 
     - Un point + un vecteur
 </code></pre>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>*args</code></strong></dt>
 <dd>Arguments de définition de la droite</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Les types passés sont incorrects</dd>
 <dt><code>ValueError</code></dt>
 <dd>Les deux points son identiques ou le vecteur directeur est nul</dd>
 </dl></div>
-<h3>Methods</h3>
+<h3>Méthodes</h3>
 <dl>
 <dt id="py3d.Droite.est_sur_droite"><code class="name flex">
 <span>def <span class="ident">est_sur_droite</span></span>(<span>self, point)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si le point est sur la droite, False sinon</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>point</code></strong> :&ensp;<code><a title="py3d.points.Point" href="points.html#py3d.points.Point">Point</a></code></dt>
 <dd>Point quelconque</dd>
 </dl>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>Point sur la droite ?</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si l'objet donné n'est pas un point</dd>
@@ -229,7 +229,7 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie l'équation paramétrique de la droite, et les coefficients dans un tuple</p>
-<pre><code>    Returns:
+<pre><code>    Retourne:
         tuple:
 
         - Equation paramétrique (str)
@@ -270,26 +270,26 @@ z= zp + z\overrightarrow{u}
 
     - Trois points
 </code></pre>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>*args</code></strong></dt>
 <dd>Arguments de définition du plan</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Les types passés sont incorrects</dd>
 <dt><code>ValueError</code></dt>
 <dd>Le vecteur normal est nul, les deux vecteurs sont colinéaires ou les trois points sont alignés</dd>
 </dl></div>
-<h3>Methods</h3>
+<h3>Méthodes</h3>
 <dl>
 <dt id="py3d.Plan.cartesienne"><code class="name flex">
 <span>def <span class="ident">cartesienne</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie l'équation cartésienne du plan, et les coefficients dans un tuple</p>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <p>tuple:</p>
 <ul>
 <li>
@@ -305,7 +305,7 @@ z= zp + z\overrightarrow{u}
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie le vecteur normal au plan</p>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code><a title="py3d.vecteurs.Vecteur" href="vecteurs.html#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
 <dd>Vecteur normal</dd>
@@ -329,7 +329,7 @@ z= zp + z\overrightarrow{u}
 <dd>Coordonnée Z</dd>
 </dl>
 <p>Initialisation du point</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>x</code></strong> :&ensp;<code>float</code></dt>
 <dd>Coordonnée X</dd>
@@ -338,14 +338,14 @@ z= zp + z\overrightarrow{u}
 <dt><strong><code>z</code></strong> :&ensp;<code>float</code></dt>
 <dd>Coordonnée Z</dd>
 </dl></div>
-<h3>Methods</h3>
+<h3>Méthodes</h3>
 <dl>
 <dt id="py3d.Point.distance_origine"><code class="name flex">
 <span>def <span class="ident">distance_origine</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Donne la distance à l'origine</p>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>float</code></dt>
 <dd>Distance entre le point et l'origine</dd>
@@ -359,7 +359,7 @@ z= zp + z\overrightarrow{u}
 <dd>
 <div class="desc"><p>Classe Trace3D, représente le repère 3D</p>
 <p>Initialisation du repère</p></div>
-<h3>Methods</h3>
+<h3>Méthodes</h3>
 <dl>
 <dt id="py3d.Repere3D.afficher"><code class="name flex">
 <span>def <span class="ident">afficher</span></span>(<span>self)</span>
@@ -372,7 +372,7 @@ z= zp + z\overrightarrow{u}
 </code></dt>
 <dd>
 <div class="desc"><p>Ajoute un objet dans le repère</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt>objet : Objet (Point / Droite / Plan) à ajouter</dt>
 <dt><strong><code>couleur</code></strong> :&ensp;<code>str, optionnel</code></dt>
@@ -405,7 +405,7 @@ z= zp + z\overrightarrow{u}
 </code></dt>
 <dd>
 <div class="desc"></div>
-<h3>Methods</h3>
+<h3>Méthodes</h3>
 <dl>
 <dt id="py3d.Vecteur.absolue"><code class="name flex">
 <span>def <span class="ident">absolue</span></span>(<span>self)</span>
