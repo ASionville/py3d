@@ -1,8 +1,27 @@
+"""Module plans, contient la classe Plan et des fonctions annexes
+
+Attributes:
+    plan_xy (Plan): Plan d'équation z = 0 (horizontal)
+    plan_xz (Plan): Plan d'équation y = 0 (vertical)
+    plan_yz (Plan): Plan d'équation x = 0 (vertical)
+"""
 import droites
 import points
 import vecteurs
 
 def parallelles(planA, *args):
+	"""Renvoie True si les plans donnés sont parallèles, False sinon
+	
+	Args:
+	    planA (Plan): Plan de référence
+	    *args: Autres plans
+	
+	Returns:
+	    bool: Plans tous parallelles ?
+	
+	Raises:
+	    TypeError: Si les objets donnés ne sont pas tous des plans
+	"""
 	if isinstance(planA, Plan):
 
 		for planX in args:
@@ -24,8 +43,31 @@ def parallelles(planA, *args):
 
 class Plan:
 
+	"""Classe représentant un plan de l'espace
+	
+	Attributes:
+	    point (points.Point): Point d'origine du plan
+	    vecteur_n (vecteurs.Vecteur): Vecteur normal au plan
+	"""
+	
 	def __init__(self, *args):
+		"""Initialisation du plan :
 
+			- Un point + un vecteur normal
+
+			- Deux droites
+
+			- Un point + deux vecteurs non colinéaires
+
+			- Trois points
+		
+		Args:
+		    *args: Arguments de définition du plan
+		
+		Raises:
+		    TypeError: Les types passés sont incorrects
+		    ValueError: Le vecteur normal est nul, les deux vecteurs sont colinéaires ou les trois points sont alignés
+		"""
 		if len(args) == 2:
 
 			a, b = args
@@ -106,6 +148,16 @@ class Plan:
 				raise TypeError("Les paramètres de l'équation cartésienne doivent être des chiffres")
 
 	def cartesienne(self):
+		"""Renvoie l'équation cartésienne du plan, et les coefficients dans un tuple
+		
+		Returns:
+		    tuple:
+
+		    - Equation cartésienne (str)
+
+		    - Tuple avec les coefficients a b c d pour `ax + by + cz + d = 0`
+
+		"""
 		a = self.vecteur_n.x
 		b = self.vecteur_n.y
 		c = self.vecteur_n.z
@@ -122,6 +174,11 @@ class Plan:
 		return (str_equation, (a, b, c, d))
 
 	def vecteur_normal(self):
+		"""Renvoie le vecteur normal au plan
+		
+		Returns:
+		    vecteurs.Vecteur: Vecteur normal
+		"""
 		return self.vecteur_n
 
 plan_xy = Plan(0, 0, 1, 0)

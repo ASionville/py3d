@@ -1,4 +1,7 @@
 """Module points, contient la classe Point et des fonctions annexes
+
+Attributes:
+    origine (Point): Point de coordonnées `(0, 0, 0)`
 """
 from math import sqrt
 import vecteurs

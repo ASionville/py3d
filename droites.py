@@ -1,8 +1,27 @@
+"""Module droites, contient la classe Droite et des fonctions annexes
+
+Attributes:
+    axe_x (Droite): Droite de l'axe X
+    axe_y (Droite): Droite de l'axe Y
+    axe_z (Droite): Droite de l'axe Z
+"""
 import points
 import vecteurs
 from fractions import Fraction
 
 def parallelles(d, *args):
+	"""Renvoie True si les droites données sont parallèles, False sinon
+	
+	Args:
+	    d (Droite): Droite de référence
+	    *args: Autres droite
+	
+	Returns:
+	    bool: Droites toutes parallèles ?
+	
+	Raises:
+	    TypeError: Si les objets donnés ne sont pas tous des droites
+	"""
 	if isinstance(d, Droite):
 
 		for d2 in args:
@@ -22,14 +41,38 @@ def parallelles(d, *args):
 		raise TypeError(f"Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]")
 
 def secantes(d, *args):
+	"""Non implémenté
+	"""
 	raise NotImplementedError
 
 def orthogonales(droite1, droite2):
+	"""Non implémenté
+	"""
 	raise NotImplementedError 
 
 class Droite:
 
+	"""Classe représentant une droite de l'espace
+	
+	Attributes:
+	    point (points.Point): Un point appartenant à la droite
+	    vecteur (vecteurs.Vecteur): Vecteur directeur de la droite
+	"""
+	
 	def __init__(self, *args):
+		"""Initialisation de la droite
+
+			- Deux points
+
+			- Un point + un vecteur
+		
+		Args:
+		    *args: Arguments de définition de la droite
+		
+		Raises:
+		    TypeError: Les types passés sont incorrects
+		    ValueError: Les deux points son identiques ou le vecteur directeur est nul
+		"""
 		self.point = None
 		self.vecteur = None
 
@@ -37,29 +80,69 @@ class Droite:
 			a, b = args
 
 			if isinstance(a, points.Point) and isinstance(a, points.Point):
-				u = vecteurs.Vecteur(a, b)
-				self.vecteur = u
-				self.point = a
+				if not points.est_meme_point(a, b):
+					u = vecteurs.Vecteur(a, b)
+					self.vecteur = u
+					self.point = a
+				else:
+					raise ValueError("Les deux points ne doivent pas être identiques")
 		
 			elif isinstance(a, points.Point) and isinstance(b, vecteurs.Vecteur):
-				self.point = a
-				self.vecteur = b
+				if not b.est_nul():
+					self.point = a
+					self.vecteur = b
+				else:
+					raise ValueError("Le vecteur directeur ne doit pas être nul")
 				
 			else:
-				raise ValueError(f"Une droite est créée à partir de deux points, ou d'un point et d'un vecteur")
+				raise TypeError(f"Une droite est créée à partir de deux points, ou d'un point et d'un vecteur")
 		
 		else:
-			raise ValueError(f"Une droite est créée à partir de deux points, ou d'un point et d'un vecteur")
+			raise TypeError(f"Une droite est créée à partir de deux points, ou d'un point et d'un vecteur")
 
 	def est_sur_droite(self, point):
+		"""Renvoie True si le point est sur la droite, False sinon
+		
+		Args:
+		    point (points.Point): Point quelconque
+		
+		Returns:
+		    bool: Point sur la droite ?
+		
+		Raises:
+		    TypeError: Si l'objet donné n'est pas un point
+		"""
 		if isinstance(point, point.Point):
 			pointA = self.point
 			pointB = points.Point(pointA.x + self.vecteur.x, pointA.y + self.vecteur.y, pointA.z + self.vecteur.z)
 			return bool(points.alignes(pointA, pointB, point))
+
 		type_ = point.__class__.__name__
 		raise TypeError(f"Impossible de déterminer l'appartenance entre droite et [{type_}]")
 
 	def parametrique(self):
+		"""Renvoie l'équation paramétrique de la droite, et les coefficients dans un tuple
+		
+		Returns:
+		    tuple:
+
+		    - Equation paramétrique (str)
+
+		    - Tuple avec les coefficients xp, yp, zp, xu, yu, zu pour
+
+
+        \\begin{equation}
+        	x= xp + x\\overrightarrow{u}
+        \\end{equation}
+
+        \\begin{equation}
+        	y= y + y\\overrightarrow{u}
+        \\end{equation}
+
+        \\begin{equation}
+        	z= zp + z\\overrightarrow{u}
+        \\end{equation}
+		"""
 		xp = Fraction(str(self.point.x))
 		yp = Fraction(str(self.point.y))
 		zp = Fraction(str(self.point.z))
@@ -72,7 +155,8 @@ class Droite:
 		signe_yu = "+ " if yu >= 0 else ""
 		signe_zu = "+ " if zu >= 0 else ""
 		
-		return f"x = {xp} {signe_xu}{xu}t\ny = {yp} {signe_yu}{yu}t\nz = {zp} {signe_zu}{zu}t"
+		str_parametrique = f"x = {xp} {signe_xu}{xu}t\ny = {yp} {signe_yu}{yu}t\nz = {zp} {signe_zu}{zu}t"
+		return (str_parametrique, (xp, yp, zp, xu, yu, zu))
 
 	def __contains__(self, point):
 		return self.est_sur_droite(point)
