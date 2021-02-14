@@ -3,7 +3,7 @@
 from droites import *
 from plans import *
 from points import *
-from tracer import *
+from repere import *
 from utils import *
 from vecteurs import *
 

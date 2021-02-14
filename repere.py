@@ -1,4 +1,4 @@
-"""Module tracer, contient le nécessaire pour l'affichage dans un tracé 3D
+"""Module repere, contient le nécessaire pour l'affichage dans un tracé 3D
 """
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 import matplotlib.pyplot as plt
