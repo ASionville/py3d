@@ -114,4 +114,4 @@ class Trace3D:
 		self.ax.legend(framealpha=0.2)
 		plt.show()
 
-__all__ = ("Trace3D")
+__all__ = ("Trace3D", )

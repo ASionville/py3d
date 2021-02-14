@@ -81,4 +81,4 @@ axe_x = Droite(points.origine, points.Point(1, 0, 0))
 axe_y = Droite(points.origine, points.Point(0, 1, 0))
 axe_z = Droite(points.origine, points.Point(0, 0, 1))
 
-__all__ = ("Droite", "axe_x", "axe_y", "axe_z")
+__all__ = ("Droite", "axe_x", "axe_y", "axe_z", "parallelles", "secantes", "orthogonales")
