@@ -12,13 +12,17 @@ Un module python en français, qui vise à simplifier les programmes utilisants 
   
   >Un package *pip* pour une installation plus simple sera disponible à terme
   
+  *Ce qui suit n'est pas nécessaire en installant 3dpy par pip*
+  Vous aurez également besoin de ces deux modules : `matplotlib` et `numpy`.
+  
+  Pour les installer, ouvrez un terminal en mode administrateur et tapez `pip install matplotlib numpy`
 
 ## Utilisation
 
   Nous nous baserons sur un dossier organisé comme ceci :
   
     .                           # Votre dossier de projet
-    ├── py3d                    # Dossier py3d
+    ├── 3dpy                    # Dossier 3dpy
     │   ├── droites.py
     │   ├── vecteurs.py
     │   └── ...
@@ -29,17 +33,19 @@ Un module python en français, qui vise à simplifier les programmes utilisants 
 
 Nous recommandons de ne **pas** importer les fonctions de cette manière:
 ```python
-from py3d import *
+from 3dpy import *
 ```
 
 Mais plutôt de cette manière :
 ```python
-import py3d
+import 3dpy
 ```
+
+<br>
 
 Example basique d'utilisation :
 ```python
-import py3d
+import 3dpy
 
 #Création de deux vecteurs u et v
 u = py3d.Vecteur(0, 0, 1)
