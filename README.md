@@ -90,3 +90,7 @@ repere.afficher()
 
 Résultat :
 ![Affichage 3D basique](images/affichage_basique.PNG)
+
+<br>
+
+D'autres exemples seront bientôt disponibles dans le dossier [exemples](exemples/)
