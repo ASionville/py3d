@@ -1,18 +1,21 @@
-# 3Dpy
+# Py3D
 
 Un module python en français, qui vise à simplifier les programmes utilisants de la géométrie 2D ou 3D.
 
   Il vise à être utilisé par les <b>collégiens, lycéens et étudiants</b> afin de faciliter leurs projets ou leurs démonstration incluant de la géométrie 2D / 3D
-  
+
+
+Une documentation complète est disponible à cette adresse :<br>
+[https://asionville.github.io/py3d/](https://asionville.github.io/py3d/)
   
 ## Installation
 
-  Vous pouvez installer ce module en allant [ici](https://github.com/ASionville/3dpy/releases) puis en téléchargeant le ZIP le plus récent.<br>
+  Vous pouvez installer ce module en allant [ici](https://github.com/ASionville/py3d/releases) puis en téléchargeant le ZIP le plus récent.<br>
   Ensuite, vous n'avez plus qu'à dézipper le tout et à placer le dossier dans votre projet.
   
   >Un package *pip* pour une installation plus simple sera disponible à terme
   
-  *Ce qui suit n'est pas nécessaire en installant 3dpy par pip*
+  *Ce qui suit n'est pas nécessaire en installant py3d par pip*
   Vous aurez également besoin de ces deux modules : `matplotlib` et `numpy`.
   
   Pour les installer, ouvrez un terminal en mode administrateur et tapez `pip install matplotlib numpy`
@@ -22,7 +25,7 @@ Un module python en français, qui vise à simplifier les programmes utilisants 
   Nous nous baserons sur un dossier organisé comme ceci :
   
     .                           # Votre dossier de projet
-    ├── 3dpy                    # Dossier 3dpy
+    ├── py3d                    # Dossier py3d
     │   ├── droites.py
     │   ├── vecteurs.py
     │   └── ...
@@ -33,19 +36,19 @@ Un module python en français, qui vise à simplifier les programmes utilisants 
 
 Nous recommandons de ne **pas** importer les fonctions de cette manière:
 ```python
-from 3dpy import *
+from py3d import *
 ```
 
 Mais plutôt de cette manière :
 ```python
-import 3dpy
+import py3d
 ```
 
 <br>
 
 Example basique d'utilisation :
 ```python
-import 3dpy
+import py3d
 
 #Création de deux vecteurs u et v
 u = py3d.Vecteur(0, 0, 1)
