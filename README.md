@@ -44,7 +44,7 @@ Mais plutôt de cette manière :
 ```python
 import py3d
 ```
-
+Cela évitera les possibles erreurs en utilisants d'autres modules (si vous n'en utilisez pas, alors c'est bon)
 <br>
 
 Exemple basique d'utilisation :
@@ -94,3 +94,17 @@ Résultat :
 <br>
 
 D'autres exemples seront bientôt disponibles dans le dossier [exemples](exemples/)
+
+---
+## Gestion des bugs
+
+Github possède un système de tickets (issues) sur lesquels nous pouvons discuter / s'entraîder disponibles ici : [Tickets](https://github.com/ASionville/py3d/issues)<br>
+ou sinon, en haut de page
+
+Merci à tous ceux que relèveront des bugs et qui m'en feront part, ils seront corrigés dès que possible
+
+---
+## Contact
+
+Vous pouvez me contacter à cette adresse :
+[aubin.sionville@stfrancoislaroche.fr](mailto:aubin.sionville@stfrancoislaroche.fr)
