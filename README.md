@@ -18,8 +18,8 @@ Une documentation complète est disponible à cette adresse :<br>
   *Ce qui suit n'est pas nécessaire en installant py3d par pip*
   Vous aurez également besoin de ces deux modules : `matplotlib` et `numpy`.
   
-  Pour les installer, ouvrez un terminal et tapez `pip install matplotlib numpy`<br>
-  Pour ouvrir un terminal sur windows: Touche Windows puis `cmd`<br>
+  Pour les installer, ouvrez un terminal et tapez `pip install matplotlib numpy`<br><br>
+  Pour ouvrir un terminal sur Windows: Touche Windows (en bas à gauche) puis `cmd`<br>
   Pour ouvrir un terminal sur linux: Application `Terminal`<br>
   Pour ouvrir un terminal sur mac: `ctr`+`shift`+`T`<br>
   
