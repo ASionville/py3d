@@ -26,7 +26,7 @@ def parallelles(d, *args):
 
 		for d2 in args:
 			if isinstance(d2, Droite):
-				if not(vecteurs.collineaires(d.vecteur, d2.vecteur)):
+				if not(vecteurs.colineaires(d.vecteur, d2.vecteur)):
 					return False
 			else:
 				typeA = u.__class__.__name__
