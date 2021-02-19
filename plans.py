@@ -96,7 +96,7 @@ class Plan:
 			#Point + Deux vecteurs
 			if isinstance(a, points.Point) and (b, vecteurs.Vecteur) and isinstance(c, vecteurs.Vecteur):
 				if not(b.est_nul() or c.est_nul()):
-					if not vecteurs.collineaires(b, c):
+					if not vecteurs.colineaires(b, c):
 						self.vecteur_n = b.produit_vectoriel(c)
 						self.point = a
 					else:
@@ -110,7 +110,7 @@ class Plan:
 				ac = vecteurs.Vecteur(b, c)
 
 				if not(ab.est_nul() or ac.est_nul()):
-					if not vecteurs.collineaires(ab, ac):
+					if not vecteurs.colineaires(ab, ac):
 						self.vecteur_n = ab.produit_vectoriel(ac)
 						self.point = a
 					else:
