@@ -99,6 +99,10 @@ Une droite peut aussi se définir par un point puis son vecteur directeur :
 d2 = py3d.droite(py3d.origine, v)
 ```
 
+*Les droites représentant les droite sont disponibles comme ceci :
+```python
+d3 = py3d.axe_x
+```
 <br>
 
 #### Plans
@@ -124,6 +128,10 @@ Ou enfin par trois points qui font partie de ce plan :
 p4 = py3d.Plan(o, p, py3d.Point(-4, 7, -3.5))
 ```
 
+*Les plans XY, XZ et YZ sont disponibles directement:
+```python
+`p5 = py3d.plan_xy
+```
 ---
 
 Exemple basique d'utilisation :
@@ -135,7 +143,7 @@ u = py3d.Vecteur(0, 0, 1)
 v = py3d.Vecteur(0, 0, 10)
 
 #Est ce que les vecteurs sont colinéaires ? -> True
-print(py3d.collineaires(u, v))
+print(py3d.colineaires(u, v))
 ```
 
 <br>
