@@ -39,6 +39,7 @@ Une documentation complète est disponible à cette adresse :<br>
     └── ...
 
 
+#### Importation
 Nous recommandons de ne **pas** importer les fonctions de cette manière:
 ```python
 from py3d import *
@@ -51,6 +52,8 @@ import py3d
 Cela évitera les possibles erreurs en utilisants d'autres modules (si vous n'en utilisez pas, alors c'est bon)
 <br>
 
+
+#### Points
 Suite à cela, vous pourrez créer un point de coordonnées (0, 1, 2) de cette manière :
 ```python
 p = py3d.Point(0, 1, 2)
@@ -63,6 +66,7 @@ o = py3d.origine
 
 <br>
 
+#### Vecteurs
 Un vecteur peut se créer comme ceci, avec deux points :
 ```python
 u = py3d.Vecteur(o, p)
@@ -83,6 +87,7 @@ v_nul = py3d.vecteur_nul
 
 <br>
 
+#### Droites
 Une droite peut se définir par deux points :
 ```python
 d1 = py3d.Droite(o, p)
@@ -96,6 +101,7 @@ d2 = py3d.droite(py3d.origine, v)
 
 <br>
 
+#### Plans
 Pour ce qui est des plans, il existe plusieurs manières très différentes :
 
 Tout d'abord, avec un point puis le vecteur normal au plan :
