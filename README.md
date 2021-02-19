@@ -51,6 +51,75 @@ import py3d
 Cela évitera les possibles erreurs en utilisants d'autres modules (si vous n'en utilisez pas, alors c'est bon)
 <br>
 
+Suite à cela, vous pourrez créer un point de coordonnées (0, 1, 2) de cette manière :
+```python
+p = py3d.Point(0, 1, 2)
+```
+*A noter : si vous ne mentionnez pas une coordonnée, elle sera considérée comme nulle*
+Il existe également le point d'origine (0, 0, 0) qui est accessible via :
+```python
+o = py3d.origine
+```
+
+<br>
+
+Un vecteur peut se créer comme ceci, avec deux points :
+```python
+u = py3d.Vecteur(o, p)
+```
+*Il est possible de "créer" les points directement dans le vecteur :*
+```python
+v = py3d.Vecteur(py3d.point(-2, 3, 7), py3d.origine)
+```
+
+Vous pouvez également créer un vecteur à partir de ses coordonnées :
+```python
+w = py3d.Vecteur(-1, 2, 1)
+```
+Les vecteurs unitaires et le vecteur nul sont disponible directement :
+```python
+v_nul = py3d.vecteur_nul
+```
+
+<br>
+
+Une droite peut se définir par deux points :
+```python
+d1 = py3d.Droite(o, p)
+```
+*Encore une fois, il est possible de créer les points en même temps (voir exemple avec les vecteurs)*
+
+Une droite peut aussi se définir par un point puis son vecteur directeur :
+```python
+d2 = py3d.droite(py3d.origine, v)
+```
+
+<br>
+
+Pour ce qui est des plans, il existe plusieurs manières très différentes :
+
+Tout d'abord, avec un point puis le vecteur normal au plan :
+```python
+p1 = py3d.Plan(o, w)
+```
+
+Ou alors, par deux droites sécantes :
+```python
+p2 = py3d.Plan(d1, d2)
+```
+
+Mais aussi par un point et deux vecteurs non colinéaires :
+```python
+p3 = py3d.Plan(u, v)
+```
+
+Ou enfin par trois points qui font partie de ce plan :
+```python
+p4 = py3d.Plan(o, p, py3d.Point(-4, 7, -3.5))
+```
+
+---
+
 Exemple basique d'utilisation :
 ```python
 import py3d
@@ -59,7 +128,7 @@ import py3d
 u = py3d.Vecteur(0, 0, 1)
 v = py3d.Vecteur(0, 0, 10)
 
-#Est ce que les vecteurs sont collinéaires ? -> True
+#Est ce que les vecteurs sont colinéaires ? -> True
 print(py3d.collineaires(u, v))
 ```
 
