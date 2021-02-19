@@ -12,4 +12,4 @@ __all__ = ("Droite", "axe_x", "axe_y", "axe_z", "parallelles", "secantes", "orth
 	"Point", "origine", "distance", "est_meme_point", "alignes",
 	"Repere3D",
 	"MIN_DELTA", "CHIFFRES_SIGNIFICATIFS",
-	"Vecteur", "vecteur_unitaire_x", "vecteur_unitaire_y", "vecteur_unitaire_z", "vecteur_nul", "collineaires")
+	"Vecteur", "vecteur_unitaire_x", "vecteur_unitaire_y", "vecteur_unitaire_z", "vecteur_nul", "colineaires")
