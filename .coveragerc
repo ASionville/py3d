@@ -1,0 +1,10 @@
+[run]
+include =
+    ./droites.py
+    ./plans.py
+    ./points.py
+    ./repere.py
+    ./utils.py
+    ./vecteurs.py
+omit =
+    */apps.py
