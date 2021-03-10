@@ -1,7 +1,27 @@
+"""Module vecteurs, contient la classe Vecteur et des fonctions annexes
+
+Attributes:
+    vecteur_nul (Vecteur): 		  Vecteur (0, 0, 0)
+    vecteur_unitaire_x (Vecteur): Vecteur (1, 0, 0)
+    vecteur_unitaire_y (Vecteur): Vecteur (0, 1, 0)
+    vecteur_unitaire_z (Vecteur): Vecteur (0, 0, 1)
+"""
 from math import sqrt
 import points
 
-def collineaires(u, *args):
+def colineaires(u, *args):
+	"""Renvoie True si les vecteurs donnés sont collinéaires, False sinon
+	
+	Args:
+	    u (Vecteur): Vecteur de référence
+	    *args: Autres vecteurs
+	
+	Returns:
+	    bool: Tous les vecteurs collinéaires ?
+	
+	Raises:
+	    TypeError: Si les objets donnés ne sont pas tous des vecteurs
+	"""
 	if isinstance(u, Vecteur):
 
 		for v in args:
@@ -21,6 +41,18 @@ def collineaires(u, *args):
 		raise TypeError(f"Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]")
 
 def orthogonaux(u, v):
+	"""Renvoie True si les vecteurs donnés sont orthogonaux, False sinon
+	
+	Args:
+	    u (Vecteur): Vecteur de référence
+	    v (Vecteur): Autre vecteur
+	
+	Returns:
+	    bool: Tous les vecteurs orthogonaux ?
+	
+	Raises:
+	    TypeError: Si les objets donnés ne sont pas tous des vecteurs
+	"""
 	if isinstance(u, Vecteur and isinstance(v, Vecteur)):
 		if u.scalaire(v) == 0:
 			return True
@@ -32,8 +64,28 @@ def orthogonaux(u, v):
 
 class Vecteur():
 
+	"""Classe représentant un vecteur de l'espace
+	
+	Attributes:
+	    x (float): Coordonnée x
+	    y (float): Coordonnée y
+	    z (float): Coordonnée z
+	"""
+	
 	def __init__(self, *args):
+		"""Initialisation du vecteur
 
+			- Deux points
+
+			- Trois coordonnées
+		
+		Args:
+		    *args: Arguments de définition du vecteur
+		
+		Raises:
+		    TypeError: Si les types donnés sont incorrectes
+		    ValueError: Si le nombre de paramètres ne correspond pas
+		"""
 		if len(args) == 2:
 			a, b = args
 			if isinstance(a, points.Point) and isinstance(b, points.Point):
@@ -65,6 +117,17 @@ class Vecteur():
 			raise ValueError("Un vecteur est créé à partir de deux points ou de coordonnées")
 
 	def scalaire(self, vecteurB):
+		"""Renvoie le produit scalaire entre le vecteur et vecteurB
+		
+		Args:
+		    vecteurB (Vecteur): Vecteur à comparer
+		
+		Returns:
+		    float: Résultat du produit scalaire
+		
+		Raises:
+		    TypeError: Si vecteurB n'est pas un vecteur
+		"""
 		if isinstance(vecteurB, Vecteur):
 			return self.x * vecteurB.x + self.y * vecteurB.y + self.z * vecteurB.z
 		else:
@@ -72,21 +135,55 @@ class Vecteur():
 			raise TypeError(f"Impossible de faire le produit scalaire entre [Vecteur] et [{type_}]")
 
 	def produit_vectoriel(self, vecteurB):
+		"""Renvoie le produit vectoriel entre le vecteur et vecteurB
+		
+		Args:
+		    vecteurB (Vecteur): Vecteur à comparer
+		
+		Returns:
+		    float: Résultat du produit vectoriel
+		
+		Raises:
+		    TypeError: Si vecteurB n'est pas un vecteur
+		"""
 		x = (self.y * vecteurB.z) - (self.z * vecteurB.y)
 		y = (self.z * vecteurB.x) - (self.x * vecteurB.z)
 		z = (self.x * vecteurB.y) - (self.y * vecteurB.x)
 		return Vecteur(x, y, z)
 
 	def norme(self):
+		"""Donne la norme du vecteur
+		
+		Returns:
+		    float: Norme du vecteur
+		"""
 		return sqrt((self.x)**2 + (self.y)**2 + (self.z)**2)
 
 	def absolue(self):
+		"""Donne la valeur absolue du vecteur
+		
+		Returns:
+		    float: Valeur absolue du vecteur
+		"""
 		return Vecteur(abs(self.x), abs(self.z), abs(self.z))
 
 	def normalise(self):
+		"""Donne la forme normalisée du vecteur
+		
+		Returns:
+		    Vecteur: Forme normalisée du vecteur
+		"""
 		return self * float(1 / self.norme())
 
 	def normal(self):
+		"""Donne un vecteur normal à ce vecteur
+		
+		Returns:
+		    Vecteur: Vecteur normal
+		
+		Raises:
+		    NotImplementedError: Si le vecteur actuel n'a aucune coordonnée nulle
+		"""
 		if self.z == 0:
 			return Vecteur(self.y, -self.x, 0)
 		elif self.y == 0:
@@ -98,9 +195,19 @@ class Vecteur():
 		return Vecteur(-self.y, self.x, 0)
 
 	def get_coordonnes(self):
+		"""Donne les coordonnées du vecteur dans un tuple
+		
+		Returns:
+		    tuple: Coordonnées (x, y, z)
+		"""
 		return (self.x, self.y, self.z)
 
 	def est_nul(self):
+		"""Renvoie True si le vecteur est nul, False sinon
+		
+		Returns:
+		    bool: Vecteur nul ?
+		"""
 		return self.x == 0 and self.y == 0 and self.z == 0
 
 	def __add__(self, vecteurB):
@@ -152,4 +259,4 @@ vecteur_unitaire_y = Vecteur(0, 1, 0)
 vecteur_unitaire_z = Vecteur(0, 0, 1)
 vecteur_nul = Vecteur(0, 0, 0)
 
-__all__ = ("Vecteur", "vecteur_unitaire_x", "vecteur_unitaire_y", "vecteur_unitaire_z", "vecteur_nul", "collineaires")
+__all__ = ("Vecteur", "vecteur_unitaire_x", "vecteur_unitaire_y", "vecteur_unitaire_z", "vecteur_nul", "colineaires")

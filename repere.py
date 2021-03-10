@@ -1,4 +1,4 @@
-"""Module tracer, contient le nécessaire pour l'affichage dans un tracé 3D
+"""Module repere, contient le nécessaire pour l'affichage dans un repère 3D
 """
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 import matplotlib.pyplot as plt
@@ -9,7 +9,7 @@ import points, droites, plans, vecteurs
 
 class Repere3D:
 
-	"""Classe Trace3D, représente le repère 3D
+	"""Classe Repere3D, représente le repère 3D
 	"""
 	
 	def __init__(self):
@@ -127,12 +127,26 @@ class Repere3D:
 		#Origine en rouge
 		self.ax.scatter(0, 0, 0, color="black", label="Origine")
 
+	def corriger_min_axes(self):
+		xlims = self.ax.get_xlim3d()
+		ylims = self.ax.get_ylim3d()
+		zlims = self.ax.get_zlim3d()
+
+		if xlims[1] - xlims[0] <= 1:
+			self.ax.set_xlim(-5, 5)
+
+		if ylims[1] - ylims[0] <= 1:
+			self.ax.set_ylim(-5, 5)
+
+		if zlims[1] - zlims[0] <= 1:
+			self.ax.set_zlim(-5, 5)
 
 	def afficher(self):
 		"""Affiche le repère et la légende
 		"""
 		self.dessiner_axes()
 		self.dessiner_origine()
+		self.corriger_min_axes()
 		self.ax.legend(framealpha=0.2)
 		plt.show()
 
