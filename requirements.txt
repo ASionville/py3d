@@ -1,2 +1,5 @@
 matplotlib
 numpy
+bandit
+prospector
+coverage
