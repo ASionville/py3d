@@ -271,4 +271,4 @@ vecteur_unitaire_y = Vecteur(0, 1, 0)
 vecteur_unitaire_z = Vecteur(0, 0, 1)
 vecteur_nul = Vecteur(0, 0, 0)
 
-__all__ = ("Vecteur", "vecteur_unitaire_x", "vecteur_unitaire_y", "vecteur_unitaire_z", "vecteur_nul", "collineaires")
+__all__ = ("Vecteur", "vecteur_unitaire_x", "vecteur_unitaire_y", "vecteur_unitaire_z", "vecteur_nul", "collineaires", "orthogonaux")
