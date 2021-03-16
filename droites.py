@@ -26,7 +26,7 @@ def parallelles(d, *args):
 
 		for d2 in args:
 			if isinstance(d2, Droite):
-				if not(vecteurs.colineaires(d.vecteur, d2.vecteur)):
+				if not(vecteurs.collineaires(d.vecteur, d2.vecteur)):
 					return False
 			else:
 				typeA = u.__class__.__name__
@@ -37,18 +37,55 @@ def parallelles(d, *args):
 
 	else:
 		typeA = u.__class__.__name__
+		v = args[0]
 		typeB = v.__class__.__name__
 		raise TypeError(f"Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]")
 
 def secantes(d, *args):
 	"""Non implémenté
 	"""
-	raise NotImplementedError
+	if isinstance(d, Droite):
+		
+		for d2 in args:
+			if isinstance(d2, Droite):
+				produit = d.vecteur.produit_vectoriel(d2.vecteur)
+				vect_deplacement = vecteurs.Vecteur(d.point, d2.point)
+				if produit.scalaire(vect_deplacement) != 0:
+					return False
+			else:
+				typeA = d.__class__.__name__
+				typeB = d2.__class__.__name__
+				raise TypeError(f"Impossible de déterminer l'intersection entre [{typeA}] et [{typeB}]")
+
+		return True
+
+	else:
+		typeA = d.__class__.__name__
+		d2 = args[0]
+		typeB = d2.__class__.__name__
+		raise TypeError(f"Impossible de déterminer l'intersection entre [{typeA}] et [{typeB}]")
+
 
 def orthogonales(droite1, droite2):
 	"""Non implémenté
 	"""
-	raise NotImplementedError 
+	if isinstance(droite1, Droite):
+		if isinstance(droite2, Droite):
+			if secantes(droite1, droite2):
+				if vecteurs.orthogonaux(droite1.vecteur, droite2.vecteur):
+					return True
+			return False
+
+		else:
+			typeA = droite1.__class__.__name__
+			typeB = droite2.__class__.__name__
+			raise TypeError(f"Impossible de déterminer l'intersection entre [{typeA}] et [{typeB}]")
+
+	else:
+		typeA = droite1.__class__.__name__
+		typeB = droite2.__class__.__name__
+		raise TypeError(f"Impossible de déterminer l'intersection entre [{typeA}] et [{typeB}]")
+
 
 class Droite:
 
@@ -79,7 +116,7 @@ class Droite:
 		if len(args) == 2:
 			a, b = args
 
-			if isinstance(a, points.Point) and isinstance(a, points.Point):
+			if isinstance(a, points.Point) and isinstance(b, points.Point):
 				if not points.est_meme_point(a, b):
 					u = vecteurs.Vecteur(a, b)
 					self.vecteur = u
