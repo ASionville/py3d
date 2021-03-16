@@ -100,6 +100,10 @@ class Repere3D:
 			else:
 				self.ax.plot_surface(X, Y, Z, color=couleur, alpha=0.6)
 
+
+		elif isinstance(objet, vecteurs.Vecteur):
+			pass
+
 	def dessiner_axes(self):
 		"""Ajoute les axes au repère
 		"""
