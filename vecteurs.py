@@ -8,8 +8,9 @@ Attributes:
 """
 from math import sqrt
 import points
+import droites
 
-def colineaires(u, *args):
+def collineaires(u, *args):
 	"""Renvoie True si les vecteurs donnés sont collinéaires, False sinon
 	
 	Args:
@@ -53,7 +54,7 @@ def orthogonaux(u, v):
 	Raises:
 	    TypeError: Si les objets donnés ne sont pas tous des vecteurs
 	"""
-	if isinstance(u, Vecteur and isinstance(v, Vecteur)):
+	if isinstance(u, Vecteur) and isinstance(v, Vecteur):
 		if u.scalaire(v) == 0:
 			return True
 		return False
@@ -175,7 +176,7 @@ class Vecteur():
 		"""
 		return self * float(1 / self.norme())
 
-	def normal(self):
+	def normal(self, *p):
 		"""Donne un vecteur normal à ce vecteur
 		
 		Returns:
@@ -191,8 +192,18 @@ class Vecteur():
 		elif self.x == 0:
 			return Vecteur(0, self.z, -self.y)
 		else:
-			raise NotImplementedError("L'implémentation du vecteur normal à un Vecteur 3D non effectuée")
-		return Vecteur(-self.y, self.x, 0)
+			
+			p = p[0]
+			if isinstance(p, points.Point):
+				a = points.origine
+				b = points.Point(self.x, self.y, self.z)
+
+				projete = p.projete_orthogonal(droites.Droite(a, b))
+
+				return Vecteur(projete, p)
+			else:
+				raise TypeError("Il faut un point pour calculer un vecteur normal en 3D")
+
 
 	def get_coordonnes(self):
 		"""Donne les coordonnées du vecteur dans un tuple
@@ -209,6 +220,7 @@ class Vecteur():
 		    bool: Vecteur nul ?
 		"""
 		return self.x == 0 and self.y == 0 and self.z == 0
+
 
 	def __add__(self, vecteurB):
 		if isinstance(vecteurB, Vecteur):
@@ -259,4 +271,4 @@ vecteur_unitaire_y = Vecteur(0, 1, 0)
 vecteur_unitaire_z = Vecteur(0, 0, 1)
 vecteur_nul = Vecteur(0, 0, 0)
 
-__all__ = ("Vecteur", "vecteur_unitaire_x", "vecteur_unitaire_y", "vecteur_unitaire_z", "vecteur_nul", "colineaires")
+__all__ = ("Vecteur", "vecteur_unitaire_x", "vecteur_unitaire_y", "vecteur_unitaire_z", "vecteur_nul", "collineaires")
