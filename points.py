@@ -5,6 +5,8 @@ Attributes:
 """
 from math import sqrt
 import vecteurs
+import droites
+import plans
 
 def distance(pointA, pointB):
 	"""Donne la distance entre deux points
@@ -102,6 +104,48 @@ class Point():
 		    float: Distance entre le point et l'origine
 		"""
 		return (distance(self, Point(0, 0, 0)))
+
+
+	def projete_orthogonal(self, *args):
+		"""Donne le projeté orthogonal du point sur une droite ou un plan
+
+		Returns:
+			Point: Projeté orthogonal
+		"""
+		if args[0] != None:
+			if isinstance(args[0], droites.Droite):
+				droite = args[0]
+				vec = droite.vecteur
+				a = droite.point
+				b = Point(	droite.point.x + droite.vecteur.x,
+							droite.point.y + droite.vecteur.y,
+							droite.point.z + droite.vecteur.z)
+
+				ab = vecteurs.Vecteur(a, b)
+				ap = vecteurs.Vecteur(a, self)
+
+				modif_vecteur = (ap.scalaire(ab) / ab.scalaire(ab)) * ab
+
+				return Point(a.x + modif_vecteur.x,
+							a.y + modif_vecteur.y,
+							a.z + modif_vecteur.z)
+
+			if isinstance(args[0], plans.Plan):
+				plan = args[0]
+				vec = vecteurs.Vecteur(plan.point, self)
+
+				distance = plan.vecteur_n.scalaire(vec)
+				difference = distance * plan.vecteur_n
+				return Point(self.x - difference.x,
+							self.y - difference.y,
+							self.z - difference.z)
+
+			else:
+				raise TypeError(f"On ne peut projeter un point que sur une droite ou un plan")
+
+		else:
+			raise TypeError(f"Il faut un objet sur lequel projeter le point")
+
 
 	def __str__(self):
 		return f'Point({self.x}, {self.y}, {self.z})'
