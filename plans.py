@@ -96,7 +96,7 @@ class Plan:
 			#Point + Deux vecteurs
 			if isinstance(a, points.Point) and (b, vecteurs.Vecteur) and isinstance(c, vecteurs.Vecteur):
 				if not(b.est_nul() or c.est_nul()):
-					if not vecteurs.colineaires(b, c):
+					if not vecteurs.collineaires(b, c):
 						self.vecteur_n = b.produit_vectoriel(c)
 						self.point = a
 					else:
@@ -110,7 +110,7 @@ class Plan:
 				ac = vecteurs.Vecteur(b, c)
 
 				if not(ab.est_nul() or ac.est_nul()):
-					if not vecteurs.colineaires(ab, ac):
+					if not vecteurs.collineaires(ab, ac):
 						self.vecteur_n = ab.produit_vectoriel(ac)
 						self.point = a
 					else:
@@ -125,7 +125,7 @@ class Plan:
 				raise TypeError(f"Impossible de créer un plan à partir de [{typeA}], [{typeB}] et [{typeC}]")
 
 		elif len(args) == 4:
-
+			pass
 			a, b, c, d = args
 
 			#Equation cartesienne
@@ -180,6 +180,11 @@ class Plan:
 		    vecteurs.Vecteur: Vecteur normal
 		"""
 		return self.vecteur_n
+
+	def __contains__(self, point):
+		if isinstance(point, points.Point):
+			projete = point.projete_orthogonal(self)
+			return points.est_meme_point(point, projete)
 
 plan_xy = Plan(0, 0, 1, 0)
 plan_yz = Plan(1, 0, 0, 0)
