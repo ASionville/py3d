@@ -66,6 +66,28 @@ def secantes(d, *args):
 		raise TypeError(f"Impossible de déterminer l'intersection entre [{typeA}] et [{typeB}]")
 
 
+def secante_plan(droite, plan):
+	"""Non implémenté
+	"""
+	import plans
+	if isinstance(droite, Droite):
+		
+		if isinstance(plan, plans.Plan):
+			if droite.vecteur.scalaire(plan.vecteur_n) == 0:
+				return False
+		else:
+			typeA = d.__class__.__name__
+			typeB = plan.__class__.__name__
+			raise TypeError(f"Impossible de déterminer l'intersection entre [{typeA}] et [{typeB}]")
+		
+		return True
+
+	else:
+		typeA = droite.__class__.__name__
+		typeB = plan.__class__.__name__
+		raise TypeError(f"Impossible de déterminer l'intersection entre [{typeA}] et [{typeB}]")
+
+
 def orthogonales(droite1, droite2):
 	"""Non implémenté
 	"""

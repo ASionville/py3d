@@ -5,6 +5,7 @@ Attributes:
     MIN_DELTA (TYPE): Différence max pour que deux chiffres soit considérés égaux
     	(1/CHIFFRES_SIGNIFICATIFS)
 """
+
 CHIFFRES_SIGNIFICATIFS = 10
 MIN_DELTA = 1/(10 ** CHIFFRES_SIGNIFICATIFS)
 

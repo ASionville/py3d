@@ -6,8 +6,8 @@ Attributes:
     plan_yz (Plan): Plan d'équation x = 0 (vertical)
 """
 import droites
-import points
 import vecteurs
+
 
 def parallelles(planA, *args):
 	"""Renvoie True si les plans donnés sont parallèles, False sinon
@@ -26,18 +26,69 @@ def parallelles(planA, *args):
 
 		for planX in args:
 			if isinstance(planX, Plan):
-				if not(planX.vecteur_normal == planA.vecteur_normal):
+				if not(planX.vecteur_normal() == planA.vecteur_normal()):
 					return False
 			else:
-				typeA = u.__class__.__name__
-				typeB = v.__class__.__name__
+				typeA = planA.__class__.__name__
+				typeB = planX.__class__.__name__
 				raise TypeError(f"Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]")
 
 		return True
 
 	else:
-		typeA = u.__class__.__name__
-		typeB = v.__class__.__name__
+		typeA = planA.__class__.__name__
+		planX = args[0]
+		typeB = planX.__class__.__name__
+		raise TypeError(f"Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]")
+
+def secants(planA, *args):
+	"""Renvoie True si les plans donnés sont sécants, False sinon
+	
+	Args:
+	    planA (Plan): Plan de référence
+	    *args: Autres plans
+	
+	Returns:
+	    bool: Plans tous sécants ?
+	
+	Raises:
+	    TypeError: Si les objets donnés ne sont pas tous des plans
+	"""
+	return not parallelles(planA, *args)
+
+def plans_orthogonaux(planA, *args):
+	"""Renvoie True si les plans donnés sont sécants, False sinon
+	
+	Args:
+	    planA (Plan): Plan de référence
+	    *args: Autres plans
+	
+	Returns:
+	    bool: Plans tous sécants ?
+	
+	Raises:
+	    TypeError: Si les objets donnés ne sont pas tous des plans
+	"""
+	if isinstance(planA, Plan):
+
+		for planX in args:
+			if isinstance(planX, Plan):
+				if secants(planA, planX):
+					if not(planX.vecteur_normal().scalaire(planA.vecteur_normal())) != 0:
+						return False
+				else:
+					return False
+			else:
+				typeA = planA.__class__.__name__
+				typeB = planX.__class__.__name__
+				raise TypeError(f"Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]")
+
+		return True
+
+	else:
+		typeA = planA.__class__.__name__
+		planX = args[0]
+		typeB = planX.__class__.__name__
 		raise TypeError(f"Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]")
 
 
@@ -68,6 +119,7 @@ class Plan:
 		    TypeError: Les types passés sont incorrects
 		    ValueError: Le vecteur normal est nul, les deux vecteurs sont colinéaires ou les trois points sont alignés
 		"""
+		import points
 		if len(args) == 2:
 
 			a, b = args
@@ -82,7 +134,7 @@ class Plan:
 
 			#Deux droites
 			elif isinstance(a, droites.Droite) and isinstance(b, droites.Droite):
-				pass
+				raise NotImplementedError("La création d'un plan par deux droites n'est pas encore disponible")
 
 			else:
 				typeA = a.__class__.__name__

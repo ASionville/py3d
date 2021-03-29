@@ -5,8 +5,6 @@ Attributes:
 """
 from math import sqrt
 import vecteurs
-import droites
-import plans
 
 def distance(pointA, pointB):
 	"""Donne la distance entre deux points
@@ -112,7 +110,9 @@ class Point():
 		Returns:
 			Point: Projeté orthogonal
 		"""
+		
 		if args[0] != None:
+
 			if isinstance(args[0], droites.Droite):
 				droite = args[0]
 				vec = droite.vecteur
@@ -130,6 +130,7 @@ class Point():
 							a.y + modif_vecteur.y,
 							a.z + modif_vecteur.z)
 
+			import plans
 			if isinstance(args[0], plans.Plan):
 				plan = args[0]
 				vec = vecteurs.Vecteur(plan.point, self)
@@ -155,4 +156,4 @@ class Point():
 
 origine = Point(0, 0, 0)
 
-__all__ = ("Point", "origine", "distance", "est_meme_point", "alignes")
+__all__ = ("Point", "origine", "distance", "est_meme_point", "alignes", )

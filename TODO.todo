@@ -5,15 +5,17 @@ Py3D :
       ✓ Alignés @done
       ✓ Même point ? @done
       ✓ Distance à l'origine @done
+      ✓ Projeté orthogonal sur droite @done
+      ✓ Projeté othogonal sur plan @done
       ✓ Origine @done
 
-    ☐ Vecteurs
+    ✓ Vecteurs @done
       ✓ Définition par points @done
       ✓ Définition par coordonnées @done
       ✓ Produit scalaire @done
       ✓ Produit vectoriel @done
       ✓ Normal en 2D @done
-      ☐ Normal en 3D
+      ✓ Normal en 3D @done
       ✓ Norme @done
       ✓ Valeur absolue @done
       ✓ Coordonnées ? @done
@@ -21,14 +23,15 @@ Py3D :
       ✓ Vecteurs unitaire @done
       ✓ Vecteur nul @done
 
-    ☐ Droites
+    ✓ Droites @done
       ✓ Définition par points @done
       ✓ Définition par point + vecteur @done
       ✓ Equation paramétrique @done
       ✓ Est sur droite ? @done
       ✓ Parallèles ? @done
-      ☐ Sécantes ?
-      ☐ Orthogonales ?
+      ✓ Sécantes ? @done
+      ✓ Sécante avec un plan ? @done
+      ✓ Orthogonales ? @done
       ✓ Axe X @done
       ✓ Axe Y @done
       ✓ Axe Z @done
@@ -40,16 +43,19 @@ Py3D :
       ✓ Définition par trois points @done
       ✓ Définition par equation cartésienne @done
       ✓ Equation cartésienne @done
-      ☐ Est sur plan ?
+      ✓ Est sur plan ? @done
       ✓ Parallèles ? @done
-      ☐ Sécants ?
-      ☐ Othogonaux ?
+      ✓ Sécants ? @done
+      ✓ Othogonaux ? @done
       ✓ Vecteur normal @done
       ✓ Plan XY @done
       ✓ Plan XZ @done
       ✓ Plan YZ @done
-
-
+    
+    ☐ Résolution calcul
+      ✓ Intersection Droite-Droite @done
+      ☐ Intersection Plan-Plan
+      ✓ Intersection Droite-Plan @done
 
     ✓ Plot Matplotlib @done
       ✓ Axes @done
