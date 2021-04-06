@@ -17,12 +17,12 @@ pip install py3d-lib
 ```
 
 Pour ouvrir le terminal en administrateur :
-####Windows :
+#### Windows :
 Touche windows
 Taper C M D
 Clic droit -> Exectuter en tant qu'administrateur
 
-####Mac/Linux :
+#### Mac/Linux :
 Ouvrir un terminal
 Taper
 ```cmd
