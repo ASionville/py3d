@@ -23,7 +23,7 @@ Taper C M D<br>
 Clic droit -> Exécuter en tant qu'administrateur
 
 #### Mac/Linux :
-Ouvrir un terminal
+Ouvrir un terminal<br>
 Taper
 ```cmd
 sudo pip install py3d-lib
