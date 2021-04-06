@@ -10,27 +10,27 @@ Une documentation complète est disponible à cette adresse :<br>
   
 ## Installation
 
-  	Le projet être disponible sur [Pypi](https://pypi.org/) sous le nom de "py3d-lib"
-  	Pour l'installer, entrez dans un terminal en administrateur / sudo :
-  	```
-  	pip install py3d-lib
-  	```
+Le projet être disponible sur [Pypi](https://pypi.org/) sous le nom de "py3d-lib"
+Pour l'installer, entrez dans un terminal en administrateur / sudo :
+```cmd
+pip install py3d-lib
+```
 
-  	Pour ouvrir le terminal en administrateur :
-  	Windows :
-  		Touche windows
-  		Taper C M D
-  		Clic droit -> Exectuter en tant qu'administrateur
+Pour ouvrir le terminal en administrateur :
+Windows :
+	Touche windows
+	Taper C M D
+	Clic droit -> Exectuter en tant qu'administrateur
 
-  	Mac/Linux :
-  		Ouvrir un terminal
-  		Taper
-  		```
-	  	sudo pip install py3d-lib
-	  	```
+Mac/Linux :
+	Ouvrir un terminal
+	Taper
+```cmd
+sudo pip install py3d-lib
+```
 
 
-	 Sinon, le projet est disponible en version zippé dans [Les versions officielles](https://github.com/ASionville/py3d/releases)
+Sinon, le projet est disponible en version zippé dans [Les versions officielles](https://github.com/ASionville/py3d/releases)
 
 ---
 #### Importation
