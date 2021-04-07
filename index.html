@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
@@ -24,39 +24,10 @@
 </header>
 <section id="section-intro">
 <p>Module py3D, pour gérer la géométrie 3D en python</p>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">&#34;&#34;&#34;Module py3D, pour gérer la géométrie 3D en python
-&#34;&#34;&#34;
-import sys, os
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-from droites import *
-from plans import *
-from points import *
-from repere import *
-from utils import *
-from vecteurs import *
-from calculs import *
-
-__all__ = (&#34;Droite&#34;, &#34;axe_x&#34;, &#34;axe_y&#34;, &#34;axe_z&#34;, &#34;parallelles&#34;, &#34;secantes&#34;, &#34;orthogonales&#34;,
-        &#34;Plan&#34;, &#34;plan_xy&#34;, &#34;plan_yz&#34;, &#34;plan_xz&#34;,
-        &#34;Point&#34;, &#34;origine&#34;, &#34;distance&#34;, &#34;est_meme_point&#34;, &#34;alignes&#34;,
-        &#34;Repere3D&#34;,
-        &#34;MIN_DELTA&#34;, &#34;CHIFFRES_SIGNIFICATIFS&#34;,
-        &#34;Vecteur&#34;, &#34;vecteur_unitaire_x&#34;, &#34;vecteur_unitaire_y&#34;, &#34;vecteur_unitaire_z&#34;, &#34;vecteur_nul&#34;, &#34;collineaires&#34;, &#34;orthogonaux&#34;,
-        &#34;intersection&#34;, &#34;intersection_plan_plan&#34;, &#34;intersection_droite_plan&#34;, &#34;intersection_droite_droite&#34;)</code></pre>
-</details>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
-<dt><code class="name"><a title="py3d.calculs" href="calculs.html">py3d.calculs</a></code></dt>
-<dd>
-<div class="desc"><p>Module calculs, contient des fonctions permettant de calculer les intersections entre divers objets</p></div>
-</dd>
 <dt><code class="name"><a title="py3d.droites" href="droites.html">py3d.droites</a></code></dt>
 <dd>
 <div class="desc"><p>Module droites, contient la classe Droite et des fonctions annexes …</p></div>
@@ -69,9 +40,9 @@ __all__ = (&#34;Droite&#34;, &#34;axe_x&#34;, &#34;axe_y&#34;, &#34;axe_z&#34;, 
 <dd>
 <div class="desc"><p>Module points, contient la classe Point et des fonctions annexes …</p></div>
 </dd>
-<dt><code class="name"><a title="py3d.repere" href="repere.html">py3d.repere</a></code></dt>
+<dt><code class="name"><a title="py3d.tracer" href="tracer.html">py3d.tracer</a></code></dt>
 <dd>
-<div class="desc"><p>Module repere, contient le nécessaire pour l'affichage dans un repère 3D</p></div>
+<div class="desc"><p>Module tracer, contient le nécessaire pour l'affichage dans un tracé 3D</p></div>
 </dd>
 <dt><code class="name"><a title="py3d.utils" href="utils.html">py3d.utils</a></code></dt>
 <dd>
@@ -79,21 +50,21 @@ __all__ = (&#34;Droite&#34;, &#34;axe_x&#34;, &#34;axe_y&#34;, &#34;axe_z&#34;, 
 </dd>
 <dt><code class="name"><a title="py3d.vecteurs" href="vecteurs.html">py3d.vecteurs</a></code></dt>
 <dd>
-<div class="desc"><p>Module vecteurs, contient la classe Vecteur et des fonctions annexes …</p></div>
+<div class="desc"></div>
 </dd>
 </dl>
 </section>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Functions</h2>
+<h2 class="section-title" id="header-functions">Fonctions</h2>
 <dl>
 <dt id="py3d.alignes"><code class="name flex">
 <span>def <span class="ident">alignes</span></span>(<span>pointA, pointB, *args)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si les points sont alignés, False sinon</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>pointA</code></strong> :&ensp;<code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
 <dd>Point A</dd>
@@ -102,649 +73,98 @@ __all__ = (&#34;Droite&#34;, &#34;axe_x&#34;, &#34;axe_y&#34;, &#34;axe_z&#34;, 
 <dt><strong><code>*args</code></strong></dt>
 <dd>Autres points</dd>
 </dl>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>Points tous alignés ?</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si les objets donnés ne sont pas tous des points</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def alignes(pointA, pointB, *args):
-        &#34;&#34;&#34;Renvoie True si les points sont alignés, False sinon
-        
-        Args:
-            pointA (Point): Point A
-            pointB (Point): Point B
-            *args: Autres points
-        
-        Returns:
-            bool: Points tous alignés ?
-        
-        Raises:
-            TypeError: Si les objets donnés ne sont pas tous des points
-        &#34;&#34;&#34;
-        if isinstance(pointA, Point) and isinstance(pointB, Point):
-
-                for pointX in args:
-                        if isinstance(pointX, Point):
-                                if ((pointX.y - pointB.y)*(pointB.x - pointA.x) != (pointB.y - pointA.y)*(pointX.x - pointB.x)): 
-                                        return False
-                        
-                        else:
-                                typeA = pointA.__class__.__name__
-                                typeB = pointX.__class__.__name__
-                                raise TypeError(f&#34;Impossible de déterminer la collinéarité de points entre [{typeA}] et [{typeB}]&#34;)
-                
-                return True
-
-        else:
-                typeA = pointA.__class__.__name__
-                typeB = pointB.__class__.__name__
-                raise TypeError(f&#34;Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]&#34;)</code></pre>
-</details>
 </dd>
 <dt id="py3d.collineaires"><code class="name flex">
 <span>def <span class="ident">collineaires</span></span>(<span>u, *args)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Renvoie True si les vecteurs donnés sont collinéaires, False sinon</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>u</code></strong> :&ensp;<code><a title="py3d.Vecteur" href="#py3d.Vecteur">Vecteur</a></code></dt>
-<dd>Vecteur de référence</dd>
-<dt><strong><code>*args</code></strong></dt>
-<dd>Autres vecteurs</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>bool</code></dt>
-<dd>Tous les vecteurs collinéaires ?</dd>
-</dl>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code>TypeError</code></dt>
-<dd>Si les objets donnés ne sont pas tous des vecteurs</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def collineaires(u, *args):
-        &#34;&#34;&#34;Renvoie True si les vecteurs donnés sont collinéaires, False sinon
-        
-        Args:
-            u (Vecteur): Vecteur de référence
-            *args: Autres vecteurs
-        
-        Returns:
-            bool: Tous les vecteurs collinéaires ?
-        
-        Raises:
-            TypeError: Si les objets donnés ne sont pas tous des vecteurs
-        &#34;&#34;&#34;
-        if isinstance(u, Vecteur):
-
-                for v in args:
-                        if isinstance(v, Vecteur):
-                                if abs(abs(u.scalaire(v)) - u.norme() * v.norme()) &gt;= 1/10*10:
-                                        return False
-                        else:
-                                typeA = u.__class__.__name__
-                                typeB = v.__class__.__name__
-                                raise TypeError(f&#34;Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]&#34;)
-                                
-                return True
-
-        else:
-                typeA = u.__class__.__name__
-                typeB = v.__class__.__name__
-                raise TypeError(f&#34;Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]&#34;)</code></pre>
-</details>
+<div class="desc"></div>
 </dd>
 <dt id="py3d.distance"><code class="name flex">
 <span>def <span class="ident">distance</span></span>(<span>pointA, pointB)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Donne la distance entre deux points</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>pointA</code></strong> :&ensp;<code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
 <dd>Point A</dd>
 <dt><strong><code>pointB</code></strong> :&ensp;<code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
 <dd>Point B</dd>
 </dl>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>float</code></dt>
 <dd>Distance entre A et B</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si A ou B n'est pas un point</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def distance(pointA, pointB):
-        &#34;&#34;&#34;Donne la distance entre deux points
-        
-        Args:
-            pointA (Point): Point A
-            pointB (Point): Point B
-        
-        Returns:
-            float: Distance entre A et B
-        
-        Raises:
-            TypeError: Si A ou B n&#39;est pas un point
-        &#34;&#34;&#34;
-        if isinstance(pointA, Point) and isinstance(pointB, Point):
-                return sqrt((pointB.x - pointA.x)**2 + (pointB.y - pointA.y)**2 + (pointB.z - pointA.z)**2)
-
-        else:
-                typeA = pointA.__class__.__name__
-                typeB = pointB.__class__.__name__
-                raise TypeError(f&#34;Impossible de calculer la distance entre un [{typeA}] et [{typeB}]&#34;)</code></pre>
-</details>
 </dd>
 <dt id="py3d.est_meme_point"><code class="name flex">
 <span>def <span class="ident">est_meme_point</span></span>(<span>pointA, pointB)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si les deux points sont au même endroit, False sinon</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>pointA</code></strong> :&ensp;<code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
 <dd>Point A</dd>
 <dt><strong><code>pointB</code></strong> :&ensp;<code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
 <dd>Point B</dd>
 </dl>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>A et B au même endroit ?</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def est_meme_point(pointA, pointB):
-        &#34;&#34;&#34;Renvoie True si les deux points sont au même endroit, False sinon
-        
-        Args:
-            pointA (Point): Point A
-            pointB (Point): Point B
-        
-        Returns:
-            bool: A et B au même endroit ?
-        &#34;&#34;&#34;
-        return distance(pointA, pointB) == 0</code></pre>
-</details>
-</dd>
-<dt id="py3d.intersection"><code class="name flex">
-<span>def <span class="ident">intersection</span></span>(<span>ObjetA, ObjetB)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Sert de fonction tampon pour renvoyer l'intersection entre A et B</p>
-<p>Voir les fonctions intersection_droite_droite(), intersection_plan_plan() et intersection_droite_plan()</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def intersection(ObjetA, ObjetB):
-        &#34;&#34;&#34;Sert de fonction tampon pour renvoyer l&#39;intersection entre A et B
-
-        Voir les fonctions intersection_droite_droite(), intersection_plan_plan() et intersection_droite_plan()
-        &#34;&#34;&#34;
-
-        if isinstance(ObjetA, droites.Droite):
-
-                if isinstance(ObjetB, droites.Droite):
-
-                        if droites.secantes(ObjetA, ObjetB):
-                                return intersection_droite_droite(ObjetA, ObjetB)
-                        else:
-                                return None
-
-                elif isinstance(ObjetB, plans.Plan):
-                        if droites.secante_plan(ObjetA, ObjetB):
-                                return intersection_droite_plan(ObjetA, ObjetB)
-                        else:
-                                return None
-
-                else:
-                        typeA = ObjetA.__class__.__name__
-                        typeB = ObjetB.__class__.__name__
-                        raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)
-
-        elif isinstance(ObjetA, plans.Plan):
-
-                if isinstance(ObjetB, droites.Droite):
-
-                        if droites.secante_plan(ObjetB, ObjetA):
-                                return intersection_droite_plan(ObjetB, ObjetA)
-                        else:
-                                return None
-
-                elif isinstance(ObjetB, plans.Plan):
-                        if plans.secants(ObjetA, ObjetB):
-                                return intersection_plan_plan(ObjetA, ObjetB)
-                        else:
-                                return None                     
-
-        else:
-                return None</code></pre>
-</details>
-</dd>
-<dt id="py3d.intersection_droite_droite"><code class="name flex">
-<span>def <span class="ident">intersection_droite_droite</span></span>(<span>droiteA, droiteB)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Renvoie le point d'intersection entre les droites si elles sont sécantes
-None sinon</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>droiteA</code></strong> :&ensp;<code><a title="py3d.Droite" href="#py3d.Droite">Droite</a></code></dt>
-<dd>Droite A</dd>
-<dt><strong><code>droiteB</code></strong> :&ensp;<code><a title="py3d.Droite" href="#py3d.Droite">Droite</a></code></dt>
-<dd>Droite B</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
-<dd>Point d'intersection entre A et B</dd>
-</dl>
-<p>Utilisée via la fonction intersection()</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def intersection_droite_droite(droiteA, droiteB):
-        &#34;&#34;&#34;Renvoie le point d&#39;intersection entre les droites si elles sont sécantes
-        None sinon
-        
-        Args:
-            droiteA (Droite): Droite A
-            droiteB (Droite): Droite B
-        
-        Returns:
-            Point: Point d&#39;intersection entre A et B
-
-        Utilisée via la fonction intersection()
-        &#34;&#34;&#34;
-        v = droiteA.vecteur
-        v2 = droiteB.vecteur
-
-        p = droiteA.point
-        p2 = droiteB.point
-
-        v3 = vecteurs.Vecteur(p, p2).produit_vectoriel(v2)
-        v4 = v.produit_vectoriel(v2)
-
-        scalaire = v4.scalaire(v4)
-        if scalaire == 0:
-                return None
-
-        alpha = v3.scalaire(v4) / scalaire
-
-        point = points.Point(droiteA.point.x + alpha * droiteA.vecteur.x,
-                                                droiteA.point.y + alpha * droiteA.vecteur.y,
-                                                droiteA.point.z + alpha * droiteA.vecteur.z)
-
-        return point</code></pre>
-</details>
-</dd>
-<dt id="py3d.intersection_droite_plan"><code class="name flex">
-<span>def <span class="ident">intersection_droite_plan</span></span>(<span>droite, plan)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Renvoie le point d'intersection entre la droite et le plan si ils sont sécants
-None sinon</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>droite</code></strong> :&ensp;<code><a title="py3d.Droite" href="#py3d.Droite">Droite</a></code></dt>
-<dd>Droite</dd>
-<dt><strong><code>plan</code></strong> :&ensp;<code><a title="py3d.Plan" href="#py3d.Plan">Plan</a></code></dt>
-<dd>Plan</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
-<dd>Point d'intersection entre la droite et le plan </dd>
-</dl>
-<p>Utilisée via la fonction intersection()</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def intersection_droite_plan(droite, plan):
-        &#34;&#34;&#34;Renvoie le point d&#39;intersection entre la droite et le plan si ils sont sécants
-        None sinon
-        
-        Args:
-            droite (Droite): Droite
-            plan (Plan): Plan
-        
-        Returns:
-            Point: Point d&#39;intersection entre la droite et le plan 
-
-        Utilisée via la fonction intersection()
-        &#34;&#34;&#34;
-        p = droite.point
-        v = droite.vecteur
-
-        dot1 = plan.vecteur_n.scalaire(vecteurs.Vecteur(p.x, p.y, p.z))
-        dot2 = plan.vecteur_n.scalaire(v)
-
-        if dot2 == 0:
-                return None
-        
-        d = plan.cartesienne()[1][-1]
-        t = -(dot1 - d) / dot2
-
-        return points.Point(p.x + (v.x*t), p.y + (v.y*t), p.z + (v.z*t))</code></pre>
-</details>
-</dd>
-<dt id="py3d.intersection_plan_plan"><code class="name flex">
-<span>def <span class="ident">intersection_plan_plan</span></span>(<span>planA, planB)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Renvoie la droite d'intersection entre les plans si ils sont sécantes
-None sinon</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>planA</code></strong> :&ensp;<code><a title="py3d.Plan" href="#py3d.Plan">Plan</a></code></dt>
-<dd>Plan A</dd>
-<dt><strong><code>planA</code></strong> :&ensp;<code><a title="py3d.Plan" href="#py3d.Plan">Plan</a></code></dt>
-<dd>Plan B</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code><a title="py3d.Droite" href="#py3d.Droite">Droite</a></code></dt>
-<dd>Droite d'intersection entre A et B</dd>
-</dl>
-<p>Utilisée via la fonction intersection()</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def intersection_plan_plan(planA, planB):
-        &#34;&#34;&#34;Renvoie la droite d&#39;intersection entre les plans si ils sont sécantes
-        None sinon
-        
-        Args:
-            planA (Plan): Plan A
-            planA (Plan): Plan B
-        
-        Returns:
-            Droite: Droite d&#39;intersection entre A et B
-
-        Utilisée via la fonction intersection()
-        &#34;&#34;&#34;
-        equa_a = planA.cartesienne()[1]
-        equa_b = planB.cartesienne()[1]
-
-        vec_a = planA.vecteur_n
-        vec_b = planB.vecteur_n
-
-        vec_d = vec_a.produit_vectoriel(vec_b)
-
-        if abs(vec_d.x) &gt; MIN_DELTA:
-                #X non nul -&gt; on prend x = 0
-                x = 0
-                y, z = resoudre_cramer(equa_a, equa_b)
-
-        elif abs(vec_d.y) &gt; MIN_DELTA:
-                #Y non nul -&gt; on prend y = 0
-                y = 0
-                x, z = resoudre_cramer(equa_a, equa_b)
-
-        else:
-                #Z non nul -&gt; on prend z = 0
-                z = 0
-                x, y = resoudre_cramer(equa_a, equa_b)
-
-        point = points.Point(x, y, z)
-
-        d = droites.Droite(point, vec_d)
-
-        return d</code></pre>
-</details>
 </dd>
 <dt id="py3d.orthogonales"><code class="name flex">
 <span>def <span class="ident">orthogonales</span></span>(<span>droite1, droite2)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Renvoie True si les droites données sont orthogonales, False sinon</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>droite1</code></strong> :&ensp;<code><a title="py3d.Droite" href="#py3d.Droite">Droite</a></code></dt>
-<dd>Droite 1</dd>
-<dt><strong><code>droite2</code></strong> :&ensp;<code><a title="py3d.Droite" href="#py3d.Droite">Droite</a></code></dt>
-<dd>Droite 2</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>bool</code></dt>
-<dd>Droites orthogonales ?</dd>
-</dl>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code>TypeError</code></dt>
-<dd>Si les objets donnés ne sont pas tous des droites</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def orthogonales(droite1, droite2):
-        &#34;&#34;&#34;Renvoie True si les droites données sont orthogonales, False sinon
-        
-        Args:
-            droite1 (Droite): Droite 1
-            droite2 (Droite): Droite 2
-        
-        Returns:
-            bool: Droites orthogonales ?
-        
-        Raises:
-            TypeError: Si les objets donnés ne sont pas tous des droites
-        &#34;&#34;&#34;
-        if isinstance(droite1, Droite):
-                if isinstance(droite2, Droite):
-                        if secantes(droite1, droite2):
-                                if vecteurs.orthogonaux(droite1.vecteur, droite2.vecteur):
-                                        return True
-                        return False
-
-                else:
-                        typeA = droite1.__class__.__name__
-                        typeB = droite2.__class__.__name__
-                        raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)
-
-        else:
-                typeA = droite1.__class__.__name__
-                typeB = droite2.__class__.__name__
-                raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)</code></pre>
-</details>
-</dd>
-<dt id="py3d.orthogonaux"><code class="name flex">
-<span>def <span class="ident">orthogonaux</span></span>(<span>u, v)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Renvoie True si les vecteurs donnés sont orthogonaux, False sinon</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>u</code></strong> :&ensp;<code><a title="py3d.Vecteur" href="#py3d.Vecteur">Vecteur</a></code></dt>
-<dd>Vecteur de référence</dd>
-<dt><strong><code>v</code></strong> :&ensp;<code><a title="py3d.Vecteur" href="#py3d.Vecteur">Vecteur</a></code></dt>
-<dd>Autre vecteur</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>bool</code></dt>
-<dd>Tous les vecteurs orthogonaux ?</dd>
-</dl>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code>TypeError</code></dt>
-<dd>Si les objets donnés ne sont pas tous des vecteurs</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def orthogonaux(u, v):
-        &#34;&#34;&#34;Renvoie True si les vecteurs donnés sont orthogonaux, False sinon
-        
-        Args:
-            u (Vecteur): Vecteur de référence
-            v (Vecteur): Autre vecteur
-        
-        Returns:
-            bool: Tous les vecteurs orthogonaux ?
-        
-        Raises:
-            TypeError: Si les objets donnés ne sont pas tous des vecteurs
-        &#34;&#34;&#34;
-        if isinstance(u, Vecteur) and isinstance(v, Vecteur):
-                if u.scalaire(v) == 0:
-                        return True
-                return False
-        else:
-                typeA = u.__class__.__name__
-                typeB = v.__class__.__name__
-                raise TypeError(f&#34;Impossible de déterminer l&#39;orthogonalité entre [{typeA}] et [{typeB}]&#34;)</code></pre>
-</details>
+<div class="desc"><p>Non implémenté</p></div>
 </dd>
 <dt id="py3d.parallelles"><code class="name flex">
 <span>def <span class="ident">parallelles</span></span>(<span>d, *args)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si les droites données sont parallèles, False sinon</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>d</code></strong> :&ensp;<code><a title="py3d.Droite" href="#py3d.Droite">Droite</a></code></dt>
 <dd>Droite de référence</dd>
 <dt><strong><code>*args</code></strong></dt>
-<dd>Autres droites</dd>
+<dd>Autres droite</dd>
 </dl>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>Droites toutes parallèles ?</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si les objets donnés ne sont pas tous des droites</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def parallelles(d, *args):
-        &#34;&#34;&#34;Renvoie True si les droites données sont parallèles, False sinon
-        
-        Args:
-            d (Droite): Droite de référence
-            *args: Autres droites
-        
-        Returns:
-            bool: Droites toutes parallèles ?
-        
-        Raises:
-            TypeError: Si les objets donnés ne sont pas tous des droites
-        &#34;&#34;&#34;
-        if isinstance(d, Droite):
-
-                for d2 in args:
-                        if isinstance(d2, Droite):
-                                if not(vecteurs.collineaires(d.vecteur, d2.vecteur)):
-                                        return False
-                        else:
-                                typeA = u.__class__.__name__
-                                typeB = v.__class__.__name__
-                                raise TypeError(f&#34;Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]&#34;)
-                                
-                return True
-
-        else:
-                typeA = u.__class__.__name__
-                v = args[0]
-                typeB = v.__class__.__name__
-                raise TypeError(f&#34;Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]&#34;)</code></pre>
-</details>
 </dd>
 <dt id="py3d.secantes"><code class="name flex">
 <span>def <span class="ident">secantes</span></span>(<span>d, *args)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Renvoie True si les droites données sont sécantes, False sinon</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>d</code></strong> :&ensp;<code><a title="py3d.Droite" href="#py3d.Droite">Droite</a></code></dt>
-<dd>Droite de référence</dd>
-<dt><strong><code>*args</code></strong></dt>
-<dd>Autres droites</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>bool</code></dt>
-<dd>Droites toutes sécantes ?</dd>
-</dl>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code>TypeError</code></dt>
-<dd>Si les objets donnés ne sont pas tous des droites</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def secantes(d, *args):
-        &#34;&#34;&#34;Renvoie True si les droites données sont sécantes, False sinon
-        
-        Args:
-            d (Droite): Droite de référence
-            *args: Autres droites
-        
-        Returns:
-            bool: Droites toutes sécantes ?
-        
-        Raises:
-            TypeError: Si les objets donnés ne sont pas tous des droites
-        &#34;&#34;&#34;
-        if isinstance(d, Droite):
-                
-                for d2 in args:
-                        if isinstance(d2, Droite):
-                                produit = d.vecteur.produit_vectoriel(d2.vecteur)
-                                vect_deplacement = vecteurs.Vecteur(d.point, d2.point)
-                                if produit.scalaire(vect_deplacement) != 0:
-                                        return False
-                        else:
-                                typeA = d.__class__.__name__
-                                typeB = d2.__class__.__name__
-                                raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)
-
-                return True
-
-        else:
-                typeA = d.__class__.__name__
-                d2 = args[0]
-                typeB = d2.__class__.__name__
-                raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)</code></pre>
-</details>
+<div class="desc"><p>Non implémenté</p></div>
 </dd>
 </dl>
 </section>
@@ -757,7 +177,7 @@ None sinon</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Classe représentant une droite de l'espace</p>
-<h2 id="attributes">Attributes</h2>
+<h2 id="attributes">Attributs</h2>
 <dl>
 <dt><strong><code>point</code></strong> :&ensp;<code><a title="py3d.points.Point" href="points.html#py3d.points.Point">Point</a></code></dt>
 <dd>Un point appartenant à la droite</dd>
@@ -769,192 +189,47 @@ None sinon</p>
 
     - Un point + un vecteur
 </code></pre>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>*args</code></strong></dt>
 <dd>Arguments de définition de la droite</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Les types passés sont incorrects</dd>
 <dt><code>ValueError</code></dt>
 <dd>Les deux points son identiques ou le vecteur directeur est nul</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Droite:
-
-        &#34;&#34;&#34;Classe représentant une droite de l&#39;espace
-        
-        Attributes:
-            point (points.Point): Un point appartenant à la droite
-            vecteur (vecteurs.Vecteur): Vecteur directeur de la droite
-        &#34;&#34;&#34;
-        
-        def __init__(self, *args):
-                &#34;&#34;&#34;Initialisation de la droite
-
-                        - Deux points
-
-                        - Un point + un vecteur
-                
-                Args:
-                    *args: Arguments de définition de la droite
-                
-                Raises:
-                    TypeError: Les types passés sont incorrects
-                    ValueError: Les deux points son identiques ou le vecteur directeur est nul
-                &#34;&#34;&#34;
-                self.point = None
-                self.vecteur = None
-
-                if len(args) == 2:
-                        a, b = args
-
-                        if isinstance(a, points.Point) and isinstance(b, points.Point):
-                                if not points.est_meme_point(a, b):
-                                        u = vecteurs.Vecteur(a, b)
-                                        self.vecteur = u
-                                        self.point = a
-                                else:
-                                        raise ValueError(&#34;Les deux points ne doivent pas être identiques&#34;)
-                
-                        elif isinstance(a, points.Point) and isinstance(b, vecteurs.Vecteur):
-                                if not b.est_nul():
-                                        self.point = a
-                                        self.vecteur = b
-                                else:
-                                        raise ValueError(&#34;Le vecteur directeur ne doit pas être nul&#34;)
-                                
-                        else:
-                                raise TypeError(f&#34;Une droite est créée à partir de deux points, ou d&#39;un point et d&#39;un vecteur&#34;)
-                
-                else:
-                        raise TypeError(f&#34;Une droite est créée à partir de deux points, ou d&#39;un point et d&#39;un vecteur&#34;)
-
-        def est_sur_droite(self, point):
-                &#34;&#34;&#34;Renvoie True si le point est sur la droite, False sinon
-                
-                Args:
-                    point (points.Point): Point quelconque
-                
-                Returns:
-                    bool: Point sur la droite ?
-                
-                Raises:
-                    TypeError: Si l&#39;objet donné n&#39;est pas un point
-                &#34;&#34;&#34;
-                if isinstance(point, point.Point):
-                        pointA = self.point
-                        pointB = points.Point(pointA.x + self.vecteur.x, pointA.y + self.vecteur.y, pointA.z + self.vecteur.z)
-                        return bool(points.alignes(pointA, pointB, point))
-
-                type_ = point.__class__.__name__
-                raise TypeError(f&#34;Impossible de déterminer l&#39;appartenance entre droite et [{type_}]&#34;)
-
-        def parametrique(self):
-                &#34;&#34;&#34;Renvoie l&#39;équation paramétrique de la droite, et les coefficients dans un tuple
-                
-                Returns:
-                    tuple:
-
-                    - Equation paramétrique (str)
-
-                    - Tuple avec les coefficients xp, yp, zp, xu, yu, zu pour
-
-
-        \\begin{equation}
-                x= xp + x\\overrightarrow{u}
-        \\end{equation}
-
-        \\begin{equation}
-                y= y + y\\overrightarrow{u}
-        \\end{equation}
-
-        \\begin{equation}
-                z= zp + z\\overrightarrow{u}
-        \\end{equation}
-                &#34;&#34;&#34;
-                xp = Fraction(str(self.point.x))
-                yp = Fraction(str(self.point.y))
-                zp = Fraction(str(self.point.z))
-
-                xu = Fraction(str(self.vecteur.x))
-                yu = Fraction(str(self.vecteur.y))
-                zu = Fraction(str(self.vecteur.z))
-
-                signe_xu = &#34;+ &#34; if xu &gt;= 0 else &#34;&#34;
-                signe_yu = &#34;+ &#34; if yu &gt;= 0 else &#34;&#34;
-                signe_zu = &#34;+ &#34; if zu &gt;= 0 else &#34;&#34;
-                
-                str_parametrique = f&#34;x = {xp} {signe_xu}{xu}t\ny = {yp} {signe_yu}{yu}t\nz = {zp} {signe_zu}{zu}t&#34;
-                return (str_parametrique, (xp, yp, zp, xu, yu, zu))
-
-        def __contains__(self, point):
-                return self.est_sur_droite(point)
-
-        def __str__(self):
-                return self.paramétrique[0]
-
-        def __repr__(self):
-                return self.paramétrique[0]</code></pre>
-</details>
-<h3>Methods</h3>
+<h3>Méthodes</h3>
 <dl>
 <dt id="py3d.Droite.est_sur_droite"><code class="name flex">
 <span>def <span class="ident">est_sur_droite</span></span>(<span>self, point)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si le point est sur la droite, False sinon</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>point</code></strong> :&ensp;<code><a title="py3d.points.Point" href="points.html#py3d.points.Point">Point</a></code></dt>
 <dd>Point quelconque</dd>
 </dl>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>Point sur la droite ?</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si l'objet donné n'est pas un point</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def est_sur_droite(self, point):
-        &#34;&#34;&#34;Renvoie True si le point est sur la droite, False sinon
-        
-        Args:
-            point (points.Point): Point quelconque
-        
-        Returns:
-            bool: Point sur la droite ?
-        
-        Raises:
-            TypeError: Si l&#39;objet donné n&#39;est pas un point
-        &#34;&#34;&#34;
-        if isinstance(point, point.Point):
-                pointA = self.point
-                pointB = points.Point(pointA.x + self.vecteur.x, pointA.y + self.vecteur.y, pointA.z + self.vecteur.z)
-                return bool(points.alignes(pointA, pointB, point))
-
-        type_ = point.__class__.__name__
-        raise TypeError(f&#34;Impossible de déterminer l&#39;appartenance entre droite et [{type_}]&#34;)</code></pre>
-</details>
 </dd>
 <dt id="py3d.Droite.parametrique"><code class="name flex">
 <span>def <span class="ident">parametrique</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie l'équation paramétrique de la droite, et les coefficients dans un tuple</p>
-<pre><code>    Returns:
+<pre><code>    Retourne:
         tuple:
 
         - Equation paramétrique (str)
@@ -970,48 +245,6 @@ y= y + y\overrightarrow{u}
 <p>\begin{equation}
 z= zp + z\overrightarrow{u}
 \end{equation}</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def parametrique(self):
-        &#34;&#34;&#34;Renvoie l&#39;équation paramétrique de la droite, et les coefficients dans un tuple
-        
-        Returns:
-            tuple:
-
-            - Equation paramétrique (str)
-
-            - Tuple avec les coefficients xp, yp, zp, xu, yu, zu pour
-
-
-\\begin{equation}
-        x= xp + x\\overrightarrow{u}
-\\end{equation}
-
-\\begin{equation}
-        y= y + y\\overrightarrow{u}
-\\end{equation}
-
-\\begin{equation}
-        z= zp + z\\overrightarrow{u}
-\\end{equation}
-        &#34;&#34;&#34;
-        xp = Fraction(str(self.point.x))
-        yp = Fraction(str(self.point.y))
-        zp = Fraction(str(self.point.z))
-
-        xu = Fraction(str(self.vecteur.x))
-        yu = Fraction(str(self.vecteur.y))
-        zu = Fraction(str(self.vecteur.z))
-
-        signe_xu = &#34;+ &#34; if xu &gt;= 0 else &#34;&#34;
-        signe_yu = &#34;+ &#34; if yu &gt;= 0 else &#34;&#34;
-        signe_zu = &#34;+ &#34; if zu &gt;= 0 else &#34;&#34;
-        
-        str_parametrique = f&#34;x = {xp} {signe_xu}{xu}t\ny = {yp} {signe_yu}{yu}t\nz = {zp} {signe_zu}{zu}t&#34;
-        return (str_parametrique, (xp, yp, zp, xu, yu, zu))</code></pre>
-</details>
 </dd>
 </dl>
 </dd>
@@ -1021,7 +254,7 @@ z= zp + z\overrightarrow{u}
 </code></dt>
 <dd>
 <div class="desc"><p>Classe représentant un plan de l'espace</p>
-<h2 id="attributes">Attributes</h2>
+<h2 id="attributes">Attributs</h2>
 <dl>
 <dt><strong><code>point</code></strong> :&ensp;<code><a title="py3d.points.Point" href="points.html#py3d.points.Point">Point</a></code></dt>
 <dd>Point d'origine du plan</dd>
@@ -1037,183 +270,26 @@ z= zp + z\overrightarrow{u}
 
     - Trois points
 </code></pre>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>*args</code></strong></dt>
 <dd>Arguments de définition du plan</dd>
 </dl>
-<h2 id="raises">Raises</h2>
+<h2 id="raises">Erreurs possibles</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Les types passés sont incorrects</dd>
 <dt><code>ValueError</code></dt>
 <dd>Le vecteur normal est nul, les deux vecteurs sont colinéaires ou les trois points sont alignés</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Plan:
-
-        &#34;&#34;&#34;Classe représentant un plan de l&#39;espace
-        
-        Attributes:
-            point (points.Point): Point d&#39;origine du plan
-            vecteur_n (vecteurs.Vecteur): Vecteur normal au plan
-        &#34;&#34;&#34;
-        
-        def __init__(self, *args):
-                &#34;&#34;&#34;Initialisation du plan :
-
-                        - Un point + un vecteur normal
-
-                        - Deux droites
-
-                        - Un point + deux vecteurs non colinéaires
-
-                        - Trois points
-                
-                Args:
-                    *args: Arguments de définition du plan
-                
-                Raises:
-                    TypeError: Les types passés sont incorrects
-                    ValueError: Le vecteur normal est nul, les deux vecteurs sont colinéaires ou les trois points sont alignés
-                &#34;&#34;&#34;
-                import points
-                if len(args) == 2:
-
-                        a, b = args
-
-                        #Point + Vecteur Normal
-                        if isinstance(a, points.Point) and isinstance(b, vecteurs.Vecteur):
-                                if not b.est_nul():
-                                        self.point = a
-                                        self.vecteur_n = b
-                                else:
-                                        raise ValueError(&#34;Le vecteur normal d&#39;un plan ne peut pas être nul&#34;)
-
-                        #Deux droites
-                        elif isinstance(a, droites.Droite) and isinstance(b, droites.Droite):
-                                self.point = calculs.intersection(a, b)
-                                self.vecteur_n = a.vecteur.produit_vectoriel(b.vecteur)
-
-                        else:
-                                typeA = a.__class__.__name__
-                                typeB = b.__class__.__name__
-                                raise TypeError(f&#34;Impossible de créer un plan à partir de [{typeA}] et [{typeB}]&#34;)
-
-                elif len(args) == 3:
-
-                        a, b ,c = args
-
-                        #Point + Deux vecteurs
-                        if isinstance(a, points.Point) and (b, vecteurs.Vecteur) and isinstance(c, vecteurs.Vecteur):
-                                if not(b.est_nul() or c.est_nul()):
-                                        if not vecteurs.collineaires(b, c):
-                                                self.vecteur_n = b.produit_vectoriel(c)
-                                                self.point = a
-                                        else:
-                                                raise ValueError(&#34;Deux vecteurs collinéaires ne peuvent pas engendrer un plan&#34;)
-                                else:
-                                        raise ValueError(&#34;Impossible de générer un plan à partir d&#39;un vecteur nul&#34;)
-
-                        #Trois points
-                        elif all(isinstance(x, points.Point) for x in args):
-                                ab = vecteurs.Vecteur(a, b)
-                                ac = vecteurs.Vecteur(b, c)
-
-                                if not(ab.est_nul() or ac.est_nul()):
-                                        if not vecteurs.collineaires(ab, ac):
-                                                self.vecteur_n = ab.produit_vectoriel(ac)
-                                                self.point = a
-                                        else:
-                                                raise ValueError(&#34;Trois points alignés ne peuvent pas engendrer un plan&#34;)
-                                else:
-                                        raise ValueError(&#34;Impossible de générer un plan : les points ne sont pas distincts&#34;)
-
-                        else:
-                                typeA = a.__class__.__name__
-                                typeB = b.__class__.__name__
-                                typeC = c.__class__.__name__
-                                raise TypeError(f&#34;Impossible de créer un plan à partir de [{typeA}], [{typeB}] et [{typeC}]&#34;)
-
-                elif len(args) == 4:
-                        pass
-                        a, b, c, d = args
-
-                        #Equation cartesienne
-                        if all(isinstance(x, int) or isinstance(x, float) for x in args):
-                                if not(a == 0 and b == 0 and c == 0):
-                                        self.vecteur_n = vecteurs.Vecteur(a, b, c)
-
-                                        if c != 0:
-                                                self.point = points.Point(0, 0, -d/c)
-
-                                        elif b != 0:
-                                                self.point = points.Point(0, -d/b, 0)
-
-                                        elif a != 0:
-                                                self.point = points.Point(-d/a, 0, 0)
-
-                                else:
-                                        raise ValueError(&#34;Impossible de générer un plan à partir d&#39;un vecteur nul&#34;)
-                        else:
-                                raise TypeError(&#34;Les paramètres de l&#39;équation cartésienne doivent être des chiffres&#34;)
-
-        def cartesienne(self):
-                &#34;&#34;&#34;Renvoie l&#39;équation cartésienne du plan, et les coefficients dans un tuple
-                
-                Returns:
-                    tuple:
-
-                    - Equation cartésienne (str)
-
-                    - Tuple avec les coefficients a b c d pour `ax + by + cz + d = 0`
-
-                &#34;&#34;&#34;
-                a = self.vecteur_n.x
-                b = self.vecteur_n.y
-                c = self.vecteur_n.z
-
-                signe_b = &#34;+ &#34; if b &gt;= 0 else &#34;&#34;
-                signe_c = &#34;+ &#34; if c &gt;= 0 else &#34;&#34;
-
-                total_p = a * self.point.x + b * self.point.y + c * self.point.z
-
-                d = -total_p
-                signe_d = &#34;+ &#34; if d &gt;= 0 else &#34;&#34;
-
-                str_equation = f&#34;{a}x {signe_b}{b}y {signe_c}{c}z {signe_d}{d} = 0&#34;
-                return (str_equation, (a, b, c, d))
-
-        def vecteur_normal(self):
-                &#34;&#34;&#34;Renvoie le vecteur normal au plan
-                
-                Returns:
-                    vecteurs.Vecteur: Vecteur normal
-                &#34;&#34;&#34;
-                return self.vecteur_n
-
-        def __contains__(self, point):
-                if isinstance(point, points.Point):
-                        projete = point.projete_orthogonal(self)
-                        return points.est_meme_point(point, projete)
-
-        def __str__(self):
-                return self.cartesienne()[0]
-
-        def __repr__(self):
-                return self.cartesienne()[0]</code></pre>
-</details>
-<h3>Methods</h3>
+<h3>Méthodes</h3>
 <dl>
 <dt id="py3d.Plan.cartesienne"><code class="name flex">
 <span>def <span class="ident">cartesienne</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie l'équation cartésienne du plan, et les coefficients dans un tuple</p>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <p>tuple:</p>
 <ul>
 <li>
@@ -1223,59 +299,17 @@ z= zp + z\overrightarrow{u}
 <p>Tuple avec les coefficients a b c d pour <code>ax + by + cz + d = 0</code></p>
 </li>
 </ul></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def cartesienne(self):
-        &#34;&#34;&#34;Renvoie l&#39;équation cartésienne du plan, et les coefficients dans un tuple
-        
-        Returns:
-            tuple:
-
-            - Equation cartésienne (str)
-
-            - Tuple avec les coefficients a b c d pour `ax + by + cz + d = 0`
-
-        &#34;&#34;&#34;
-        a = self.vecteur_n.x
-        b = self.vecteur_n.y
-        c = self.vecteur_n.z
-
-        signe_b = &#34;+ &#34; if b &gt;= 0 else &#34;&#34;
-        signe_c = &#34;+ &#34; if c &gt;= 0 else &#34;&#34;
-
-        total_p = a * self.point.x + b * self.point.y + c * self.point.z
-
-        d = -total_p
-        signe_d = &#34;+ &#34; if d &gt;= 0 else &#34;&#34;
-
-        str_equation = f&#34;{a}x {signe_b}{b}y {signe_c}{c}z {signe_d}{d} = 0&#34;
-        return (str_equation, (a, b, c, d))</code></pre>
-</details>
 </dd>
 <dt id="py3d.Plan.vecteur_normal"><code class="name flex">
 <span>def <span class="ident">vecteur_normal</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie le vecteur normal au plan</p>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code><a title="py3d.vecteurs.Vecteur" href="vecteurs.html#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
 <dd>Vecteur normal</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def vecteur_normal(self):
-        &#34;&#34;&#34;Renvoie le vecteur normal au plan
-        
-        Returns:
-            vecteurs.Vecteur: Vecteur normal
-        &#34;&#34;&#34;
-        return self.vecteur_n</code></pre>
-</details>
 </dd>
 </dl>
 </dd>
@@ -1285,7 +319,7 @@ z= zp + z\overrightarrow{u}
 </code></dt>
 <dd>
 <div class="desc"><p>Classe représentant un point de l'espace</p>
-<h2 id="attributes">Attributes</h2>
+<h2 id="attributes">Attributs</h2>
 <dl>
 <dt><strong><code>x</code></strong> :&ensp;<code>float</code></dt>
 <dd>Coordonnée X</dd>
@@ -1295,7 +329,7 @@ z= zp + z\overrightarrow{u}
 <dd>Coordonnée Z</dd>
 </dl>
 <p>Initialisation du point</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt><strong><code>x</code></strong> :&ensp;<code>float</code></dt>
 <dd>Coordonnée X</dd>
@@ -1304,173 +338,18 @@ z= zp + z\overrightarrow{u}
 <dt><strong><code>z</code></strong> :&ensp;<code>float</code></dt>
 <dd>Coordonnée Z</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Point():
-
-        &#34;&#34;&#34;Classe représentant un point de l&#39;espace
-        
-        Attributes:
-            x (float): Coordonnée X
-            y (float): Coordonnée Y
-            z (float): Coordonnée Z
-        &#34;&#34;&#34;
-        
-        def __init__(self, x=0 , y=0, z=0):
-                &#34;&#34;&#34;Initialisation du point
-                
-                Args:
-                    x (float): Coordonnée X
-                    y (float): Coordonnée Y
-                    z (float): Coordonnée Z
-                &#34;&#34;&#34;
-                self.x = x
-                self.y = y
-                self.z = z
-
-        def distance_origine(self):
-                &#34;&#34;&#34;Donne la distance à l&#39;origine
-                
-                Returns:
-                    float: Distance entre le point et l&#39;origine
-                &#34;&#34;&#34;
-                return (distance(self, Point(0, 0, 0)))
-
-
-        def projete_orthogonal(self, *args):
-                &#34;&#34;&#34;Donne le projeté orthogonal du point sur une droite ou un plan
-
-                Returns:
-                        Point: Projeté orthogonal
-                &#34;&#34;&#34;
-                
-                if args[0] != None:
-
-                        if isinstance(args[0], droites.Droite):
-                                droite = args[0]
-                                vec = droite.vecteur
-                                a = droite.point
-                                b = Point(      droite.point.x + droite.vecteur.x,
-                                                        droite.point.y + droite.vecteur.y,
-                                                        droite.point.z + droite.vecteur.z)
-
-                                ab = vecteurs.Vecteur(a, b)
-                                ap = vecteurs.Vecteur(a, self)
-
-                                modif_vecteur = (ap.scalaire(ab) / ab.scalaire(ab)) * ab
-
-                                return Point(a.x + modif_vecteur.x,
-                                                        a.y + modif_vecteur.y,
-                                                        a.z + modif_vecteur.z)
-
-                        import plans
-                        if isinstance(args[0], plans.Plan):
-                                plan = args[0]
-                                vec = vecteurs.Vecteur(plan.point, self)
-
-                                distance = plan.vecteur_n.scalaire(vec)
-                                difference = distance * plan.vecteur_n
-                                return Point(self.x - difference.x,
-                                                        self.y - difference.y,
-                                                        self.z - difference.z)
-
-                        else:
-                                raise TypeError(f&#34;On ne peut projeter un point que sur une droite ou un plan&#34;)
-
-                else:
-                        raise TypeError(f&#34;Il faut un objet sur lequel projeter le point&#34;)
-
-
-        def __str__(self):
-                return f&#39;Point({self.x}, {self.y}, {self.z})&#39;
-
-        def __repr__(self):
-                return f&#39;Point({self.x}, {self.y}, {self.z})&#39;</code></pre>
-</details>
-<h3>Methods</h3>
+<h3>Méthodes</h3>
 <dl>
 <dt id="py3d.Point.distance_origine"><code class="name flex">
 <span>def <span class="ident">distance_origine</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Donne la distance à l'origine</p>
-<h2 id="returns">Returns</h2>
+<h2 id="returns">Retourne</h2>
 <dl>
 <dt><code>float</code></dt>
 <dd>Distance entre le point et l'origine</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def distance_origine(self):
-        &#34;&#34;&#34;Donne la distance à l&#39;origine
-        
-        Returns:
-            float: Distance entre le point et l&#39;origine
-        &#34;&#34;&#34;
-        return (distance(self, Point(0, 0, 0)))</code></pre>
-</details>
-</dd>
-<dt id="py3d.Point.projete_orthogonal"><code class="name flex">
-<span>def <span class="ident">projete_orthogonal</span></span>(<span>self, *args)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Donne le projeté orthogonal du point sur une droite ou un plan</p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code><a title="py3d.Point" href="#py3d.Point">Point</a></code></dt>
-<dd>Projeté orthogonal</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def projete_orthogonal(self, *args):
-        &#34;&#34;&#34;Donne le projeté orthogonal du point sur une droite ou un plan
-
-        Returns:
-                Point: Projeté orthogonal
-        &#34;&#34;&#34;
-        
-        if args[0] != None:
-
-                if isinstance(args[0], droites.Droite):
-                        droite = args[0]
-                        vec = droite.vecteur
-                        a = droite.point
-                        b = Point(      droite.point.x + droite.vecteur.x,
-                                                droite.point.y + droite.vecteur.y,
-                                                droite.point.z + droite.vecteur.z)
-
-                        ab = vecteurs.Vecteur(a, b)
-                        ap = vecteurs.Vecteur(a, self)
-
-                        modif_vecteur = (ap.scalaire(ab) / ab.scalaire(ab)) * ab
-
-                        return Point(a.x + modif_vecteur.x,
-                                                a.y + modif_vecteur.y,
-                                                a.z + modif_vecteur.z)
-
-                import plans
-                if isinstance(args[0], plans.Plan):
-                        plan = args[0]
-                        vec = vecteurs.Vecteur(plan.point, self)
-
-                        distance = plan.vecteur_n.scalaire(vec)
-                        difference = distance * plan.vecteur_n
-                        return Point(self.x - difference.x,
-                                                self.y - difference.y,
-                                                self.z - difference.z)
-
-                else:
-                        raise TypeError(f&#34;On ne peut projeter un point que sur une droite ou un plan&#34;)
-
-        else:
-                raise TypeError(f&#34;Il faut un objet sur lequel projeter le point&#34;)</code></pre>
-</details>
 </dd>
 </dl>
 </dd>
@@ -1478,186 +357,22 @@ z= zp + z\overrightarrow{u}
 <span>class <span class="ident">Repere3D</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Classe Repere3D, représente le repère 3D</p>
+<div class="desc"><p>Classe Trace3D, représente le repère 3D</p>
 <p>Initialisation du repère</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Repere3D:
-
-        &#34;&#34;&#34;Classe Repere3D, représente le repère 3D
-        &#34;&#34;&#34;
-        
-        def __init__(self):
-                &#34;&#34;&#34;Initialisation du repère
-                &#34;&#34;&#34;
-                #Création du graphique
-                self.fig = plt.figure()
-                self.ax = self.fig.gca(projection=&#39;3d&#39;)
-
-        def ajouter(self, objet, couleur=None, longueur=10, label=&#34;&#34;, grille=0):
-                &#34;&#34;&#34;Ajoute un objet dans le repère
-                
-                Args:
-                    objet : Objet (Point / Droite / Plan) à ajouter
-                    couleur (str, optionnel): Couleur à utiliser (en anglais)
-                    longueur (int, optionnel): Longueur totale sur chaque axe (pour les droites)
-                    label (str, optionnel): Label à attribuer à l&#39;objet
-                    grille (int, optionnel): Mode &#34;grillage&#34;, avec {grille} lignes et {grille} colonnes (pour les plans)
-                &#34;&#34;&#34;
-                longueur *= 5
-
-                if isinstance(objet, points.Point):
-                        if label == &#34;&#34;:
-                                if couleur == None:
-                                        self.ax.scatter(objet.x, objet.y, objet.z, marker=&#34;o&#34;)
-                                else:
-                                        self.ax.scatter(objet.x, objet.y, objet.z, marker=&#34;o&#34;, couleur=couleur)
-                        else:
-                                if couleur == None:
-                                        self.ax.scatter(objet.x, objet.y, objet.z, marker=&#34;o&#34;, label=label)
-                                else:
-                                        self.ax.scatter(objet.x, objet.y, objet.z, marker=&#34;o&#34;, label=label, couleur=couleur)
-
-                elif isinstance(objet, droites.Droite):
-
-                        #Droites en bleu par défaut
-                        couleur = &#34;blue&#34; if couleur == None else couleur
-                        
-                        x = [-(objet.point.x + objet.vecteur.x * longueur),
-                                objet.point.x + objet.vecteur.x * longueur]
-
-                        y = [-(objet.point.y + objet.vecteur.y * longueur),
-                                objet.point.y + objet.vecteur.y * longueur]
-
-                        z = [-(objet.point.z + objet.vecteur.z * longueur),
-                                objet.point.z + objet.vecteur.z * longueur]
-
-                        if label == &#34;&#34;:
-                                self.ax.plot(x, y, z, couleur)
-                        else:
-                                self.ax.plot(x, y, z, couleur, label=label)
-
-                elif isinstance(objet, plans.Plan):
-
-                        #Plans en orange par défaut
-                        couleur = &#34;orange&#34; if couleur == None else couleur
-
-                        longueur = int(longueur / 5)
-                        a, b, c, d = objet.cartesienne()[1]
-
-                        if c != 0:
-                                x = np.linspace(-longueur/2, longueur/2, longueur*10)
-                                y = np.linspace(-longueur/2, longueur/2, longueur*10)
-
-                                X, Y = np.meshgrid(x, y)
-                                Z = (d - a*X - b*Y) / c
-
-
-                        elif b != 0:
-                                x = np.linspace(-longueur/2, longueur/2, longueur*10)
-                                z = np.linspace(-longueur/2, longueur/2, longueur*10)
-
-                                X, Z = np.meshgrid(x, z)
-                                Y = (d - a*X - c*Z) / b
-
-
-                        else:
-                                y = np.linspace(-longueur/2, longueur/2, longueur*10)
-                                z = np.linspace(-longueur/2, longueur/2, longueur*10)
-
-                                Y, Z = np.meshgrid(y, z)
-                                X = (d - b*Y - c*Z) / a
-
-                        if grille != 0:
-                                #Mode grillage
-                                self.ax.plot_wireframe(X, Y, Z, color=couleur, alpha=0.6,
-                                        rcount=grille, ccount=grille)
-                        else:
-                                self.ax.plot_surface(X, Y, Z, color=couleur, alpha=0.6)
-
-
-                elif isinstance(objet, vecteurs.Vecteur):
-                        pass
-
-        def dessiner_axes(self):
-                &#34;&#34;&#34;Ajoute les axes au repère
-                &#34;&#34;&#34;
-                #Ajout des axes
-                self.ax.set_xlabel(&#34;Axe X&#34;)
-                self.ax.set_ylabel(&#34;Axe Y&#34;)
-                self.ax.set_zlabel(&#34;Axe Z&#34;)
-
-                axe_x = droites.axe_x
-                axe_y = droites.axe_y
-                axe_z = droites.axe_z
-                plt.quiver(axe_x.point.x, axe_x.point.y, axe_x.point.z,
-                        axe_x.vecteur.x, axe_x.vecteur.y, axe_x.vecteur.z,
-                        color=&#34;red&#34;)
-                plt.quiver(axe_y.point.x, axe_y.point.y, axe_y.point.z,
-                        axe_y.vecteur.x, axe_y.vecteur.y, axe_y.vecteur.z,
-                        color=&#34;green&#34;)
-                plt.quiver(axe_z.point.x, axe_z.point.y, axe_z.point.z,
-                        axe_z.vecteur.x, axe_z.vecteur.y, axe_z.vecteur.z,
-                        color=&#34;blue&#34;)
-
-        def dessiner_origine(self):
-                &#34;&#34;&#34;Ajoute l&#39;origine au repère
-                &#34;&#34;&#34;
-                #Origine en rouge
-                self.ax.scatter(0, 0, 0, color=&#34;black&#34;, label=&#34;Origine&#34;)
-
-        def corriger_min_axes(self):
-                xlims = self.ax.get_xlim3d()
-                ylims = self.ax.get_ylim3d()
-                zlims = self.ax.get_zlim3d()
-
-                if xlims[1] - xlims[0] &lt;= 1:
-                        self.ax.set_xlim(-5, 5)
-
-                if ylims[1] - ylims[0] &lt;= 1:
-                        self.ax.set_ylim(-5, 5)
-
-                if zlims[1] - zlims[0] &lt;= 1:
-                        self.ax.set_zlim(-5, 5)
-
-        def afficher(self):
-                &#34;&#34;&#34;Affiche le repère et la légende
-                &#34;&#34;&#34;
-                self.dessiner_axes()
-                self.dessiner_origine()
-                self.corriger_min_axes()
-                self.ax.legend(framealpha=0.2)
-                plt.show()</code></pre>
-</details>
-<h3>Methods</h3>
+<h3>Méthodes</h3>
 <dl>
 <dt id="py3d.Repere3D.afficher"><code class="name flex">
 <span>def <span class="ident">afficher</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Affiche le repère et la légende</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def afficher(self):
-        &#34;&#34;&#34;Affiche le repère et la légende
-        &#34;&#34;&#34;
-        self.dessiner_axes()
-        self.dessiner_origine()
-        self.corriger_min_axes()
-        self.ax.legend(framealpha=0.2)
-        plt.show()</code></pre>
-</details>
 </dd>
 <dt id="py3d.Repere3D.ajouter"><code class="name flex">
 <span>def <span class="ident">ajouter</span></span>(<span>self, objet, couleur=None, longueur=10, label='', grille=0)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Ajoute un objet dans le repère</p>
-<h2 id="args">Args</h2>
+<h2 id="args">Arguments</h2>
 <dl>
 <dt>objet : Objet (Point / Droite / Plan) à ajouter</dt>
 <dt><strong><code>couleur</code></strong> :&ensp;<code>str, optionnel</code></dt>
@@ -1669,166 +384,18 @@ z= zp + z\overrightarrow{u}
 <dt><strong><code>grille</code></strong> :&ensp;<code>int, optionnel</code></dt>
 <dd>Mode "grillage", avec {grille} lignes et {grille} colonnes (pour les plans)</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def ajouter(self, objet, couleur=None, longueur=10, label=&#34;&#34;, grille=0):
-        &#34;&#34;&#34;Ajoute un objet dans le repère
-        
-        Args:
-            objet : Objet (Point / Droite / Plan) à ajouter
-            couleur (str, optionnel): Couleur à utiliser (en anglais)
-            longueur (int, optionnel): Longueur totale sur chaque axe (pour les droites)
-            label (str, optionnel): Label à attribuer à l&#39;objet
-            grille (int, optionnel): Mode &#34;grillage&#34;, avec {grille} lignes et {grille} colonnes (pour les plans)
-        &#34;&#34;&#34;
-        longueur *= 5
-
-        if isinstance(objet, points.Point):
-                if label == &#34;&#34;:
-                        if couleur == None:
-                                self.ax.scatter(objet.x, objet.y, objet.z, marker=&#34;o&#34;)
-                        else:
-                                self.ax.scatter(objet.x, objet.y, objet.z, marker=&#34;o&#34;, couleur=couleur)
-                else:
-                        if couleur == None:
-                                self.ax.scatter(objet.x, objet.y, objet.z, marker=&#34;o&#34;, label=label)
-                        else:
-                                self.ax.scatter(objet.x, objet.y, objet.z, marker=&#34;o&#34;, label=label, couleur=couleur)
-
-        elif isinstance(objet, droites.Droite):
-
-                #Droites en bleu par défaut
-                couleur = &#34;blue&#34; if couleur == None else couleur
-                
-                x = [-(objet.point.x + objet.vecteur.x * longueur),
-                        objet.point.x + objet.vecteur.x * longueur]
-
-                y = [-(objet.point.y + objet.vecteur.y * longueur),
-                        objet.point.y + objet.vecteur.y * longueur]
-
-                z = [-(objet.point.z + objet.vecteur.z * longueur),
-                        objet.point.z + objet.vecteur.z * longueur]
-
-                if label == &#34;&#34;:
-                        self.ax.plot(x, y, z, couleur)
-                else:
-                        self.ax.plot(x, y, z, couleur, label=label)
-
-        elif isinstance(objet, plans.Plan):
-
-                #Plans en orange par défaut
-                couleur = &#34;orange&#34; if couleur == None else couleur
-
-                longueur = int(longueur / 5)
-                a, b, c, d = objet.cartesienne()[1]
-
-                if c != 0:
-                        x = np.linspace(-longueur/2, longueur/2, longueur*10)
-                        y = np.linspace(-longueur/2, longueur/2, longueur*10)
-
-                        X, Y = np.meshgrid(x, y)
-                        Z = (d - a*X - b*Y) / c
-
-
-                elif b != 0:
-                        x = np.linspace(-longueur/2, longueur/2, longueur*10)
-                        z = np.linspace(-longueur/2, longueur/2, longueur*10)
-
-                        X, Z = np.meshgrid(x, z)
-                        Y = (d - a*X - c*Z) / b
-
-
-                else:
-                        y = np.linspace(-longueur/2, longueur/2, longueur*10)
-                        z = np.linspace(-longueur/2, longueur/2, longueur*10)
-
-                        Y, Z = np.meshgrid(y, z)
-                        X = (d - b*Y - c*Z) / a
-
-                if grille != 0:
-                        #Mode grillage
-                        self.ax.plot_wireframe(X, Y, Z, color=couleur, alpha=0.6,
-                                rcount=grille, ccount=grille)
-                else:
-                        self.ax.plot_surface(X, Y, Z, color=couleur, alpha=0.6)
-
-
-        elif isinstance(objet, vecteurs.Vecteur):
-                pass</code></pre>
-</details>
-</dd>
-<dt id="py3d.Repere3D.corriger_min_axes"><code class="name flex">
-<span>def <span class="ident">corriger_min_axes</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def corriger_min_axes(self):
-        xlims = self.ax.get_xlim3d()
-        ylims = self.ax.get_ylim3d()
-        zlims = self.ax.get_zlim3d()
-
-        if xlims[1] - xlims[0] &lt;= 1:
-                self.ax.set_xlim(-5, 5)
-
-        if ylims[1] - ylims[0] &lt;= 1:
-                self.ax.set_ylim(-5, 5)
-
-        if zlims[1] - zlims[0] &lt;= 1:
-                self.ax.set_zlim(-5, 5)</code></pre>
-</details>
 </dd>
 <dt id="py3d.Repere3D.dessiner_axes"><code class="name flex">
 <span>def <span class="ident">dessiner_axes</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Ajoute les axes au repère</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def dessiner_axes(self):
-        &#34;&#34;&#34;Ajoute les axes au repère
-        &#34;&#34;&#34;
-        #Ajout des axes
-        self.ax.set_xlabel(&#34;Axe X&#34;)
-        self.ax.set_ylabel(&#34;Axe Y&#34;)
-        self.ax.set_zlabel(&#34;Axe Z&#34;)
-
-        axe_x = droites.axe_x
-        axe_y = droites.axe_y
-        axe_z = droites.axe_z
-        plt.quiver(axe_x.point.x, axe_x.point.y, axe_x.point.z,
-                axe_x.vecteur.x, axe_x.vecteur.y, axe_x.vecteur.z,
-                color=&#34;red&#34;)
-        plt.quiver(axe_y.point.x, axe_y.point.y, axe_y.point.z,
-                axe_y.vecteur.x, axe_y.vecteur.y, axe_y.vecteur.z,
-                color=&#34;green&#34;)
-        plt.quiver(axe_z.point.x, axe_z.point.y, axe_z.point.z,
-                axe_z.vecteur.x, axe_z.vecteur.y, axe_z.vecteur.z,
-                color=&#34;blue&#34;)</code></pre>
-</details>
 </dd>
 <dt id="py3d.Repere3D.dessiner_origine"><code class="name flex">
 <span>def <span class="ident">dessiner_origine</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Ajoute l'origine au repère</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def dessiner_origine(self):
-        &#34;&#34;&#34;Ajoute l&#39;origine au repère
-        &#34;&#34;&#34;
-        #Origine en rouge
-        self.ax.scatter(0, 0, 0, color=&#34;black&#34;, label=&#34;Origine&#34;)</code></pre>
-</details>
 </dd>
 </dl>
 </dd>
@@ -1837,489 +404,56 @@ z= zp + z\overrightarrow{u}
 <span>(</span><span>*args)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Classe représentant un vecteur de l'espace</p>
-<h2 id="attributes">Attributes</h2>
-<dl>
-<dt><strong><code>x</code></strong> :&ensp;<code>float</code></dt>
-<dd>Coordonnée x</dd>
-<dt><strong><code>y</code></strong> :&ensp;<code>float</code></dt>
-<dd>Coordonnée y</dd>
-<dt><strong><code>z</code></strong> :&ensp;<code>float</code></dt>
-<dd>Coordonnée z</dd>
-</dl>
-<p>Initialisation du vecteur</p>
-<pre><code>    - Deux points
-
-    - Trois coordonnées
-</code></pre>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>*args</code></strong></dt>
-<dd>Arguments de définition du vecteur</dd>
-</dl>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code>TypeError</code></dt>
-<dd>Si les types donnés sont incorrectes</dd>
-<dt><code>ValueError</code></dt>
-<dd>Si le nombre de paramètres ne correspond pas</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Vecteur():
-
-        &#34;&#34;&#34;Classe représentant un vecteur de l&#39;espace
-        
-        Attributes:
-            x (float): Coordonnée x
-            y (float): Coordonnée y
-            z (float): Coordonnée z
-        &#34;&#34;&#34;
-        
-        def __init__(self, *args):
-                &#34;&#34;&#34;Initialisation du vecteur
-
-                        - Deux points
-
-                        - Trois coordonnées
-                
-                Args:
-                    *args: Arguments de définition du vecteur
-                
-                Raises:
-                    TypeError: Si les types donnés sont incorrectes
-                    ValueError: Si le nombre de paramètres ne correspond pas
-                &#34;&#34;&#34;
-                if len(args) == 2:
-                        a, b = args
-                        if isinstance(a, points.Point) and isinstance(b, points.Point):
-                                self.x = b.x - a.x
-                                self.y = b.y - a.y
-                                self.z = b.z - a.z
-
-                        elif all(isinstance(coord, int) or isinstance(coord, float) for coord in args):
-                                a, b = args
-                                self.x = a
-                                self.y = b
-                                self.z = 0
-
-                        else:
-                                typeA = a.__class__.__name__
-                                typeB = b.__class__.__name__
-                                raise TypeError(f&#34;Impossible de créer un vecteur à partir de [{typeA}] et [{typeB}]&#34;)
-
-                elif len(args) == 3:
-                        if all(isinstance(coord, int) or isinstance(coord, float) for coord in args):
-                                x, y ,z = args
-                                self.x = x
-                                self.y = y
-                                self.z = z
-                        else:
-                                raise TypeError(&#34;Les coordonnées d&#39;un vecteur doivent être des nombres&#34;)
-
-                else:
-                        raise ValueError(&#34;Un vecteur est créé à partir de deux points ou de coordonnées&#34;)
-
-        def scalaire(self, vecteurB):
-                &#34;&#34;&#34;Renvoie le produit scalaire entre le vecteur et vecteurB
-                
-                Args:
-                    vecteurB (Vecteur): Vecteur à comparer
-                
-                Returns:
-                    float: Résultat du produit scalaire
-                
-                Raises:
-                    TypeError: Si vecteurB n&#39;est pas un vecteur
-                &#34;&#34;&#34;
-                if isinstance(vecteurB, Vecteur):
-                        return self.x * vecteurB.x + self.y * vecteurB.y + self.z * vecteurB.z
-                else:
-                        type_ = vecteurB.__class__.__name__
-                        raise TypeError(f&#34;Impossible de faire le produit scalaire entre [Vecteur] et [{type_}]&#34;)
-
-        def produit_vectoriel(self, vecteurB):
-                &#34;&#34;&#34;Renvoie le produit vectoriel entre le vecteur et vecteurB
-                
-                Args:
-                    vecteurB (Vecteur): Vecteur à comparer
-                
-                Returns:
-                    float: Résultat du produit vectoriel
-                
-                Raises:
-                    TypeError: Si vecteurB n&#39;est pas un vecteur
-                &#34;&#34;&#34;
-                x = (self.y * vecteurB.z) - (self.z * vecteurB.y)
-                y = (self.z * vecteurB.x) - (self.x * vecteurB.z)
-                z = (self.x * vecteurB.y) - (self.y * vecteurB.x)
-                return Vecteur(x, y, z)
-
-        def norme(self):
-                &#34;&#34;&#34;Donne la norme du vecteur
-                
-                Returns:
-                    float: Norme du vecteur
-                &#34;&#34;&#34;
-                return sqrt((self.x)**2 + (self.y)**2 + (self.z)**2)
-
-        def absolue(self):
-                &#34;&#34;&#34;Donne la valeur absolue du vecteur
-                
-                Returns:
-                    float: Valeur absolue du vecteur
-                &#34;&#34;&#34;
-                return Vecteur(abs(self.x), abs(self.z), abs(self.z))
-
-        def normalise(self):
-                &#34;&#34;&#34;Donne la forme normalisée du vecteur
-                
-                Returns:
-                    Vecteur: Forme normalisée du vecteur
-                &#34;&#34;&#34;
-                return self * float(1 / self.norme())
-
-        def normal(self, *p):
-                &#34;&#34;&#34;Donne un vecteur normal à ce vecteur
-                
-                Returns:
-                    Vecteur: Vecteur normal
-                
-                Raises:
-                    NotImplementedError: Si le vecteur actuel n&#39;a aucune coordonnée nulle
-                &#34;&#34;&#34;
-                if self.z == 0:
-                        return Vecteur(self.y, -self.x, 0)
-                elif self.y == 0:
-                        return Vecteur(-self.z, 0, self.x)
-                elif self.x == 0:
-                        return Vecteur(0, self.z, -self.y)
-                else:
-                        
-                        p = p[0]
-                        if isinstance(p, points.Point):
-                                a = points.origine
-                                b = points.Point(self.x, self.y, self.z)
-
-                                projete = p.projete_orthogonal(droites.Droite(a, b))
-
-                                return Vecteur(projete, p)
-                        else:
-                                raise TypeError(&#34;Il faut un point pour calculer un vecteur normal en 3D&#34;)
-
-
-        def get_coordonnes(self):
-                &#34;&#34;&#34;Donne les coordonnées du vecteur dans un tuple
-                
-                Returns:
-                    tuple: Coordonnées (x, y, z)
-                &#34;&#34;&#34;
-                return (self.x, self.y, self.z)
-
-        def est_nul(self):
-                &#34;&#34;&#34;Renvoie True si le vecteur est nul, False sinon
-                
-                Returns:
-                    bool: Vecteur nul ?
-                &#34;&#34;&#34;
-                return self.x == 0 and self.y == 0 and self.z == 0
-
-
-        def __add__(self, vecteurB):
-                if isinstance(vecteurB, Vecteur):
-                        return Vecteur(self.x + vecteurB.x, self.y + vecteurB.y, self.z + vecteurB.z)
-                else:
-                        type_ = vecteurB.__class__.__name__
-                        raise TypeError(f&#34;Impossible d&#39;additioner [Vecteur] et [{type_}]&#34;)
-
-        def __radd__(self, vecteurB):
-                if vecteurB == 0:
-                        return self
-                else:
-                        return self.__add__(vecteurB)
-
-        def __neg__(self):
-                return Vecteur(-self.x, -self.y, -self.z)
-
-        def __sub__(self, vecteurB):
-                return self.__add__(-vecteurB)
-
-        def __rsub__(self, vecteurB):
-                return self.__radd__(-vecteurB)
-
-        def __mul__(self, valeur):
-                if isinstance(valeur, int) or isinstance(valeur, float):
-                        return Vecteur(self.x * valeur, self.y * valeur, self.z * valeur)
-
-                else:
-                        type_ = valeur.__class__.__name__
-                        raise TypeError(f&#34;Impossible de multiplier [Vecteur] et [{type_}]&#34;)
-
-        def __rmul__(self, valeur):
-                return self.__mul__(valeur)
-
-        def __str__(self):
-                return f&#34;Vecteur ({self.x}, {self.y}, {self.z})&#34;
-
-        def __eq__(self, v):
-                if isinstance(v, Vecteur):
-                        return self.x == v.x and self.y == v.y and self.z == v.z
-
-                else:
-                        type_ = v.__class__.__name__
-                        raise TypeError(f&#34;Impossible de comparer [Vecteur] et [{type_}]&#34;) </code></pre>
-</details>
-<h3>Methods</h3>
+<div class="desc"></div>
+<h3>Méthodes</h3>
 <dl>
 <dt id="py3d.Vecteur.absolue"><code class="name flex">
 <span>def <span class="ident">absolue</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Donne la valeur absolue du vecteur</p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>float</code></dt>
-<dd>Valeur absolue du vecteur</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def absolue(self):
-        &#34;&#34;&#34;Donne la valeur absolue du vecteur
-        
-        Returns:
-            float: Valeur absolue du vecteur
-        &#34;&#34;&#34;
-        return Vecteur(abs(self.x), abs(self.z), abs(self.z))</code></pre>
-</details>
+<div class="desc"></div>
 </dd>
 <dt id="py3d.Vecteur.est_nul"><code class="name flex">
 <span>def <span class="ident">est_nul</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Renvoie True si le vecteur est nul, False sinon</p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>bool</code></dt>
-<dd>Vecteur nul ?</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def est_nul(self):
-        &#34;&#34;&#34;Renvoie True si le vecteur est nul, False sinon
-        
-        Returns:
-            bool: Vecteur nul ?
-        &#34;&#34;&#34;
-        return self.x == 0 and self.y == 0 and self.z == 0</code></pre>
-</details>
+<div class="desc"></div>
 </dd>
 <dt id="py3d.Vecteur.get_coordonnes"><code class="name flex">
 <span>def <span class="ident">get_coordonnes</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Donne les coordonnées du vecteur dans un tuple</p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>tuple</code></dt>
-<dd>Coordonnées (x, y, z)</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_coordonnes(self):
-        &#34;&#34;&#34;Donne les coordonnées du vecteur dans un tuple
-        
-        Returns:
-            tuple: Coordonnées (x, y, z)
-        &#34;&#34;&#34;
-        return (self.x, self.y, self.z)</code></pre>
-</details>
+<div class="desc"></div>
 </dd>
 <dt id="py3d.Vecteur.normal"><code class="name flex">
-<span>def <span class="ident">normal</span></span>(<span>self, *p)</span>
+<span>def <span class="ident">normal</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Donne un vecteur normal à ce vecteur</p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code><a title="py3d.Vecteur" href="#py3d.Vecteur">Vecteur</a></code></dt>
-<dd>Vecteur normal</dd>
-</dl>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code>NotImplementedError</code></dt>
-<dd>Si le vecteur actuel n'a aucune coordonnée nulle</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def normal(self, *p):
-        &#34;&#34;&#34;Donne un vecteur normal à ce vecteur
-        
-        Returns:
-            Vecteur: Vecteur normal
-        
-        Raises:
-            NotImplementedError: Si le vecteur actuel n&#39;a aucune coordonnée nulle
-        &#34;&#34;&#34;
-        if self.z == 0:
-                return Vecteur(self.y, -self.x, 0)
-        elif self.y == 0:
-                return Vecteur(-self.z, 0, self.x)
-        elif self.x == 0:
-                return Vecteur(0, self.z, -self.y)
-        else:
-                
-                p = p[0]
-                if isinstance(p, points.Point):
-                        a = points.origine
-                        b = points.Point(self.x, self.y, self.z)
-
-                        projete = p.projete_orthogonal(droites.Droite(a, b))
-
-                        return Vecteur(projete, p)
-                else:
-                        raise TypeError(&#34;Il faut un point pour calculer un vecteur normal en 3D&#34;)</code></pre>
-</details>
+<div class="desc"></div>
 </dd>
 <dt id="py3d.Vecteur.normalise"><code class="name flex">
 <span>def <span class="ident">normalise</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Donne la forme normalisée du vecteur</p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code><a title="py3d.Vecteur" href="#py3d.Vecteur">Vecteur</a></code></dt>
-<dd>Forme normalisée du vecteur</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def normalise(self):
-        &#34;&#34;&#34;Donne la forme normalisée du vecteur
-        
-        Returns:
-            Vecteur: Forme normalisée du vecteur
-        &#34;&#34;&#34;
-        return self * float(1 / self.norme())</code></pre>
-</details>
+<div class="desc"></div>
 </dd>
 <dt id="py3d.Vecteur.norme"><code class="name flex">
 <span>def <span class="ident">norme</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Donne la norme du vecteur</p>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>float</code></dt>
-<dd>Norme du vecteur</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def norme(self):
-        &#34;&#34;&#34;Donne la norme du vecteur
-        
-        Returns:
-            float: Norme du vecteur
-        &#34;&#34;&#34;
-        return sqrt((self.x)**2 + (self.y)**2 + (self.z)**2)</code></pre>
-</details>
+<div class="desc"></div>
 </dd>
 <dt id="py3d.Vecteur.produit_vectoriel"><code class="name flex">
 <span>def <span class="ident">produit_vectoriel</span></span>(<span>self, vecteurB)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Renvoie le produit vectoriel entre le vecteur et vecteurB</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>vecteurB</code></strong> :&ensp;<code><a title="py3d.Vecteur" href="#py3d.Vecteur">Vecteur</a></code></dt>
-<dd>Vecteur à comparer</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>float</code></dt>
-<dd>Résultat du produit vectoriel</dd>
-</dl>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code>TypeError</code></dt>
-<dd>Si vecteurB n'est pas un vecteur</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def produit_vectoriel(self, vecteurB):
-        &#34;&#34;&#34;Renvoie le produit vectoriel entre le vecteur et vecteurB
-        
-        Args:
-            vecteurB (Vecteur): Vecteur à comparer
-        
-        Returns:
-            float: Résultat du produit vectoriel
-        
-        Raises:
-            TypeError: Si vecteurB n&#39;est pas un vecteur
-        &#34;&#34;&#34;
-        x = (self.y * vecteurB.z) - (self.z * vecteurB.y)
-        y = (self.z * vecteurB.x) - (self.x * vecteurB.z)
-        z = (self.x * vecteurB.y) - (self.y * vecteurB.x)
-        return Vecteur(x, y, z)</code></pre>
-</details>
+<div class="desc"></div>
 </dd>
 <dt id="py3d.Vecteur.scalaire"><code class="name flex">
 <span>def <span class="ident">scalaire</span></span>(<span>self, vecteurB)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Renvoie le produit scalaire entre le vecteur et vecteurB</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>vecteurB</code></strong> :&ensp;<code><a title="py3d.Vecteur" href="#py3d.Vecteur">Vecteur</a></code></dt>
-<dd>Vecteur à comparer</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>float</code></dt>
-<dd>Résultat du produit scalaire</dd>
-</dl>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code>TypeError</code></dt>
-<dd>Si vecteurB n'est pas un vecteur</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def scalaire(self, vecteurB):
-        &#34;&#34;&#34;Renvoie le produit scalaire entre le vecteur et vecteurB
-        
-        Args:
-            vecteurB (Vecteur): Vecteur à comparer
-        
-        Returns:
-            float: Résultat du produit scalaire
-        
-        Raises:
-            TypeError: Si vecteurB n&#39;est pas un vecteur
-        &#34;&#34;&#34;
-        if isinstance(vecteurB, Vecteur):
-                return self.x * vecteurB.x + self.y * vecteurB.y + self.z * vecteurB.z
-        else:
-                type_ = vecteurB.__class__.__name__
-                raise TypeError(f&#34;Impossible de faire le produit scalaire entre [Vecteur] et [{type_}]&#34;)</code></pre>
-</details>
+<div class="desc"></div>
 </dd>
 </dl>
 </dd>
@@ -2334,27 +468,21 @@ z= zp + z\overrightarrow{u}
 <ul id="index">
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
-<li><code><a title="py3d.calculs" href="calculs.html">py3d.calculs</a></code></li>
 <li><code><a title="py3d.droites" href="droites.html">py3d.droites</a></code></li>
 <li><code><a title="py3d.plans" href="plans.html">py3d.plans</a></code></li>
 <li><code><a title="py3d.points" href="points.html">py3d.points</a></code></li>
-<li><code><a title="py3d.repere" href="repere.html">py3d.repere</a></code></li>
+<li><code><a title="py3d.tracer" href="tracer.html">py3d.tracer</a></code></li>
 <li><code><a title="py3d.utils" href="utils.html">py3d.utils</a></code></li>
 <li><code><a title="py3d.vecteurs" href="vecteurs.html">py3d.vecteurs</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
+<li><h3><a href="#header-functions">Fonctions</a></h3>
+<ul class="two-column">
 <li><code><a title="py3d.alignes" href="#py3d.alignes">alignes</a></code></li>
 <li><code><a title="py3d.collineaires" href="#py3d.collineaires">collineaires</a></code></li>
 <li><code><a title="py3d.distance" href="#py3d.distance">distance</a></code></li>
 <li><code><a title="py3d.est_meme_point" href="#py3d.est_meme_point">est_meme_point</a></code></li>
-<li><code><a title="py3d.intersection" href="#py3d.intersection">intersection</a></code></li>
-<li><code><a title="py3d.intersection_droite_droite" href="#py3d.intersection_droite_droite">intersection_droite_droite</a></code></li>
-<li><code><a title="py3d.intersection_droite_plan" href="#py3d.intersection_droite_plan">intersection_droite_plan</a></code></li>
-<li><code><a title="py3d.intersection_plan_plan" href="#py3d.intersection_plan_plan">intersection_plan_plan</a></code></li>
 <li><code><a title="py3d.orthogonales" href="#py3d.orthogonales">orthogonales</a></code></li>
-<li><code><a title="py3d.orthogonaux" href="#py3d.orthogonaux">orthogonaux</a></code></li>
 <li><code><a title="py3d.parallelles" href="#py3d.parallelles">parallelles</a></code></li>
 <li><code><a title="py3d.secantes" href="#py3d.secantes">secantes</a></code></li>
 </ul>
@@ -2379,7 +507,6 @@ z= zp + z\overrightarrow{u}
 <h4><code><a title="py3d.Point" href="#py3d.Point">Point</a></code></h4>
 <ul class="">
 <li><code><a title="py3d.Point.distance_origine" href="#py3d.Point.distance_origine">distance_origine</a></code></li>
-<li><code><a title="py3d.Point.projete_orthogonal" href="#py3d.Point.projete_orthogonal">projete_orthogonal</a></code></li>
 </ul>
 </li>
 <li>
@@ -2387,7 +514,6 @@ z= zp + z\overrightarrow{u}
 <ul class="">
 <li><code><a title="py3d.Repere3D.afficher" href="#py3d.Repere3D.afficher">afficher</a></code></li>
 <li><code><a title="py3d.Repere3D.ajouter" href="#py3d.Repere3D.ajouter">ajouter</a></code></li>
-<li><code><a title="py3d.Repere3D.corriger_min_axes" href="#py3d.Repere3D.corriger_min_axes">corriger_min_axes</a></code></li>
 <li><code><a title="py3d.Repere3D.dessiner_axes" href="#py3d.Repere3D.dessiner_axes">dessiner_axes</a></code></li>
 <li><code><a title="py3d.Repere3D.dessiner_origine" href="#py3d.Repere3D.dessiner_origine">dessiner_origine</a></code></li>
 </ul>
