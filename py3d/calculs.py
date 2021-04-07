@@ -1,3 +1,6 @@
+"""Module calculs, contient des fonctions permettant de calculer les intersections entre divers objets
+
+"""
 import droites, plans, points, vecteurs
 from utils import MIN_DELTA
 
