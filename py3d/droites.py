@@ -14,7 +14,7 @@ def parallelles(d, *args):
 	
 	Args:
 	    d (Droite): Droite de référence
-	    *args: Autres droite
+	    *args: Autres droites
 	
 	Returns:
 	    bool: Droites toutes parallèles ?
@@ -42,7 +42,17 @@ def parallelles(d, *args):
 		raise TypeError(f"Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]")
 
 def secantes(d, *args):
-	"""Non implémenté
+	"""Renvoie True si les droites données sont sécantes, False sinon
+	
+	Args:
+	    d (Droite): Droite de référence
+	    *args: Autres droites
+	
+	Returns:
+	    bool: Droites toutes sécantes ?
+	
+	Raises:
+	    TypeError: Si les objets donnés ne sont pas tous des droites
 	"""
 	if isinstance(d, Droite):
 		
@@ -67,7 +77,17 @@ def secantes(d, *args):
 
 
 def secante_plan(droite, plan):
-	"""Non implémenté
+	"""Renvoie True si la droite donnée est sécante avec le plan, False sinon
+	
+	Args:
+	    droite (Droite): Droite
+	    plan (Plan): Plan
+	
+	Returns:
+	    bool: Droite et plan sécants ?
+	
+	Raises:
+	    TypeError: Si les objets donnés ne sont pas une droite et un plan
 	"""
 	import plans
 	if isinstance(droite, Droite):
@@ -89,7 +109,17 @@ def secante_plan(droite, plan):
 
 
 def orthogonales(droite1, droite2):
-	"""Non implémenté
+	"""Renvoie True si les droites données sont orthogonales, False sinon
+	
+	Args:
+	    droite1 (Droite): Droite 1
+	    droite2 (Droite): Droite 2
+	
+	Returns:
+	    bool: Droites orthogonales ?
+	
+	Raises:
+	    TypeError: Si les objets donnés ne sont pas tous des droites
 	"""
 	if isinstance(droite1, Droite):
 		if isinstance(droite2, Droite):
@@ -219,6 +249,12 @@ class Droite:
 
 	def __contains__(self, point):
 		return self.est_sur_droite(point)
+
+	def __str__(self):
+		return self.paramétrique[0]
+
+	def __repr__(self):
+		return self.paramétrique[0]
 
 axe_x = Droite(points.origine, points.Point(1, 0, 0))
 axe_y = Droite(points.origine, points.Point(0, 1, 0))

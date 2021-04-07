@@ -36,10 +36,10 @@ Py3D :
       ✓ Axe Y @done
       ✓ Axe Z @done
 
-    ☐ Plans
+    ✓ Plans @done
       ✓ Définition par point + vecteur normal @done
       ✓ Définition par un point + deux vecteurs @done
-      ☐ Définition par deux droites
+      ✓ Définition par deux droites @done
       ✓ Définition par trois points @done
       ✓ Définition par equation cartésienne @done
       ✓ Equation cartésienne @done
@@ -52,9 +52,9 @@ Py3D :
       ✓ Plan XZ @done
       ✓ Plan YZ @done
     
-    ☐ Résolution calcul
+    ✓ Résolution calcul @done
       ✓ Intersection Droite-Droite @done
-      ☐ Intersection Plan-Plan
+      ✓ Intersection Plan-Plan @done
       ✓ Intersection Droite-Plan @done
 
     ✓ Plot Matplotlib @done

@@ -3,6 +3,8 @@ from utils import MIN_DELTA
 
 def intersection(ObjetA, ObjetB):
 	"""Sert de fonction tampon pour renvoyer l'intersection entre A et B
+
+	Voir les fonctions intersection_droite_droite(), intersection_plan_plan() et intersection_droite_plan()
 	"""
 
 	if isinstance(ObjetA, droites.Droite):
@@ -44,7 +46,17 @@ def intersection(ObjetA, ObjetB):
 		return None
 
 def intersection_droite_droite(droiteA, droiteB):
-	"""Non implémenté
+	"""Renvoie le point d'intersection entre les droites si elles sont sécantes
+	None sinon
+	
+	Args:
+	    droiteA (Droite): Droite A
+	    droiteB (Droite): Droite B
+	
+	Returns:
+	    Point: Point d'intersection entre A et B
+
+	Utilisée via la fonction intersection()
 	"""
 	v = droiteA.vecteur
 	v2 = droiteB.vecteur
@@ -68,7 +80,17 @@ def intersection_droite_droite(droiteA, droiteB):
 	return point
 
 def intersection_droite_plan(droite, plan):
-	"""Non implémenté
+	"""Renvoie le point d'intersection entre la droite et le plan si ils sont sécants
+	None sinon
+	
+	Args:
+	    droite (Droite): Droite
+	    plan (Plan): Plan
+	
+	Returns:
+	    Point: Point d'intersection entre la droite et le plan 
+
+	Utilisée via la fonction intersection()
 	"""
 	p = droite.point
 	v = droite.vecteur
@@ -85,6 +107,19 @@ def intersection_droite_plan(droite, plan):
 	return points.Point(p.x + (v.x*t), p.y + (v.y*t), p.z + (v.z*t))
 
 def resoudre_cramer(equa_a, equa_b):
+	"""Résout un systeme dans une matrice de 2x4
+	Renvoie alpha et beta, qui seront les coordonées non nulles d'un point
+	de la droite d'intersection entre deux plans
+	
+	Args:
+	    equa_a (tuple): Equation du plan A
+	    equa_a (tuple): Equation du plan B
+	
+	Returns:
+	    alpha, beta: coordonées non nulles d'un point de la droite d'intersection entre deux plans
+
+	Utilisée par la fonction intersection_plan_plan()
+	"""
 	a, b, c, d = equa_a
 	a2, b2, c2, d2 = equa_b
 
@@ -96,7 +131,17 @@ def resoudre_cramer(equa_a, equa_b):
 	return alpha, beta
 
 def intersection_plan_plan(planA, planB):
-	"""Non implémenté
+	"""Renvoie la droite d'intersection entre les plans si ils sont sécantes
+	None sinon
+	
+	Args:
+	    planA (Plan): Plan A
+	    planA (Plan): Plan B
+	
+	Returns:
+	    Droite: Droite d'intersection entre A et B
+
+	Utilisée via la fonction intersection()
 	"""
 	equa_a = planA.cartesienne()[1]
 	equa_b = planB.cartesienne()[1]
