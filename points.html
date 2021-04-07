@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
@@ -24,25 +24,189 @@
 </header>
 <section id="section-intro">
 <p>Module points, contient la classe Point et des fonctions annexes</p>
-<h2 id="attributes">Attributs</h2>
+<h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>origine</code></strong> :&ensp;<code><a title="py3d.points.Point" href="#py3d.points.Point">Point</a></code></dt>
 <dd>Point de coordonnées <code>(0, 0, 0)</code></dd>
 </dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Module points, contient la classe Point et des fonctions annexes
+
+Attributes:
+    origine (Point): Point de coordonnées `(0, 0, 0)`
+&#34;&#34;&#34;
+from math import sqrt
+import vecteurs
+
+def distance(pointA, pointB):
+        &#34;&#34;&#34;Donne la distance entre deux points
+        
+        Args:
+            pointA (Point): Point A
+            pointB (Point): Point B
+        
+        Returns:
+            float: Distance entre A et B
+        
+        Raises:
+            TypeError: Si A ou B n&#39;est pas un point
+        &#34;&#34;&#34;
+        if isinstance(pointA, Point) and isinstance(pointB, Point):
+                return sqrt((pointB.x - pointA.x)**2 + (pointB.y - pointA.y)**2 + (pointB.z - pointA.z)**2)
+
+        else:
+                typeA = pointA.__class__.__name__
+                typeB = pointB.__class__.__name__
+                raise TypeError(f&#34;Impossible de calculer la distance entre un [{typeA}] et [{typeB}]&#34;)
+
+
+def est_meme_point(pointA, pointB):
+        &#34;&#34;&#34;Renvoie True si les deux points sont au même endroit, False sinon
+        
+        Args:
+            pointA (Point): Point A
+            pointB (Point): Point B
+        
+        Returns:
+            bool: A et B au même endroit ?
+        &#34;&#34;&#34;
+        return distance(pointA, pointB) == 0
+
+def alignes(pointA, pointB, *args):
+        &#34;&#34;&#34;Renvoie True si les points sont alignés, False sinon
+        
+        Args:
+            pointA (Point): Point A
+            pointB (Point): Point B
+            *args: Autres points
+        
+        Returns:
+            bool: Points tous alignés ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des points
+        &#34;&#34;&#34;
+        if isinstance(pointA, Point) and isinstance(pointB, Point):
+
+                for pointX in args:
+                        if isinstance(pointX, Point):
+                                if ((pointX.y - pointB.y)*(pointB.x - pointA.x) != (pointB.y - pointA.y)*(pointX.x - pointB.x)): 
+                                        return False
+                        
+                        else:
+                                typeA = pointA.__class__.__name__
+                                typeB = pointX.__class__.__name__
+                                raise TypeError(f&#34;Impossible de déterminer la collinéarité de points entre [{typeA}] et [{typeB}]&#34;)
+                
+                return True
+
+        else:
+                typeA = pointA.__class__.__name__
+                typeB = pointB.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]&#34;)
+
+class Point():
+
+        &#34;&#34;&#34;Classe représentant un point de l&#39;espace
+        
+        Attributes:
+            x (float): Coordonnée X
+            y (float): Coordonnée Y
+            z (float): Coordonnée Z
+        &#34;&#34;&#34;
+        
+        def __init__(self, x=0 , y=0, z=0):
+                &#34;&#34;&#34;Initialisation du point
+                
+                Args:
+                    x (float): Coordonnée X
+                    y (float): Coordonnée Y
+                    z (float): Coordonnée Z
+                &#34;&#34;&#34;
+                self.x = x
+                self.y = y
+                self.z = z
+
+        def distance_origine(self):
+                &#34;&#34;&#34;Donne la distance à l&#39;origine
+                
+                Returns:
+                    float: Distance entre le point et l&#39;origine
+                &#34;&#34;&#34;
+                return (distance(self, Point(0, 0, 0)))
+
+
+        def projete_orthogonal(self, *args):
+                &#34;&#34;&#34;Donne le projeté orthogonal du point sur une droite ou un plan
+
+                Returns:
+                        Point: Projeté orthogonal
+                &#34;&#34;&#34;
+                
+                if args[0] != None:
+
+                        if isinstance(args[0], droites.Droite):
+                                droite = args[0]
+                                vec = droite.vecteur
+                                a = droite.point
+                                b = Point(      droite.point.x + droite.vecteur.x,
+                                                        droite.point.y + droite.vecteur.y,
+                                                        droite.point.z + droite.vecteur.z)
+
+                                ab = vecteurs.Vecteur(a, b)
+                                ap = vecteurs.Vecteur(a, self)
+
+                                modif_vecteur = (ap.scalaire(ab) / ab.scalaire(ab)) * ab
+
+                                return Point(a.x + modif_vecteur.x,
+                                                        a.y + modif_vecteur.y,
+                                                        a.z + modif_vecteur.z)
+
+                        import plans
+                        if isinstance(args[0], plans.Plan):
+                                plan = args[0]
+                                vec = vecteurs.Vecteur(plan.point, self)
+
+                                distance = plan.vecteur_n.scalaire(vec)
+                                difference = distance * plan.vecteur_n
+                                return Point(self.x - difference.x,
+                                                        self.y - difference.y,
+                                                        self.z - difference.z)
+
+                        else:
+                                raise TypeError(f&#34;On ne peut projeter un point que sur une droite ou un plan&#34;)
+
+                else:
+                        raise TypeError(f&#34;Il faut un objet sur lequel projeter le point&#34;)
+
+
+        def __str__(self):
+                return f&#39;Point({self.x}, {self.y}, {self.z})&#39;
+
+        def __repr__(self):
+                return f&#39;Point({self.x}, {self.y}, {self.z})&#39;
+
+origine = Point(0, 0, 0)
+
+__all__ = (&#34;Point&#34;, &#34;origine&#34;, &#34;distance&#34;, &#34;est_meme_point&#34;, &#34;alignes&#34;, )</code></pre>
+</details>
 </section>
 <section>
 </section>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Fonctions</h2>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="py3d.points.alignes"><code class="name flex">
 <span>def <span class="ident">alignes</span></span>(<span>pointA, pointB, *args)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si les points sont alignés, False sinon</p>
-<h2 id="args">Arguments</h2>
+<h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>pointA</code></strong> :&ensp;<code><a title="py3d.points.Point" href="#py3d.points.Point">Point</a></code></dt>
 <dd>Point A</dd>
@@ -51,57 +215,135 @@
 <dt><strong><code>*args</code></strong></dt>
 <dd>Autres points</dd>
 </dl>
-<h2 id="returns">Retourne</h2>
+<h2 id="returns">Returns</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>Points tous alignés ?</dd>
 </dl>
-<h2 id="raises">Erreurs possibles</h2>
+<h2 id="raises">Raises</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si les objets donnés ne sont pas tous des points</dd>
 </dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def alignes(pointA, pointB, *args):
+        &#34;&#34;&#34;Renvoie True si les points sont alignés, False sinon
+        
+        Args:
+            pointA (Point): Point A
+            pointB (Point): Point B
+            *args: Autres points
+        
+        Returns:
+            bool: Points tous alignés ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des points
+        &#34;&#34;&#34;
+        if isinstance(pointA, Point) and isinstance(pointB, Point):
+
+                for pointX in args:
+                        if isinstance(pointX, Point):
+                                if ((pointX.y - pointB.y)*(pointB.x - pointA.x) != (pointB.y - pointA.y)*(pointX.x - pointB.x)): 
+                                        return False
+                        
+                        else:
+                                typeA = pointA.__class__.__name__
+                                typeB = pointX.__class__.__name__
+                                raise TypeError(f&#34;Impossible de déterminer la collinéarité de points entre [{typeA}] et [{typeB}]&#34;)
+                
+                return True
+
+        else:
+                typeA = pointA.__class__.__name__
+                typeB = pointB.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]&#34;)</code></pre>
+</details>
 </dd>
 <dt id="py3d.points.distance"><code class="name flex">
 <span>def <span class="ident">distance</span></span>(<span>pointA, pointB)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Donne la distance entre deux points</p>
-<h2 id="args">Arguments</h2>
+<h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>pointA</code></strong> :&ensp;<code><a title="py3d.points.Point" href="#py3d.points.Point">Point</a></code></dt>
 <dd>Point A</dd>
 <dt><strong><code>pointB</code></strong> :&ensp;<code><a title="py3d.points.Point" href="#py3d.points.Point">Point</a></code></dt>
 <dd>Point B</dd>
 </dl>
-<h2 id="returns">Retourne</h2>
+<h2 id="returns">Returns</h2>
 <dl>
 <dt><code>float</code></dt>
 <dd>Distance entre A et B</dd>
 </dl>
-<h2 id="raises">Erreurs possibles</h2>
+<h2 id="raises">Raises</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si A ou B n'est pas un point</dd>
 </dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def distance(pointA, pointB):
+        &#34;&#34;&#34;Donne la distance entre deux points
+        
+        Args:
+            pointA (Point): Point A
+            pointB (Point): Point B
+        
+        Returns:
+            float: Distance entre A et B
+        
+        Raises:
+            TypeError: Si A ou B n&#39;est pas un point
+        &#34;&#34;&#34;
+        if isinstance(pointA, Point) and isinstance(pointB, Point):
+                return sqrt((pointB.x - pointA.x)**2 + (pointB.y - pointA.y)**2 + (pointB.z - pointA.z)**2)
+
+        else:
+                typeA = pointA.__class__.__name__
+                typeB = pointB.__class__.__name__
+                raise TypeError(f&#34;Impossible de calculer la distance entre un [{typeA}] et [{typeB}]&#34;)</code></pre>
+</details>
 </dd>
 <dt id="py3d.points.est_meme_point"><code class="name flex">
 <span>def <span class="ident">est_meme_point</span></span>(<span>pointA, pointB)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si les deux points sont au même endroit, False sinon</p>
-<h2 id="args">Arguments</h2>
+<h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>pointA</code></strong> :&ensp;<code><a title="py3d.points.Point" href="#py3d.points.Point">Point</a></code></dt>
 <dd>Point A</dd>
 <dt><strong><code>pointB</code></strong> :&ensp;<code><a title="py3d.points.Point" href="#py3d.points.Point">Point</a></code></dt>
 <dd>Point B</dd>
 </dl>
-<h2 id="returns">Retourne</h2>
+<h2 id="returns">Returns</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>A et B au même endroit ?</dd>
 </dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def est_meme_point(pointA, pointB):
+        &#34;&#34;&#34;Renvoie True si les deux points sont au même endroit, False sinon
+        
+        Args:
+            pointA (Point): Point A
+            pointB (Point): Point B
+        
+        Returns:
+            bool: A et B au même endroit ?
+        &#34;&#34;&#34;
+        return distance(pointA, pointB) == 0</code></pre>
+</details>
 </dd>
 </dl>
 </section>
@@ -114,7 +356,7 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Classe représentant un point de l'espace</p>
-<h2 id="attributes">Attributs</h2>
+<h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>x</code></strong> :&ensp;<code>float</code></dt>
 <dd>Coordonnée X</dd>
@@ -124,7 +366,7 @@
 <dd>Coordonnée Z</dd>
 </dl>
 <p>Initialisation du point</p>
-<h2 id="args">Arguments</h2>
+<h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>x</code></strong> :&ensp;<code>float</code></dt>
 <dd>Coordonnée X</dd>
@@ -133,6 +375,91 @@
 <dt><strong><code>z</code></strong> :&ensp;<code>float</code></dt>
 <dd>Coordonnée Z</dd>
 </dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Point():
+
+        &#34;&#34;&#34;Classe représentant un point de l&#39;espace
+        
+        Attributes:
+            x (float): Coordonnée X
+            y (float): Coordonnée Y
+            z (float): Coordonnée Z
+        &#34;&#34;&#34;
+        
+        def __init__(self, x=0 , y=0, z=0):
+                &#34;&#34;&#34;Initialisation du point
+                
+                Args:
+                    x (float): Coordonnée X
+                    y (float): Coordonnée Y
+                    z (float): Coordonnée Z
+                &#34;&#34;&#34;
+                self.x = x
+                self.y = y
+                self.z = z
+
+        def distance_origine(self):
+                &#34;&#34;&#34;Donne la distance à l&#39;origine
+                
+                Returns:
+                    float: Distance entre le point et l&#39;origine
+                &#34;&#34;&#34;
+                return (distance(self, Point(0, 0, 0)))
+
+
+        def projete_orthogonal(self, *args):
+                &#34;&#34;&#34;Donne le projeté orthogonal du point sur une droite ou un plan
+
+                Returns:
+                        Point: Projeté orthogonal
+                &#34;&#34;&#34;
+                
+                if args[0] != None:
+
+                        if isinstance(args[0], droites.Droite):
+                                droite = args[0]
+                                vec = droite.vecteur
+                                a = droite.point
+                                b = Point(      droite.point.x + droite.vecteur.x,
+                                                        droite.point.y + droite.vecteur.y,
+                                                        droite.point.z + droite.vecteur.z)
+
+                                ab = vecteurs.Vecteur(a, b)
+                                ap = vecteurs.Vecteur(a, self)
+
+                                modif_vecteur = (ap.scalaire(ab) / ab.scalaire(ab)) * ab
+
+                                return Point(a.x + modif_vecteur.x,
+                                                        a.y + modif_vecteur.y,
+                                                        a.z + modif_vecteur.z)
+
+                        import plans
+                        if isinstance(args[0], plans.Plan):
+                                plan = args[0]
+                                vec = vecteurs.Vecteur(plan.point, self)
+
+                                distance = plan.vecteur_n.scalaire(vec)
+                                difference = distance * plan.vecteur_n
+                                return Point(self.x - difference.x,
+                                                        self.y - difference.y,
+                                                        self.z - difference.z)
+
+                        else:
+                                raise TypeError(f&#34;On ne peut projeter un point que sur une droite ou un plan&#34;)
+
+                else:
+                        raise TypeError(f&#34;Il faut un objet sur lequel projeter le point&#34;)
+
+
+        def __str__(self):
+                return f&#39;Point({self.x}, {self.y}, {self.z})&#39;
+
+        def __repr__(self):
+                return f&#39;Point({self.x}, {self.y}, {self.z})&#39;</code></pre>
+</details>
 <h3>Methods</h3>
 <dl>
 <dt id="py3d.points.Point.distance_origine"><code class="name flex">
@@ -140,11 +467,81 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Donne la distance à l'origine</p>
-<h2 id="returns">Retourne</h2>
+<h2 id="returns">Returns</h2>
 <dl>
 <dt><code>float</code></dt>
 <dd>Distance entre le point et l'origine</dd>
 </dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def distance_origine(self):
+        &#34;&#34;&#34;Donne la distance à l&#39;origine
+        
+        Returns:
+            float: Distance entre le point et l&#39;origine
+        &#34;&#34;&#34;
+        return (distance(self, Point(0, 0, 0)))</code></pre>
+</details>
+</dd>
+<dt id="py3d.points.Point.projete_orthogonal"><code class="name flex">
+<span>def <span class="ident">projete_orthogonal</span></span>(<span>self, *args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Donne le projeté orthogonal du point sur une droite ou un plan</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="py3d.points.Point" href="#py3d.points.Point">Point</a></code></dt>
+<dd>Projeté orthogonal</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def projete_orthogonal(self, *args):
+        &#34;&#34;&#34;Donne le projeté orthogonal du point sur une droite ou un plan
+
+        Returns:
+                Point: Projeté orthogonal
+        &#34;&#34;&#34;
+        
+        if args[0] != None:
+
+                if isinstance(args[0], droites.Droite):
+                        droite = args[0]
+                        vec = droite.vecteur
+                        a = droite.point
+                        b = Point(      droite.point.x + droite.vecteur.x,
+                                                droite.point.y + droite.vecteur.y,
+                                                droite.point.z + droite.vecteur.z)
+
+                        ab = vecteurs.Vecteur(a, b)
+                        ap = vecteurs.Vecteur(a, self)
+
+                        modif_vecteur = (ap.scalaire(ab) / ab.scalaire(ab)) * ab
+
+                        return Point(a.x + modif_vecteur.x,
+                                                a.y + modif_vecteur.y,
+                                                a.z + modif_vecteur.z)
+
+                import plans
+                if isinstance(args[0], plans.Plan):
+                        plan = args[0]
+                        vec = vecteurs.Vecteur(plan.point, self)
+
+                        distance = plan.vecteur_n.scalaire(vec)
+                        difference = distance * plan.vecteur_n
+                        return Point(self.x - difference.x,
+                                                self.y - difference.y,
+                                                self.z - difference.z)
+
+                else:
+                        raise TypeError(f&#34;On ne peut projeter un point que sur une droite ou un plan&#34;)
+
+        else:
+                raise TypeError(f&#34;Il faut un objet sur lequel projeter le point&#34;)</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -162,7 +559,7 @@
 <li><code><a title="py3d" href="index.html">py3d</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-functions">Fonctions</a></h3>
+<li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="py3d.points.alignes" href="#py3d.points.alignes">alignes</a></code></li>
 <li><code><a title="py3d.points.distance" href="#py3d.points.distance">distance</a></code></li>
@@ -175,6 +572,7 @@
 <h4><code><a title="py3d.points.Point" href="#py3d.points.Point">Point</a></code></h4>
 <ul class="">
 <li><code><a title="py3d.points.Point.distance_origine" href="#py3d.points.Point.distance_origine">distance_origine</a></code></li>
+<li><code><a title="py3d.points.Point.projete_orthogonal" href="#py3d.points.Point.projete_orthogonal">projete_orthogonal</a></code></li>
 </ul>
 </li>
 </ul>

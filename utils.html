@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
@@ -24,7 +24,7 @@
 </header>
 <section id="section-intro">
 <p>Module utils : contient des variables globales (WIP)</p>
-<h2 id="attributes">Attributs</h2>
+<h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>CHIFFRES_SIGNIFICATIFS</code></strong> :&ensp;<code>int</code></dt>
 <dd>Nombres de chiffres significatifs dans les calculs</dd>
@@ -32,6 +32,23 @@
 <dd>Différence max pour que deux chiffres soit considérés égaux
 (1/CHIFFRES_SIGNIFICATIFS)</dd>
 </dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Module utils : contient des variables globales (WIP)
+
+Attributes:
+    CHIFFRES_SIGNIFICATIFS (int): Nombres de chiffres significatifs dans les calculs
+    MIN_DELTA (TYPE): Différence max pour que deux chiffres soit considérés égaux
+        (1/CHIFFRES_SIGNIFICATIFS)
+&#34;&#34;&#34;
+
+CHIFFRES_SIGNIFICATIFS = 10
+MIN_DELTA = 1/(10 ** CHIFFRES_SIGNIFICATIFS)
+
+__all__ = (&#34;MIN_DELTA&#34;, &#34;CHIFFRES_SIGNIFICATIFS&#34;)</code></pre>
+</details>
 </section>
 <section>
 </section>

@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.2" />
 <title>py3d.vecteurs API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Module vecteurs, contient la classe Vecteur et des fonctions annexes …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -23,19 +23,414 @@
 <h1 class="title">Module <code>py3d.vecteurs</code></h1>
 </header>
 <section id="section-intro">
+<p>Module vecteurs, contient la classe Vecteur et des fonctions annexes</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>vecteur_nul</code></strong> :&ensp;<code><a title="py3d.vecteurs.Vecteur" href="#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
+<dd>
+<pre><code>       Vecteur (0, 0, 0)
+</code></pre>
+</dd>
+<dt><strong><code>vecteur_unitaire_x</code></strong> :&ensp;<code><a title="py3d.vecteurs.Vecteur" href="#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
+<dd>Vecteur (1, 0, 0)</dd>
+<dt><strong><code>vecteur_unitaire_y</code></strong> :&ensp;<code><a title="py3d.vecteurs.Vecteur" href="#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
+<dd>Vecteur (0, 1, 0)</dd>
+<dt><strong><code>vecteur_unitaire_z</code></strong> :&ensp;<code><a title="py3d.vecteurs.Vecteur" href="#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
+<dd>Vecteur (0, 0, 1)</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Module vecteurs, contient la classe Vecteur et des fonctions annexes
+
+Attributes:
+    vecteur_nul (Vecteur):                Vecteur (0, 0, 0)
+    vecteur_unitaire_x (Vecteur): Vecteur (1, 0, 0)
+    vecteur_unitaire_y (Vecteur): Vecteur (0, 1, 0)
+    vecteur_unitaire_z (Vecteur): Vecteur (0, 0, 1)
+&#34;&#34;&#34;
+from math import sqrt
+import points
+import droites
+
+def collineaires(u, *args):
+        &#34;&#34;&#34;Renvoie True si les vecteurs donnés sont collinéaires, False sinon
+        
+        Args:
+            u (Vecteur): Vecteur de référence
+            *args: Autres vecteurs
+        
+        Returns:
+            bool: Tous les vecteurs collinéaires ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des vecteurs
+        &#34;&#34;&#34;
+        if isinstance(u, Vecteur):
+
+                for v in args:
+                        if isinstance(v, Vecteur):
+                                if abs(abs(u.scalaire(v)) - u.norme() * v.norme()) &gt;= 1/10*10:
+                                        return False
+                        else:
+                                typeA = u.__class__.__name__
+                                typeB = v.__class__.__name__
+                                raise TypeError(f&#34;Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]&#34;)
+                                
+                return True
+
+        else:
+                typeA = u.__class__.__name__
+                typeB = v.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]&#34;)
+
+def orthogonaux(u, v):
+        &#34;&#34;&#34;Renvoie True si les vecteurs donnés sont orthogonaux, False sinon
+        
+        Args:
+            u (Vecteur): Vecteur de référence
+            v (Vecteur): Autre vecteur
+        
+        Returns:
+            bool: Tous les vecteurs orthogonaux ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des vecteurs
+        &#34;&#34;&#34;
+        if isinstance(u, Vecteur) and isinstance(v, Vecteur):
+                if u.scalaire(v) == 0:
+                        return True
+                return False
+        else:
+                typeA = u.__class__.__name__
+                typeB = v.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer l&#39;orthogonalité entre [{typeA}] et [{typeB}]&#34;)
+
+class Vecteur():
+
+        &#34;&#34;&#34;Classe représentant un vecteur de l&#39;espace
+        
+        Attributes:
+            x (float): Coordonnée x
+            y (float): Coordonnée y
+            z (float): Coordonnée z
+        &#34;&#34;&#34;
+        
+        def __init__(self, *args):
+                &#34;&#34;&#34;Initialisation du vecteur
+
+                        - Deux points
+
+                        - Trois coordonnées
+                
+                Args:
+                    *args: Arguments de définition du vecteur
+                
+                Raises:
+                    TypeError: Si les types donnés sont incorrectes
+                    ValueError: Si le nombre de paramètres ne correspond pas
+                &#34;&#34;&#34;
+                if len(args) == 2:
+                        a, b = args
+                        if isinstance(a, points.Point) and isinstance(b, points.Point):
+                                self.x = b.x - a.x
+                                self.y = b.y - a.y
+                                self.z = b.z - a.z
+
+                        elif all(isinstance(coord, int) or isinstance(coord, float) for coord in args):
+                                a, b = args
+                                self.x = a
+                                self.y = b
+                                self.z = 0
+
+                        else:
+                                typeA = a.__class__.__name__
+                                typeB = b.__class__.__name__
+                                raise TypeError(f&#34;Impossible de créer un vecteur à partir de [{typeA}] et [{typeB}]&#34;)
+
+                elif len(args) == 3:
+                        if all(isinstance(coord, int) or isinstance(coord, float) for coord in args):
+                                x, y ,z = args
+                                self.x = x
+                                self.y = y
+                                self.z = z
+                        else:
+                                raise TypeError(&#34;Les coordonnées d&#39;un vecteur doivent être des nombres&#34;)
+
+                else:
+                        raise ValueError(&#34;Un vecteur est créé à partir de deux points ou de coordonnées&#34;)
+
+        def scalaire(self, vecteurB):
+                &#34;&#34;&#34;Renvoie le produit scalaire entre le vecteur et vecteurB
+                
+                Args:
+                    vecteurB (Vecteur): Vecteur à comparer
+                
+                Returns:
+                    float: Résultat du produit scalaire
+                
+                Raises:
+                    TypeError: Si vecteurB n&#39;est pas un vecteur
+                &#34;&#34;&#34;
+                if isinstance(vecteurB, Vecteur):
+                        return self.x * vecteurB.x + self.y * vecteurB.y + self.z * vecteurB.z
+                else:
+                        type_ = vecteurB.__class__.__name__
+                        raise TypeError(f&#34;Impossible de faire le produit scalaire entre [Vecteur] et [{type_}]&#34;)
+
+        def produit_vectoriel(self, vecteurB):
+                &#34;&#34;&#34;Renvoie le produit vectoriel entre le vecteur et vecteurB
+                
+                Args:
+                    vecteurB (Vecteur): Vecteur à comparer
+                
+                Returns:
+                    float: Résultat du produit vectoriel
+                
+                Raises:
+                    TypeError: Si vecteurB n&#39;est pas un vecteur
+                &#34;&#34;&#34;
+                x = (self.y * vecteurB.z) - (self.z * vecteurB.y)
+                y = (self.z * vecteurB.x) - (self.x * vecteurB.z)
+                z = (self.x * vecteurB.y) - (self.y * vecteurB.x)
+                return Vecteur(x, y, z)
+
+        def norme(self):
+                &#34;&#34;&#34;Donne la norme du vecteur
+                
+                Returns:
+                    float: Norme du vecteur
+                &#34;&#34;&#34;
+                return sqrt((self.x)**2 + (self.y)**2 + (self.z)**2)
+
+        def absolue(self):
+                &#34;&#34;&#34;Donne la valeur absolue du vecteur
+                
+                Returns:
+                    float: Valeur absolue du vecteur
+                &#34;&#34;&#34;
+                return Vecteur(abs(self.x), abs(self.z), abs(self.z))
+
+        def normalise(self):
+                &#34;&#34;&#34;Donne la forme normalisée du vecteur
+                
+                Returns:
+                    Vecteur: Forme normalisée du vecteur
+                &#34;&#34;&#34;
+                return self * float(1 / self.norme())
+
+        def normal(self, *p):
+                &#34;&#34;&#34;Donne un vecteur normal à ce vecteur
+                
+                Returns:
+                    Vecteur: Vecteur normal
+                
+                Raises:
+                    NotImplementedError: Si le vecteur actuel n&#39;a aucune coordonnée nulle
+                &#34;&#34;&#34;
+                if self.z == 0:
+                        return Vecteur(self.y, -self.x, 0)
+                elif self.y == 0:
+                        return Vecteur(-self.z, 0, self.x)
+                elif self.x == 0:
+                        return Vecteur(0, self.z, -self.y)
+                else:
+                        
+                        p = p[0]
+                        if isinstance(p, points.Point):
+                                a = points.origine
+                                b = points.Point(self.x, self.y, self.z)
+
+                                projete = p.projete_orthogonal(droites.Droite(a, b))
+
+                                return Vecteur(projete, p)
+                        else:
+                                raise TypeError(&#34;Il faut un point pour calculer un vecteur normal en 3D&#34;)
+
+
+        def get_coordonnes(self):
+                &#34;&#34;&#34;Donne les coordonnées du vecteur dans un tuple
+                
+                Returns:
+                    tuple: Coordonnées (x, y, z)
+                &#34;&#34;&#34;
+                return (self.x, self.y, self.z)
+
+        def est_nul(self):
+                &#34;&#34;&#34;Renvoie True si le vecteur est nul, False sinon
+                
+                Returns:
+                    bool: Vecteur nul ?
+                &#34;&#34;&#34;
+                return self.x == 0 and self.y == 0 and self.z == 0
+
+
+        def __add__(self, vecteurB):
+                if isinstance(vecteurB, Vecteur):
+                        return Vecteur(self.x + vecteurB.x, self.y + vecteurB.y, self.z + vecteurB.z)
+                else:
+                        type_ = vecteurB.__class__.__name__
+                        raise TypeError(f&#34;Impossible d&#39;additioner [Vecteur] et [{type_}]&#34;)
+
+        def __radd__(self, vecteurB):
+                if vecteurB == 0:
+                        return self
+                else:
+                        return self.__add__(vecteurB)
+
+        def __neg__(self):
+                return Vecteur(-self.x, -self.y, -self.z)
+
+        def __sub__(self, vecteurB):
+                return self.__add__(-vecteurB)
+
+        def __rsub__(self, vecteurB):
+                return self.__radd__(-vecteurB)
+
+        def __mul__(self, valeur):
+                if isinstance(valeur, int) or isinstance(valeur, float):
+                        return Vecteur(self.x * valeur, self.y * valeur, self.z * valeur)
+
+                else:
+                        type_ = valeur.__class__.__name__
+                        raise TypeError(f&#34;Impossible de multiplier [Vecteur] et [{type_}]&#34;)
+
+        def __rmul__(self, valeur):
+                return self.__mul__(valeur)
+
+        def __str__(self):
+                return f&#34;Vecteur ({self.x}, {self.y}, {self.z})&#34;
+
+        def __eq__(self, v):
+                if isinstance(v, Vecteur):
+                        return self.x == v.x and self.y == v.y and self.z == v.z
+
+                else:
+                        type_ = v.__class__.__name__
+                        raise TypeError(f&#34;Impossible de comparer [Vecteur] et [{type_}]&#34;) 
+
+vecteur_unitaire_x = Vecteur(1, 0, 0)
+vecteur_unitaire_y = Vecteur(0, 1, 0)
+vecteur_unitaire_z = Vecteur(0, 0, 1)
+vecteur_nul = Vecteur(0, 0, 0)
+
+__all__ = (&#34;Vecteur&#34;, &#34;vecteur_unitaire_x&#34;, &#34;vecteur_unitaire_y&#34;, &#34;vecteur_unitaire_z&#34;, &#34;vecteur_nul&#34;, &#34;collineaires&#34;, &#34;orthogonaux&#34;)</code></pre>
+</details>
 </section>
 <section>
 </section>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Fonctions</h2>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="py3d.vecteurs.collineaires"><code class="name flex">
 <span>def <span class="ident">collineaires</span></span>(<span>u, *args)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Renvoie True si les vecteurs donnés sont collinéaires, False sinon</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>u</code></strong> :&ensp;<code><a title="py3d.vecteurs.Vecteur" href="#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
+<dd>Vecteur de référence</dd>
+<dt><strong><code>*args</code></strong></dt>
+<dd>Autres vecteurs</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>Tous les vecteurs collinéaires ?</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Si les objets donnés ne sont pas tous des vecteurs</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def collineaires(u, *args):
+        &#34;&#34;&#34;Renvoie True si les vecteurs donnés sont collinéaires, False sinon
+        
+        Args:
+            u (Vecteur): Vecteur de référence
+            *args: Autres vecteurs
+        
+        Returns:
+            bool: Tous les vecteurs collinéaires ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des vecteurs
+        &#34;&#34;&#34;
+        if isinstance(u, Vecteur):
+
+                for v in args:
+                        if isinstance(v, Vecteur):
+                                if abs(abs(u.scalaire(v)) - u.norme() * v.norme()) &gt;= 1/10*10:
+                                        return False
+                        else:
+                                typeA = u.__class__.__name__
+                                typeB = v.__class__.__name__
+                                raise TypeError(f&#34;Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]&#34;)
+                                
+                return True
+
+        else:
+                typeA = u.__class__.__name__
+                typeB = v.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer la colinéarité entre [{typeA}] et [{typeB}]&#34;)</code></pre>
+</details>
+</dd>
+<dt id="py3d.vecteurs.orthogonaux"><code class="name flex">
+<span>def <span class="ident">orthogonaux</span></span>(<span>u, v)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Renvoie True si les vecteurs donnés sont orthogonaux, False sinon</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>u</code></strong> :&ensp;<code><a title="py3d.vecteurs.Vecteur" href="#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
+<dd>Vecteur de référence</dd>
+<dt><strong><code>v</code></strong> :&ensp;<code><a title="py3d.vecteurs.Vecteur" href="#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
+<dd>Autre vecteur</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>Tous les vecteurs orthogonaux ?</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Si les objets donnés ne sont pas tous des vecteurs</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def orthogonaux(u, v):
+        &#34;&#34;&#34;Renvoie True si les vecteurs donnés sont orthogonaux, False sinon
+        
+        Args:
+            u (Vecteur): Vecteur de référence
+            v (Vecteur): Autre vecteur
+        
+        Returns:
+            bool: Tous les vecteurs orthogonaux ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des vecteurs
+        &#34;&#34;&#34;
+        if isinstance(u, Vecteur) and isinstance(v, Vecteur):
+                if u.scalaire(v) == 0:
+                        return True
+                return False
+        else:
+                typeA = u.__class__.__name__
+                typeB = v.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer l&#39;orthogonalité entre [{typeA}] et [{typeB}]&#34;)</code></pre>
+</details>
 </dd>
 </dl>
 </section>
@@ -47,56 +442,489 @@
 <span>(</span><span>*args)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Classe représentant un vecteur de l'espace</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>x</code></strong> :&ensp;<code>float</code></dt>
+<dd>Coordonnée x</dd>
+<dt><strong><code>y</code></strong> :&ensp;<code>float</code></dt>
+<dd>Coordonnée y</dd>
+<dt><strong><code>z</code></strong> :&ensp;<code>float</code></dt>
+<dd>Coordonnée z</dd>
+</dl>
+<p>Initialisation du vecteur</p>
+<pre><code>    - Deux points
+
+    - Trois coordonnées
+</code></pre>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>*args</code></strong></dt>
+<dd>Arguments de définition du vecteur</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Si les types donnés sont incorrectes</dd>
+<dt><code>ValueError</code></dt>
+<dd>Si le nombre de paramètres ne correspond pas</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Vecteur():
+
+        &#34;&#34;&#34;Classe représentant un vecteur de l&#39;espace
+        
+        Attributes:
+            x (float): Coordonnée x
+            y (float): Coordonnée y
+            z (float): Coordonnée z
+        &#34;&#34;&#34;
+        
+        def __init__(self, *args):
+                &#34;&#34;&#34;Initialisation du vecteur
+
+                        - Deux points
+
+                        - Trois coordonnées
+                
+                Args:
+                    *args: Arguments de définition du vecteur
+                
+                Raises:
+                    TypeError: Si les types donnés sont incorrectes
+                    ValueError: Si le nombre de paramètres ne correspond pas
+                &#34;&#34;&#34;
+                if len(args) == 2:
+                        a, b = args
+                        if isinstance(a, points.Point) and isinstance(b, points.Point):
+                                self.x = b.x - a.x
+                                self.y = b.y - a.y
+                                self.z = b.z - a.z
+
+                        elif all(isinstance(coord, int) or isinstance(coord, float) for coord in args):
+                                a, b = args
+                                self.x = a
+                                self.y = b
+                                self.z = 0
+
+                        else:
+                                typeA = a.__class__.__name__
+                                typeB = b.__class__.__name__
+                                raise TypeError(f&#34;Impossible de créer un vecteur à partir de [{typeA}] et [{typeB}]&#34;)
+
+                elif len(args) == 3:
+                        if all(isinstance(coord, int) or isinstance(coord, float) for coord in args):
+                                x, y ,z = args
+                                self.x = x
+                                self.y = y
+                                self.z = z
+                        else:
+                                raise TypeError(&#34;Les coordonnées d&#39;un vecteur doivent être des nombres&#34;)
+
+                else:
+                        raise ValueError(&#34;Un vecteur est créé à partir de deux points ou de coordonnées&#34;)
+
+        def scalaire(self, vecteurB):
+                &#34;&#34;&#34;Renvoie le produit scalaire entre le vecteur et vecteurB
+                
+                Args:
+                    vecteurB (Vecteur): Vecteur à comparer
+                
+                Returns:
+                    float: Résultat du produit scalaire
+                
+                Raises:
+                    TypeError: Si vecteurB n&#39;est pas un vecteur
+                &#34;&#34;&#34;
+                if isinstance(vecteurB, Vecteur):
+                        return self.x * vecteurB.x + self.y * vecteurB.y + self.z * vecteurB.z
+                else:
+                        type_ = vecteurB.__class__.__name__
+                        raise TypeError(f&#34;Impossible de faire le produit scalaire entre [Vecteur] et [{type_}]&#34;)
+
+        def produit_vectoriel(self, vecteurB):
+                &#34;&#34;&#34;Renvoie le produit vectoriel entre le vecteur et vecteurB
+                
+                Args:
+                    vecteurB (Vecteur): Vecteur à comparer
+                
+                Returns:
+                    float: Résultat du produit vectoriel
+                
+                Raises:
+                    TypeError: Si vecteurB n&#39;est pas un vecteur
+                &#34;&#34;&#34;
+                x = (self.y * vecteurB.z) - (self.z * vecteurB.y)
+                y = (self.z * vecteurB.x) - (self.x * vecteurB.z)
+                z = (self.x * vecteurB.y) - (self.y * vecteurB.x)
+                return Vecteur(x, y, z)
+
+        def norme(self):
+                &#34;&#34;&#34;Donne la norme du vecteur
+                
+                Returns:
+                    float: Norme du vecteur
+                &#34;&#34;&#34;
+                return sqrt((self.x)**2 + (self.y)**2 + (self.z)**2)
+
+        def absolue(self):
+                &#34;&#34;&#34;Donne la valeur absolue du vecteur
+                
+                Returns:
+                    float: Valeur absolue du vecteur
+                &#34;&#34;&#34;
+                return Vecteur(abs(self.x), abs(self.z), abs(self.z))
+
+        def normalise(self):
+                &#34;&#34;&#34;Donne la forme normalisée du vecteur
+                
+                Returns:
+                    Vecteur: Forme normalisée du vecteur
+                &#34;&#34;&#34;
+                return self * float(1 / self.norme())
+
+        def normal(self, *p):
+                &#34;&#34;&#34;Donne un vecteur normal à ce vecteur
+                
+                Returns:
+                    Vecteur: Vecteur normal
+                
+                Raises:
+                    NotImplementedError: Si le vecteur actuel n&#39;a aucune coordonnée nulle
+                &#34;&#34;&#34;
+                if self.z == 0:
+                        return Vecteur(self.y, -self.x, 0)
+                elif self.y == 0:
+                        return Vecteur(-self.z, 0, self.x)
+                elif self.x == 0:
+                        return Vecteur(0, self.z, -self.y)
+                else:
+                        
+                        p = p[0]
+                        if isinstance(p, points.Point):
+                                a = points.origine
+                                b = points.Point(self.x, self.y, self.z)
+
+                                projete = p.projete_orthogonal(droites.Droite(a, b))
+
+                                return Vecteur(projete, p)
+                        else:
+                                raise TypeError(&#34;Il faut un point pour calculer un vecteur normal en 3D&#34;)
+
+
+        def get_coordonnes(self):
+                &#34;&#34;&#34;Donne les coordonnées du vecteur dans un tuple
+                
+                Returns:
+                    tuple: Coordonnées (x, y, z)
+                &#34;&#34;&#34;
+                return (self.x, self.y, self.z)
+
+        def est_nul(self):
+                &#34;&#34;&#34;Renvoie True si le vecteur est nul, False sinon
+                
+                Returns:
+                    bool: Vecteur nul ?
+                &#34;&#34;&#34;
+                return self.x == 0 and self.y == 0 and self.z == 0
+
+
+        def __add__(self, vecteurB):
+                if isinstance(vecteurB, Vecteur):
+                        return Vecteur(self.x + vecteurB.x, self.y + vecteurB.y, self.z + vecteurB.z)
+                else:
+                        type_ = vecteurB.__class__.__name__
+                        raise TypeError(f&#34;Impossible d&#39;additioner [Vecteur] et [{type_}]&#34;)
+
+        def __radd__(self, vecteurB):
+                if vecteurB == 0:
+                        return self
+                else:
+                        return self.__add__(vecteurB)
+
+        def __neg__(self):
+                return Vecteur(-self.x, -self.y, -self.z)
+
+        def __sub__(self, vecteurB):
+                return self.__add__(-vecteurB)
+
+        def __rsub__(self, vecteurB):
+                return self.__radd__(-vecteurB)
+
+        def __mul__(self, valeur):
+                if isinstance(valeur, int) or isinstance(valeur, float):
+                        return Vecteur(self.x * valeur, self.y * valeur, self.z * valeur)
+
+                else:
+                        type_ = valeur.__class__.__name__
+                        raise TypeError(f&#34;Impossible de multiplier [Vecteur] et [{type_}]&#34;)
+
+        def __rmul__(self, valeur):
+                return self.__mul__(valeur)
+
+        def __str__(self):
+                return f&#34;Vecteur ({self.x}, {self.y}, {self.z})&#34;
+
+        def __eq__(self, v):
+                if isinstance(v, Vecteur):
+                        return self.x == v.x and self.y == v.y and self.z == v.z
+
+                else:
+                        type_ = v.__class__.__name__
+                        raise TypeError(f&#34;Impossible de comparer [Vecteur] et [{type_}]&#34;) </code></pre>
+</details>
 <h3>Methods</h3>
 <dl>
 <dt id="py3d.vecteurs.Vecteur.absolue"><code class="name flex">
 <span>def <span class="ident">absolue</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Donne la valeur absolue du vecteur</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Valeur absolue du vecteur</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def absolue(self):
+        &#34;&#34;&#34;Donne la valeur absolue du vecteur
+        
+        Returns:
+            float: Valeur absolue du vecteur
+        &#34;&#34;&#34;
+        return Vecteur(abs(self.x), abs(self.z), abs(self.z))</code></pre>
+</details>
 </dd>
 <dt id="py3d.vecteurs.Vecteur.est_nul"><code class="name flex">
 <span>def <span class="ident">est_nul</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Renvoie True si le vecteur est nul, False sinon</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>Vecteur nul ?</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def est_nul(self):
+        &#34;&#34;&#34;Renvoie True si le vecteur est nul, False sinon
+        
+        Returns:
+            bool: Vecteur nul ?
+        &#34;&#34;&#34;
+        return self.x == 0 and self.y == 0 and self.z == 0</code></pre>
+</details>
 </dd>
 <dt id="py3d.vecteurs.Vecteur.get_coordonnes"><code class="name flex">
 <span>def <span class="ident">get_coordonnes</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Donne les coordonnées du vecteur dans un tuple</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code></dt>
+<dd>Coordonnées (x, y, z)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_coordonnes(self):
+        &#34;&#34;&#34;Donne les coordonnées du vecteur dans un tuple
+        
+        Returns:
+            tuple: Coordonnées (x, y, z)
+        &#34;&#34;&#34;
+        return (self.x, self.y, self.z)</code></pre>
+</details>
 </dd>
 <dt id="py3d.vecteurs.Vecteur.normal"><code class="name flex">
-<span>def <span class="ident">normal</span></span>(<span>self)</span>
+<span>def <span class="ident">normal</span></span>(<span>self, *p)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Donne un vecteur normal à ce vecteur</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="py3d.vecteurs.Vecteur" href="#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
+<dd>Vecteur normal</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>NotImplementedError</code></dt>
+<dd>Si le vecteur actuel n'a aucune coordonnée nulle</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def normal(self, *p):
+        &#34;&#34;&#34;Donne un vecteur normal à ce vecteur
+        
+        Returns:
+            Vecteur: Vecteur normal
+        
+        Raises:
+            NotImplementedError: Si le vecteur actuel n&#39;a aucune coordonnée nulle
+        &#34;&#34;&#34;
+        if self.z == 0:
+                return Vecteur(self.y, -self.x, 0)
+        elif self.y == 0:
+                return Vecteur(-self.z, 0, self.x)
+        elif self.x == 0:
+                return Vecteur(0, self.z, -self.y)
+        else:
+                
+                p = p[0]
+                if isinstance(p, points.Point):
+                        a = points.origine
+                        b = points.Point(self.x, self.y, self.z)
+
+                        projete = p.projete_orthogonal(droites.Droite(a, b))
+
+                        return Vecteur(projete, p)
+                else:
+                        raise TypeError(&#34;Il faut un point pour calculer un vecteur normal en 3D&#34;)</code></pre>
+</details>
 </dd>
 <dt id="py3d.vecteurs.Vecteur.normalise"><code class="name flex">
 <span>def <span class="ident">normalise</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Donne la forme normalisée du vecteur</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="py3d.vecteurs.Vecteur" href="#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
+<dd>Forme normalisée du vecteur</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def normalise(self):
+        &#34;&#34;&#34;Donne la forme normalisée du vecteur
+        
+        Returns:
+            Vecteur: Forme normalisée du vecteur
+        &#34;&#34;&#34;
+        return self * float(1 / self.norme())</code></pre>
+</details>
 </dd>
 <dt id="py3d.vecteurs.Vecteur.norme"><code class="name flex">
 <span>def <span class="ident">norme</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Donne la norme du vecteur</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Norme du vecteur</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def norme(self):
+        &#34;&#34;&#34;Donne la norme du vecteur
+        
+        Returns:
+            float: Norme du vecteur
+        &#34;&#34;&#34;
+        return sqrt((self.x)**2 + (self.y)**2 + (self.z)**2)</code></pre>
+</details>
 </dd>
 <dt id="py3d.vecteurs.Vecteur.produit_vectoriel"><code class="name flex">
 <span>def <span class="ident">produit_vectoriel</span></span>(<span>self, vecteurB)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Renvoie le produit vectoriel entre le vecteur et vecteurB</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>vecteurB</code></strong> :&ensp;<code><a title="py3d.vecteurs.Vecteur" href="#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
+<dd>Vecteur à comparer</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Résultat du produit vectoriel</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Si vecteurB n'est pas un vecteur</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def produit_vectoriel(self, vecteurB):
+        &#34;&#34;&#34;Renvoie le produit vectoriel entre le vecteur et vecteurB
+        
+        Args:
+            vecteurB (Vecteur): Vecteur à comparer
+        
+        Returns:
+            float: Résultat du produit vectoriel
+        
+        Raises:
+            TypeError: Si vecteurB n&#39;est pas un vecteur
+        &#34;&#34;&#34;
+        x = (self.y * vecteurB.z) - (self.z * vecteurB.y)
+        y = (self.z * vecteurB.x) - (self.x * vecteurB.z)
+        z = (self.x * vecteurB.y) - (self.y * vecteurB.x)
+        return Vecteur(x, y, z)</code></pre>
+</details>
 </dd>
 <dt id="py3d.vecteurs.Vecteur.scalaire"><code class="name flex">
 <span>def <span class="ident">scalaire</span></span>(<span>self, vecteurB)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Renvoie le produit scalaire entre le vecteur et vecteurB</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>vecteurB</code></strong> :&ensp;<code><a title="py3d.vecteurs.Vecteur" href="#py3d.vecteurs.Vecteur">Vecteur</a></code></dt>
+<dd>Vecteur à comparer</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Résultat du produit scalaire</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Si vecteurB n'est pas un vecteur</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def scalaire(self, vecteurB):
+        &#34;&#34;&#34;Renvoie le produit scalaire entre le vecteur et vecteurB
+        
+        Args:
+            vecteurB (Vecteur): Vecteur à comparer
+        
+        Returns:
+            float: Résultat du produit scalaire
+        
+        Raises:
+            TypeError: Si vecteurB n&#39;est pas un vecteur
+        &#34;&#34;&#34;
+        if isinstance(vecteurB, Vecteur):
+                return self.x * vecteurB.x + self.y * vecteurB.y + self.z * vecteurB.z
+        else:
+                type_ = vecteurB.__class__.__name__
+                raise TypeError(f&#34;Impossible de faire le produit scalaire entre [Vecteur] et [{type_}]&#34;)</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -114,9 +942,10 @@
 <li><code><a title="py3d" href="index.html">py3d</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-functions">Fonctions</a></h3>
+<li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="py3d.vecteurs.collineaires" href="#py3d.vecteurs.collineaires">collineaires</a></code></li>
+<li><code><a title="py3d.vecteurs.orthogonaux" href="#py3d.vecteurs.orthogonaux">orthogonaux</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
@@ -24,7 +24,7 @@
 </header>
 <section id="section-intro">
 <p>Module droites, contient la classe Droite et des fonctions annexes</p>
-<h2 id="attributes">Attributs</h2>
+<h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>axe_x</code></strong> :&ensp;<code><a title="py3d.droites.Droite" href="#py3d.droites.Droite">Droite</a></code></dt>
 <dd>Droite de l'axe X</dd>
@@ -33,48 +33,458 @@
 <dt><strong><code>axe_z</code></strong> :&ensp;<code><a title="py3d.droites.Droite" href="#py3d.droites.Droite">Droite</a></code></dt>
 <dd>Droite de l'axe Z</dd>
 </dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Module droites, contient la classe Droite et des fonctions annexes
+
+Attributes:
+    axe_x (Droite): Droite de l&#39;axe X
+    axe_y (Droite): Droite de l&#39;axe Y
+    axe_z (Droite): Droite de l&#39;axe Z
+&#34;&#34;&#34;
+import points
+import vecteurs
+from fractions import Fraction
+
+def parallelles(d, *args):
+        &#34;&#34;&#34;Renvoie True si les droites données sont parallèles, False sinon
+        
+        Args:
+            d (Droite): Droite de référence
+            *args: Autres droites
+        
+        Returns:
+            bool: Droites toutes parallèles ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des droites
+        &#34;&#34;&#34;
+        if isinstance(d, Droite):
+
+                for d2 in args:
+                        if isinstance(d2, Droite):
+                                if not(vecteurs.collineaires(d.vecteur, d2.vecteur)):
+                                        return False
+                        else:
+                                typeA = u.__class__.__name__
+                                typeB = v.__class__.__name__
+                                raise TypeError(f&#34;Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]&#34;)
+                                
+                return True
+
+        else:
+                typeA = u.__class__.__name__
+                v = args[0]
+                typeB = v.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]&#34;)
+
+def secantes(d, *args):
+        &#34;&#34;&#34;Renvoie True si les droites données sont sécantes, False sinon
+        
+        Args:
+            d (Droite): Droite de référence
+            *args: Autres droites
+        
+        Returns:
+            bool: Droites toutes sécantes ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des droites
+        &#34;&#34;&#34;
+        if isinstance(d, Droite):
+                
+                for d2 in args:
+                        if isinstance(d2, Droite):
+                                produit = d.vecteur.produit_vectoriel(d2.vecteur)
+                                vect_deplacement = vecteurs.Vecteur(d.point, d2.point)
+                                if produit.scalaire(vect_deplacement) != 0:
+                                        return False
+                        else:
+                                typeA = d.__class__.__name__
+                                typeB = d2.__class__.__name__
+                                raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)
+
+                return True
+
+        else:
+                typeA = d.__class__.__name__
+                d2 = args[0]
+                typeB = d2.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)
+
+
+def secante_plan(droite, plan):
+        &#34;&#34;&#34;Renvoie True si la droite donnée est sécante avec le plan, False sinon
+        
+        Args:
+            droite (Droite): Droite
+            plan (Plan): Plan
+        
+        Returns:
+            bool: Droite et plan sécants ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas une droite et un plan
+        &#34;&#34;&#34;
+        import plans
+        if isinstance(droite, Droite):
+                
+                if isinstance(plan, plans.Plan):
+                        if droite.vecteur.scalaire(plan.vecteur_n) == 0:
+                                return False
+                else:
+                        typeA = d.__class__.__name__
+                        typeB = plan.__class__.__name__
+                        raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)
+                
+                return True
+
+        else:
+                typeA = droite.__class__.__name__
+                typeB = plan.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)
+
+
+def orthogonales(droite1, droite2):
+        &#34;&#34;&#34;Renvoie True si les droites données sont orthogonales, False sinon
+        
+        Args:
+            droite1 (Droite): Droite 1
+            droite2 (Droite): Droite 2
+        
+        Returns:
+            bool: Droites orthogonales ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des droites
+        &#34;&#34;&#34;
+        if isinstance(droite1, Droite):
+                if isinstance(droite2, Droite):
+                        if secantes(droite1, droite2):
+                                if vecteurs.orthogonaux(droite1.vecteur, droite2.vecteur):
+                                        return True
+                        return False
+
+                else:
+                        typeA = droite1.__class__.__name__
+                        typeB = droite2.__class__.__name__
+                        raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)
+
+        else:
+                typeA = droite1.__class__.__name__
+                typeB = droite2.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)
+
+
+class Droite:
+
+        &#34;&#34;&#34;Classe représentant une droite de l&#39;espace
+        
+        Attributes:
+            point (points.Point): Un point appartenant à la droite
+            vecteur (vecteurs.Vecteur): Vecteur directeur de la droite
+        &#34;&#34;&#34;
+        
+        def __init__(self, *args):
+                &#34;&#34;&#34;Initialisation de la droite
+
+                        - Deux points
+
+                        - Un point + un vecteur
+                
+                Args:
+                    *args: Arguments de définition de la droite
+                
+                Raises:
+                    TypeError: Les types passés sont incorrects
+                    ValueError: Les deux points son identiques ou le vecteur directeur est nul
+                &#34;&#34;&#34;
+                self.point = None
+                self.vecteur = None
+
+                if len(args) == 2:
+                        a, b = args
+
+                        if isinstance(a, points.Point) and isinstance(b, points.Point):
+                                if not points.est_meme_point(a, b):
+                                        u = vecteurs.Vecteur(a, b)
+                                        self.vecteur = u
+                                        self.point = a
+                                else:
+                                        raise ValueError(&#34;Les deux points ne doivent pas être identiques&#34;)
+                
+                        elif isinstance(a, points.Point) and isinstance(b, vecteurs.Vecteur):
+                                if not b.est_nul():
+                                        self.point = a
+                                        self.vecteur = b
+                                else:
+                                        raise ValueError(&#34;Le vecteur directeur ne doit pas être nul&#34;)
+                                
+                        else:
+                                raise TypeError(f&#34;Une droite est créée à partir de deux points, ou d&#39;un point et d&#39;un vecteur&#34;)
+                
+                else:
+                        raise TypeError(f&#34;Une droite est créée à partir de deux points, ou d&#39;un point et d&#39;un vecteur&#34;)
+
+        def est_sur_droite(self, point):
+                &#34;&#34;&#34;Renvoie True si le point est sur la droite, False sinon
+                
+                Args:
+                    point (points.Point): Point quelconque
+                
+                Returns:
+                    bool: Point sur la droite ?
+                
+                Raises:
+                    TypeError: Si l&#39;objet donné n&#39;est pas un point
+                &#34;&#34;&#34;
+                if isinstance(point, point.Point):
+                        pointA = self.point
+                        pointB = points.Point(pointA.x + self.vecteur.x, pointA.y + self.vecteur.y, pointA.z + self.vecteur.z)
+                        return bool(points.alignes(pointA, pointB, point))
+
+                type_ = point.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer l&#39;appartenance entre droite et [{type_}]&#34;)
+
+        def parametrique(self):
+                &#34;&#34;&#34;Renvoie l&#39;équation paramétrique de la droite, et les coefficients dans un tuple
+                
+                Returns:
+                    tuple:
+
+                    - Equation paramétrique (str)
+
+                    - Tuple avec les coefficients xp, yp, zp, xu, yu, zu pour
+
+
+        \\begin{equation}
+                x= xp + x\\overrightarrow{u}
+        \\end{equation}
+
+        \\begin{equation}
+                y= y + y\\overrightarrow{u}
+        \\end{equation}
+
+        \\begin{equation}
+                z= zp + z\\overrightarrow{u}
+        \\end{equation}
+                &#34;&#34;&#34;
+                xp = Fraction(str(self.point.x))
+                yp = Fraction(str(self.point.y))
+                zp = Fraction(str(self.point.z))
+
+                xu = Fraction(str(self.vecteur.x))
+                yu = Fraction(str(self.vecteur.y))
+                zu = Fraction(str(self.vecteur.z))
+
+                signe_xu = &#34;+ &#34; if xu &gt;= 0 else &#34;&#34;
+                signe_yu = &#34;+ &#34; if yu &gt;= 0 else &#34;&#34;
+                signe_zu = &#34;+ &#34; if zu &gt;= 0 else &#34;&#34;
+                
+                str_parametrique = f&#34;x = {xp} {signe_xu}{xu}t\ny = {yp} {signe_yu}{yu}t\nz = {zp} {signe_zu}{zu}t&#34;
+                return (str_parametrique, (xp, yp, zp, xu, yu, zu))
+
+        def __contains__(self, point):
+                return self.est_sur_droite(point)
+
+        def __str__(self):
+                return self.paramétrique[0]
+
+        def __repr__(self):
+                return self.paramétrique[0]
+
+axe_x = Droite(points.origine, points.Point(1, 0, 0))
+axe_y = Droite(points.origine, points.Point(0, 1, 0))
+axe_z = Droite(points.origine, points.Point(0, 0, 1))
+
+__all__ = (&#34;Droite&#34;, &#34;axe_x&#34;, &#34;axe_y&#34;, &#34;axe_z&#34;, &#34;parallelles&#34;, &#34;secantes&#34;, &#34;orthogonales&#34;)</code></pre>
+</details>
 </section>
 <section>
 </section>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Fonctions</h2>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="py3d.droites.orthogonales"><code class="name flex">
 <span>def <span class="ident">orthogonales</span></span>(<span>droite1, droite2)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Non implémenté</p></div>
+<div class="desc"><p>Renvoie True si les droites données sont orthogonales, False sinon</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>droite1</code></strong> :&ensp;<code><a title="py3d.droites.Droite" href="#py3d.droites.Droite">Droite</a></code></dt>
+<dd>Droite 1</dd>
+<dt><strong><code>droite2</code></strong> :&ensp;<code><a title="py3d.droites.Droite" href="#py3d.droites.Droite">Droite</a></code></dt>
+<dd>Droite 2</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>Droites orthogonales ?</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Si les objets donnés ne sont pas tous des droites</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def orthogonales(droite1, droite2):
+        &#34;&#34;&#34;Renvoie True si les droites données sont orthogonales, False sinon
+        
+        Args:
+            droite1 (Droite): Droite 1
+            droite2 (Droite): Droite 2
+        
+        Returns:
+            bool: Droites orthogonales ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des droites
+        &#34;&#34;&#34;
+        if isinstance(droite1, Droite):
+                if isinstance(droite2, Droite):
+                        if secantes(droite1, droite2):
+                                if vecteurs.orthogonaux(droite1.vecteur, droite2.vecteur):
+                                        return True
+                        return False
+
+                else:
+                        typeA = droite1.__class__.__name__
+                        typeB = droite2.__class__.__name__
+                        raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)
+
+        else:
+                typeA = droite1.__class__.__name__
+                typeB = droite2.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)</code></pre>
+</details>
 </dd>
 <dt id="py3d.droites.parallelles"><code class="name flex">
 <span>def <span class="ident">parallelles</span></span>(<span>d, *args)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si les droites données sont parallèles, False sinon</p>
-<h2 id="args">Arguments</h2>
+<h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>d</code></strong> :&ensp;<code><a title="py3d.droites.Droite" href="#py3d.droites.Droite">Droite</a></code></dt>
 <dd>Droite de référence</dd>
 <dt><strong><code>*args</code></strong></dt>
-<dd>Autres droite</dd>
+<dd>Autres droites</dd>
 </dl>
-<h2 id="returns">Retourne</h2>
+<h2 id="returns">Returns</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>Droites toutes parallèles ?</dd>
 </dl>
-<h2 id="raises">Erreurs possibles</h2>
+<h2 id="raises">Raises</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si les objets donnés ne sont pas tous des droites</dd>
 </dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parallelles(d, *args):
+        &#34;&#34;&#34;Renvoie True si les droites données sont parallèles, False sinon
+        
+        Args:
+            d (Droite): Droite de référence
+            *args: Autres droites
+        
+        Returns:
+            bool: Droites toutes parallèles ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des droites
+        &#34;&#34;&#34;
+        if isinstance(d, Droite):
+
+                for d2 in args:
+                        if isinstance(d2, Droite):
+                                if not(vecteurs.collineaires(d.vecteur, d2.vecteur)):
+                                        return False
+                        else:
+                                typeA = u.__class__.__name__
+                                typeB = v.__class__.__name__
+                                raise TypeError(f&#34;Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]&#34;)
+                                
+                return True
+
+        else:
+                typeA = u.__class__.__name__
+                v = args[0]
+                typeB = v.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]&#34;)</code></pre>
+</details>
 </dd>
 <dt id="py3d.droites.secantes"><code class="name flex">
 <span>def <span class="ident">secantes</span></span>(<span>d, *args)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Non implémenté</p></div>
+<div class="desc"><p>Renvoie True si les droites données sont sécantes, False sinon</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>d</code></strong> :&ensp;<code><a title="py3d.droites.Droite" href="#py3d.droites.Droite">Droite</a></code></dt>
+<dd>Droite de référence</dd>
+<dt><strong><code>*args</code></strong></dt>
+<dd>Autres droites</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>Droites toutes sécantes ?</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Si les objets donnés ne sont pas tous des droites</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def secantes(d, *args):
+        &#34;&#34;&#34;Renvoie True si les droites données sont sécantes, False sinon
+        
+        Args:
+            d (Droite): Droite de référence
+            *args: Autres droites
+        
+        Returns:
+            bool: Droites toutes sécantes ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des droites
+        &#34;&#34;&#34;
+        if isinstance(d, Droite):
+                
+                for d2 in args:
+                        if isinstance(d2, Droite):
+                                produit = d.vecteur.produit_vectoriel(d2.vecteur)
+                                vect_deplacement = vecteurs.Vecteur(d.point, d2.point)
+                                if produit.scalaire(vect_deplacement) != 0:
+                                        return False
+                        else:
+                                typeA = d.__class__.__name__
+                                typeB = d2.__class__.__name__
+                                raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)
+
+                return True
+
+        else:
+                typeA = d.__class__.__name__
+                d2 = args[0]
+                typeB = d2.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer l&#39;intersection entre [{typeA}] et [{typeB}]&#34;)</code></pre>
+</details>
 </dd>
 </dl>
 </section>
@@ -87,7 +497,7 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Classe représentant une droite de l'espace</p>
-<h2 id="attributes">Attributs</h2>
+<h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>point</code></strong> :&ensp;<code>points.Point</code></dt>
 <dd>Un point appartenant à la droite</dd>
@@ -99,18 +509,139 @@
 
     - Un point + un vecteur
 </code></pre>
-<h2 id="args">Arguments</h2>
+<h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>*args</code></strong></dt>
 <dd>Arguments de définition de la droite</dd>
 </dl>
-<h2 id="raises">Erreurs possibles</h2>
+<h2 id="raises">Raises</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Les types passés sont incorrects</dd>
 <dt><code>ValueError</code></dt>
 <dd>Les deux points son identiques ou le vecteur directeur est nul</dd>
 </dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Droite:
+
+        &#34;&#34;&#34;Classe représentant une droite de l&#39;espace
+        
+        Attributes:
+            point (points.Point): Un point appartenant à la droite
+            vecteur (vecteurs.Vecteur): Vecteur directeur de la droite
+        &#34;&#34;&#34;
+        
+        def __init__(self, *args):
+                &#34;&#34;&#34;Initialisation de la droite
+
+                        - Deux points
+
+                        - Un point + un vecteur
+                
+                Args:
+                    *args: Arguments de définition de la droite
+                
+                Raises:
+                    TypeError: Les types passés sont incorrects
+                    ValueError: Les deux points son identiques ou le vecteur directeur est nul
+                &#34;&#34;&#34;
+                self.point = None
+                self.vecteur = None
+
+                if len(args) == 2:
+                        a, b = args
+
+                        if isinstance(a, points.Point) and isinstance(b, points.Point):
+                                if not points.est_meme_point(a, b):
+                                        u = vecteurs.Vecteur(a, b)
+                                        self.vecteur = u
+                                        self.point = a
+                                else:
+                                        raise ValueError(&#34;Les deux points ne doivent pas être identiques&#34;)
+                
+                        elif isinstance(a, points.Point) and isinstance(b, vecteurs.Vecteur):
+                                if not b.est_nul():
+                                        self.point = a
+                                        self.vecteur = b
+                                else:
+                                        raise ValueError(&#34;Le vecteur directeur ne doit pas être nul&#34;)
+                                
+                        else:
+                                raise TypeError(f&#34;Une droite est créée à partir de deux points, ou d&#39;un point et d&#39;un vecteur&#34;)
+                
+                else:
+                        raise TypeError(f&#34;Une droite est créée à partir de deux points, ou d&#39;un point et d&#39;un vecteur&#34;)
+
+        def est_sur_droite(self, point):
+                &#34;&#34;&#34;Renvoie True si le point est sur la droite, False sinon
+                
+                Args:
+                    point (points.Point): Point quelconque
+                
+                Returns:
+                    bool: Point sur la droite ?
+                
+                Raises:
+                    TypeError: Si l&#39;objet donné n&#39;est pas un point
+                &#34;&#34;&#34;
+                if isinstance(point, point.Point):
+                        pointA = self.point
+                        pointB = points.Point(pointA.x + self.vecteur.x, pointA.y + self.vecteur.y, pointA.z + self.vecteur.z)
+                        return bool(points.alignes(pointA, pointB, point))
+
+                type_ = point.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer l&#39;appartenance entre droite et [{type_}]&#34;)
+
+        def parametrique(self):
+                &#34;&#34;&#34;Renvoie l&#39;équation paramétrique de la droite, et les coefficients dans un tuple
+                
+                Returns:
+                    tuple:
+
+                    - Equation paramétrique (str)
+
+                    - Tuple avec les coefficients xp, yp, zp, xu, yu, zu pour
+
+
+        \\begin{equation}
+                x= xp + x\\overrightarrow{u}
+        \\end{equation}
+
+        \\begin{equation}
+                y= y + y\\overrightarrow{u}
+        \\end{equation}
+
+        \\begin{equation}
+                z= zp + z\\overrightarrow{u}
+        \\end{equation}
+                &#34;&#34;&#34;
+                xp = Fraction(str(self.point.x))
+                yp = Fraction(str(self.point.y))
+                zp = Fraction(str(self.point.z))
+
+                xu = Fraction(str(self.vecteur.x))
+                yu = Fraction(str(self.vecteur.y))
+                zu = Fraction(str(self.vecteur.z))
+
+                signe_xu = &#34;+ &#34; if xu &gt;= 0 else &#34;&#34;
+                signe_yu = &#34;+ &#34; if yu &gt;= 0 else &#34;&#34;
+                signe_zu = &#34;+ &#34; if zu &gt;= 0 else &#34;&#34;
+                
+                str_parametrique = f&#34;x = {xp} {signe_xu}{xu}t\ny = {yp} {signe_yu}{yu}t\nz = {zp} {signe_zu}{zu}t&#34;
+                return (str_parametrique, (xp, yp, zp, xu, yu, zu))
+
+        def __contains__(self, point):
+                return self.est_sur_droite(point)
+
+        def __str__(self):
+                return self.paramétrique[0]
+
+        def __repr__(self):
+                return self.paramétrique[0]</code></pre>
+</details>
 <h3>Methods</h3>
 <dl>
 <dt id="py3d.droites.Droite.est_sur_droite"><code class="name flex">
@@ -118,28 +649,52 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie True si le point est sur la droite, False sinon</p>
-<h2 id="args">Arguments</h2>
+<h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>point</code></strong> :&ensp;<code>points.Point</code></dt>
 <dd>Point quelconque</dd>
 </dl>
-<h2 id="returns">Retourne</h2>
+<h2 id="returns">Returns</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>Point sur la droite ?</dd>
 </dl>
-<h2 id="raises">Erreurs possibles</h2>
+<h2 id="raises">Raises</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Si l'objet donné n'est pas un point</dd>
 </dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def est_sur_droite(self, point):
+        &#34;&#34;&#34;Renvoie True si le point est sur la droite, False sinon
+        
+        Args:
+            point (points.Point): Point quelconque
+        
+        Returns:
+            bool: Point sur la droite ?
+        
+        Raises:
+            TypeError: Si l&#39;objet donné n&#39;est pas un point
+        &#34;&#34;&#34;
+        if isinstance(point, point.Point):
+                pointA = self.point
+                pointB = points.Point(pointA.x + self.vecteur.x, pointA.y + self.vecteur.y, pointA.z + self.vecteur.z)
+                return bool(points.alignes(pointA, pointB, point))
+
+        type_ = point.__class__.__name__
+        raise TypeError(f&#34;Impossible de déterminer l&#39;appartenance entre droite et [{type_}]&#34;)</code></pre>
+</details>
 </dd>
 <dt id="py3d.droites.Droite.parametrique"><code class="name flex">
 <span>def <span class="ident">parametrique</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie l'équation paramétrique de la droite, et les coefficients dans un tuple</p>
-<pre><code>    Retourne:
+<pre><code>    Returns:
         tuple:
 
         - Equation paramétrique (str)
@@ -155,6 +710,48 @@ y= y + y\overrightarrow{u}
 <p>\begin{equation}
 z= zp + z\overrightarrow{u}
 \end{equation}</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parametrique(self):
+        &#34;&#34;&#34;Renvoie l&#39;équation paramétrique de la droite, et les coefficients dans un tuple
+        
+        Returns:
+            tuple:
+
+            - Equation paramétrique (str)
+
+            - Tuple avec les coefficients xp, yp, zp, xu, yu, zu pour
+
+
+\\begin{equation}
+        x= xp + x\\overrightarrow{u}
+\\end{equation}
+
+\\begin{equation}
+        y= y + y\\overrightarrow{u}
+\\end{equation}
+
+\\begin{equation}
+        z= zp + z\\overrightarrow{u}
+\\end{equation}
+        &#34;&#34;&#34;
+        xp = Fraction(str(self.point.x))
+        yp = Fraction(str(self.point.y))
+        zp = Fraction(str(self.point.z))
+
+        xu = Fraction(str(self.vecteur.x))
+        yu = Fraction(str(self.vecteur.y))
+        zu = Fraction(str(self.vecteur.z))
+
+        signe_xu = &#34;+ &#34; if xu &gt;= 0 else &#34;&#34;
+        signe_yu = &#34;+ &#34; if yu &gt;= 0 else &#34;&#34;
+        signe_zu = &#34;+ &#34; if zu &gt;= 0 else &#34;&#34;
+        
+        str_parametrique = f&#34;x = {xp} {signe_xu}{xu}t\ny = {yp} {signe_yu}{yu}t\nz = {zp} {signe_zu}{zu}t&#34;
+        return (str_parametrique, (xp, yp, zp, xu, yu, zu))</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -172,7 +769,7 @@ z= zp + z\overrightarrow{u}
 <li><code><a title="py3d" href="index.html">py3d</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-functions">Fonctions</a></h3>
+<li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="py3d.droites.orthogonales" href="#py3d.droites.orthogonales">orthogonales</a></code></li>
 <li><code><a title="py3d.droites.parallelles" href="#py3d.droites.parallelles">parallelles</a></code></li>

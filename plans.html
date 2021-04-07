@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
@@ -24,7 +24,7 @@
 </header>
 <section id="section-intro">
 <p>Module plans, contient la classe Plan et des fonctions annexes</p>
-<h2 id="attributes">Attributs</h2>
+<h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>plan_xy</code></strong> :&ensp;<code><a title="py3d.plans.Plan" href="#py3d.plans.Plan">Plan</a></code></dt>
 <dd>Plan d'équation z = 0 (horizontal)</dd>
@@ -33,6 +33,263 @@
 <dt><strong><code>plan_yz</code></strong> :&ensp;<code><a title="py3d.plans.Plan" href="#py3d.plans.Plan">Plan</a></code></dt>
 <dd>Plan d'équation x = 0 (vertical)</dd>
 </dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Module plans, contient la classe Plan et des fonctions annexes
+
+Attributes:
+    plan_xy (Plan): Plan d&#39;équation z = 0 (horizontal)
+    plan_xz (Plan): Plan d&#39;équation y = 0 (vertical)
+    plan_yz (Plan): Plan d&#39;équation x = 0 (vertical)
+&#34;&#34;&#34;
+import droites
+import vecteurs
+import calculs
+
+def parallelles(planA, *args):
+        &#34;&#34;&#34;Renvoie True si les plans donnés sont parallèles, False sinon
+        
+        Args:
+            planA (Plan): Plan de référence
+            *args: Autres plans
+        
+        Returns:
+            bool: Plans tous parallelles ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des plans
+        &#34;&#34;&#34;
+        if isinstance(planA, Plan):
+
+                for planX in args:
+                        if isinstance(planX, Plan):
+                                if not(planX.vecteur_normal() == planA.vecteur_normal()):
+                                        return False
+                        else:
+                                typeA = planA.__class__.__name__
+                                typeB = planX.__class__.__name__
+                                raise TypeError(f&#34;Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]&#34;)
+
+                return True
+
+        else:
+                typeA = planA.__class__.__name__
+                planX = args[0]
+                typeB = planX.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]&#34;)
+
+def secants(planA, *args):
+        &#34;&#34;&#34;Renvoie True si les plans donnés sont sécants, False sinon
+        
+        Args:
+            planA (Plan): Plan de référence
+            *args: Autres plans
+        
+        Returns:
+            bool: Plans tous sécants ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des plans
+        &#34;&#34;&#34;
+        return not parallelles(planA, *args)
+
+def plans_orthogonaux(planA, *args):
+        &#34;&#34;&#34;Renvoie True si les plans donnés sont sécants, False sinon
+        
+        Args:
+            planA (Plan): Plan de référence
+            *args: Autres plans
+        
+        Returns:
+            bool: Plans tous sécants ?
+        
+        Raises:
+            TypeError: Si les objets donnés ne sont pas tous des plans
+        &#34;&#34;&#34;
+        if isinstance(planA, Plan):
+
+                for planX in args:
+                        if isinstance(planX, Plan):
+                                if secants(planA, planX):
+                                        if not(planX.vecteur_normal().scalaire(planA.vecteur_normal())) != 0:
+                                                return False
+                                else:
+                                        return False
+                        else:
+                                typeA = planA.__class__.__name__
+                                typeB = planX.__class__.__name__
+                                raise TypeError(f&#34;Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]&#34;)
+
+                return True
+
+        else:
+                typeA = planA.__class__.__name__
+                planX = args[0]
+                typeB = planX.__class__.__name__
+                raise TypeError(f&#34;Impossible de déterminer le parallélisme entre [{typeA}] et [{typeB}]&#34;)
+
+
+class Plan:
+
+        &#34;&#34;&#34;Classe représentant un plan de l&#39;espace
+        
+        Attributes:
+            point (points.Point): Point d&#39;origine du plan
+            vecteur_n (vecteurs.Vecteur): Vecteur normal au plan
+        &#34;&#34;&#34;
+        
+        def __init__(self, *args):
+                &#34;&#34;&#34;Initialisation du plan :
+
+                        - Un point + un vecteur normal
+
+                        - Deux droites
+
+                        - Un point + deux vecteurs non colinéaires
+
+                        - Trois points
+                
+                Args:
+                    *args: Arguments de définition du plan
+                
+                Raises:
+                    TypeError: Les types passés sont incorrects
+                    ValueError: Le vecteur normal est nul, les deux vecteurs sont colinéaires ou les trois points sont alignés
+                &#34;&#34;&#34;
+                import points
+                if len(args) == 2:
+
+                        a, b = args
+
+                        #Point + Vecteur Normal
+                        if isinstance(a, points.Point) and isinstance(b, vecteurs.Vecteur):
+                                if not b.est_nul():
+                                        self.point = a
+                                        self.vecteur_n = b
+                                else:
+                                        raise ValueError(&#34;Le vecteur normal d&#39;un plan ne peut pas être nul&#34;)
+
+                        #Deux droites
+                        elif isinstance(a, droites.Droite) and isinstance(b, droites.Droite):
+                                self.point = calculs.intersection(a, b)
+                                self.vecteur_n = a.vecteur.produit_vectoriel(b.vecteur)
+
+                        else:
+                                typeA = a.__class__.__name__
+                                typeB = b.__class__.__name__
+                                raise TypeError(f&#34;Impossible de créer un plan à partir de [{typeA}] et [{typeB}]&#34;)
+
+                elif len(args) == 3:
+
+                        a, b ,c = args
+
+                        #Point + Deux vecteurs
+                        if isinstance(a, points.Point) and (b, vecteurs.Vecteur) and isinstance(c, vecteurs.Vecteur):
+                                if not(b.est_nul() or c.est_nul()):
+                                        if not vecteurs.collineaires(b, c):
+                                                self.vecteur_n = b.produit_vectoriel(c)
+                                                self.point = a
+                                        else:
+                                                raise ValueError(&#34;Deux vecteurs collinéaires ne peuvent pas engendrer un plan&#34;)
+                                else:
+                                        raise ValueError(&#34;Impossible de générer un plan à partir d&#39;un vecteur nul&#34;)
+
+                        #Trois points
+                        elif all(isinstance(x, points.Point) for x in args):
+                                ab = vecteurs.Vecteur(a, b)
+                                ac = vecteurs.Vecteur(b, c)
+
+                                if not(ab.est_nul() or ac.est_nul()):
+                                        if not vecteurs.collineaires(ab, ac):
+                                                self.vecteur_n = ab.produit_vectoriel(ac)
+                                                self.point = a
+                                        else:
+                                                raise ValueError(&#34;Trois points alignés ne peuvent pas engendrer un plan&#34;)
+                                else:
+                                        raise ValueError(&#34;Impossible de générer un plan : les points ne sont pas distincts&#34;)
+
+                        else:
+                                typeA = a.__class__.__name__
+                                typeB = b.__class__.__name__
+                                typeC = c.__class__.__name__
+                                raise TypeError(f&#34;Impossible de créer un plan à partir de [{typeA}], [{typeB}] et [{typeC}]&#34;)
+
+                elif len(args) == 4:
+                        pass
+                        a, b, c, d = args
+
+                        #Equation cartesienne
+                        if all(isinstance(x, int) or isinstance(x, float) for x in args):
+                                if not(a == 0 and b == 0 and c == 0):
+                                        self.vecteur_n = vecteurs.Vecteur(a, b, c)
+
+                                        if c != 0:
+                                                self.point = points.Point(0, 0, -d/c)
+
+                                        elif b != 0:
+                                                self.point = points.Point(0, -d/b, 0)
+
+                                        elif a != 0:
+                                                self.point = points.Point(-d/a, 0, 0)
+
+                                else:
+                                        raise ValueError(&#34;Impossible de générer un plan à partir d&#39;un vecteur nul&#34;)
+                        else:
+                                raise TypeError(&#34;Les paramètres de l&#39;équation cartésienne doivent être des chiffres&#34;)
+
+        def cartesienne(self):
+                &#34;&#34;&#34;Renvoie l&#39;équation cartésienne du plan, et les coefficients dans un tuple
+                
+                Returns:
+                    tuple:
+
+                    - Equation cartésienne (str)
+
+                    - Tuple avec les coefficients a b c d pour `ax + by + cz + d = 0`
+
+                &#34;&#34;&#34;
+                a = self.vecteur_n.x
+                b = self.vecteur_n.y
+                c = self.vecteur_n.z
+
+                signe_b = &#34;+ &#34; if b &gt;= 0 else &#34;&#34;
+                signe_c = &#34;+ &#34; if c &gt;= 0 else &#34;&#34;
+
+                total_p = a * self.point.x + b * self.point.y + c * self.point.z
+
+                d = -total_p
+                signe_d = &#34;+ &#34; if d &gt;= 0 else &#34;&#34;
+
+                str_equation = f&#34;{a}x {signe_b}{b}y {signe_c}{c}z {signe_d}{d} = 0&#34;
+                return (str_equation, (a, b, c, d))
+
+        def vecteur_normal(self):
+                &#34;&#34;&#34;Renvoie le vecteur normal au plan
+                
+                Returns:
+                    vecteurs.Vecteur: Vecteur normal
+                &#34;&#34;&#34;
+                return self.vecteur_n
+
+        def __contains__(self, point):
+                if isinstance(point, points.Point):
+                        projete = point.projete_orthogonal(self)
+                        return points.est_meme_point(point, projete)
+
+        def __str__(self):
+                return self.cartesienne()[0]
+
+        def __repr__(self):
+                return self.cartesienne()[0]
+
+plan_xy = Plan(0, 0, 1, 0)
+plan_yz = Plan(1, 0, 0, 0)
+plan_xz = Plan(0, 1, 0, 0)
+
+__all__ = (&#34;Plan&#34;, &#34;plan_xy&#34;, &#34;plan_yz&#34;, &#34;plan_xz&#34;)</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -49,7 +306,7 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Classe représentant un plan de l'espace</p>
-<h2 id="attributes">Attributs</h2>
+<h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>point</code></strong> :&ensp;<code>points.Point</code></dt>
 <dd>Point d'origine du plan</dd>
@@ -65,18 +322,175 @@
 
     - Trois points
 </code></pre>
-<h2 id="args">Arguments</h2>
+<h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>*args</code></strong></dt>
 <dd>Arguments de définition du plan</dd>
 </dl>
-<h2 id="raises">Erreurs possibles</h2>
+<h2 id="raises">Raises</h2>
 <dl>
 <dt><code>TypeError</code></dt>
 <dd>Les types passés sont incorrects</dd>
 <dt><code>ValueError</code></dt>
 <dd>Le vecteur normal est nul, les deux vecteurs sont colinéaires ou les trois points sont alignés</dd>
 </dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Plan:
+
+        &#34;&#34;&#34;Classe représentant un plan de l&#39;espace
+        
+        Attributes:
+            point (points.Point): Point d&#39;origine du plan
+            vecteur_n (vecteurs.Vecteur): Vecteur normal au plan
+        &#34;&#34;&#34;
+        
+        def __init__(self, *args):
+                &#34;&#34;&#34;Initialisation du plan :
+
+                        - Un point + un vecteur normal
+
+                        - Deux droites
+
+                        - Un point + deux vecteurs non colinéaires
+
+                        - Trois points
+                
+                Args:
+                    *args: Arguments de définition du plan
+                
+                Raises:
+                    TypeError: Les types passés sont incorrects
+                    ValueError: Le vecteur normal est nul, les deux vecteurs sont colinéaires ou les trois points sont alignés
+                &#34;&#34;&#34;
+                import points
+                if len(args) == 2:
+
+                        a, b = args
+
+                        #Point + Vecteur Normal
+                        if isinstance(a, points.Point) and isinstance(b, vecteurs.Vecteur):
+                                if not b.est_nul():
+                                        self.point = a
+                                        self.vecteur_n = b
+                                else:
+                                        raise ValueError(&#34;Le vecteur normal d&#39;un plan ne peut pas être nul&#34;)
+
+                        #Deux droites
+                        elif isinstance(a, droites.Droite) and isinstance(b, droites.Droite):
+                                self.point = calculs.intersection(a, b)
+                                self.vecteur_n = a.vecteur.produit_vectoriel(b.vecteur)
+
+                        else:
+                                typeA = a.__class__.__name__
+                                typeB = b.__class__.__name__
+                                raise TypeError(f&#34;Impossible de créer un plan à partir de [{typeA}] et [{typeB}]&#34;)
+
+                elif len(args) == 3:
+
+                        a, b ,c = args
+
+                        #Point + Deux vecteurs
+                        if isinstance(a, points.Point) and (b, vecteurs.Vecteur) and isinstance(c, vecteurs.Vecteur):
+                                if not(b.est_nul() or c.est_nul()):
+                                        if not vecteurs.collineaires(b, c):
+                                                self.vecteur_n = b.produit_vectoriel(c)
+                                                self.point = a
+                                        else:
+                                                raise ValueError(&#34;Deux vecteurs collinéaires ne peuvent pas engendrer un plan&#34;)
+                                else:
+                                        raise ValueError(&#34;Impossible de générer un plan à partir d&#39;un vecteur nul&#34;)
+
+                        #Trois points
+                        elif all(isinstance(x, points.Point) for x in args):
+                                ab = vecteurs.Vecteur(a, b)
+                                ac = vecteurs.Vecteur(b, c)
+
+                                if not(ab.est_nul() or ac.est_nul()):
+                                        if not vecteurs.collineaires(ab, ac):
+                                                self.vecteur_n = ab.produit_vectoriel(ac)
+                                                self.point = a
+                                        else:
+                                                raise ValueError(&#34;Trois points alignés ne peuvent pas engendrer un plan&#34;)
+                                else:
+                                        raise ValueError(&#34;Impossible de générer un plan : les points ne sont pas distincts&#34;)
+
+                        else:
+                                typeA = a.__class__.__name__
+                                typeB = b.__class__.__name__
+                                typeC = c.__class__.__name__
+                                raise TypeError(f&#34;Impossible de créer un plan à partir de [{typeA}], [{typeB}] et [{typeC}]&#34;)
+
+                elif len(args) == 4:
+                        pass
+                        a, b, c, d = args
+
+                        #Equation cartesienne
+                        if all(isinstance(x, int) or isinstance(x, float) for x in args):
+                                if not(a == 0 and b == 0 and c == 0):
+                                        self.vecteur_n = vecteurs.Vecteur(a, b, c)
+
+                                        if c != 0:
+                                                self.point = points.Point(0, 0, -d/c)
+
+                                        elif b != 0:
+                                                self.point = points.Point(0, -d/b, 0)
+
+                                        elif a != 0:
+                                                self.point = points.Point(-d/a, 0, 0)
+
+                                else:
+                                        raise ValueError(&#34;Impossible de générer un plan à partir d&#39;un vecteur nul&#34;)
+                        else:
+                                raise TypeError(&#34;Les paramètres de l&#39;équation cartésienne doivent être des chiffres&#34;)
+
+        def cartesienne(self):
+                &#34;&#34;&#34;Renvoie l&#39;équation cartésienne du plan, et les coefficients dans un tuple
+                
+                Returns:
+                    tuple:
+
+                    - Equation cartésienne (str)
+
+                    - Tuple avec les coefficients a b c d pour `ax + by + cz + d = 0`
+
+                &#34;&#34;&#34;
+                a = self.vecteur_n.x
+                b = self.vecteur_n.y
+                c = self.vecteur_n.z
+
+                signe_b = &#34;+ &#34; if b &gt;= 0 else &#34;&#34;
+                signe_c = &#34;+ &#34; if c &gt;= 0 else &#34;&#34;
+
+                total_p = a * self.point.x + b * self.point.y + c * self.point.z
+
+                d = -total_p
+                signe_d = &#34;+ &#34; if d &gt;= 0 else &#34;&#34;
+
+                str_equation = f&#34;{a}x {signe_b}{b}y {signe_c}{c}z {signe_d}{d} = 0&#34;
+                return (str_equation, (a, b, c, d))
+
+        def vecteur_normal(self):
+                &#34;&#34;&#34;Renvoie le vecteur normal au plan
+                
+                Returns:
+                    vecteurs.Vecteur: Vecteur normal
+                &#34;&#34;&#34;
+                return self.vecteur_n
+
+        def __contains__(self, point):
+                if isinstance(point, points.Point):
+                        projete = point.projete_orthogonal(self)
+                        return points.est_meme_point(point, projete)
+
+        def __str__(self):
+                return self.cartesienne()[0]
+
+        def __repr__(self):
+                return self.cartesienne()[0]</code></pre>
+</details>
 <h3>Methods</h3>
 <dl>
 <dt id="py3d.plans.Plan.cartesienne"><code class="name flex">
@@ -84,7 +498,7 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie l'équation cartésienne du plan, et les coefficients dans un tuple</p>
-<h2 id="returns">Retourne</h2>
+<h2 id="returns">Returns</h2>
 <p>tuple:</p>
 <ul>
 <li>
@@ -94,17 +508,59 @@
 <p>Tuple avec les coefficients a b c d pour <code>ax + by + cz + d = 0</code></p>
 </li>
 </ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cartesienne(self):
+        &#34;&#34;&#34;Renvoie l&#39;équation cartésienne du plan, et les coefficients dans un tuple
+        
+        Returns:
+            tuple:
+
+            - Equation cartésienne (str)
+
+            - Tuple avec les coefficients a b c d pour `ax + by + cz + d = 0`
+
+        &#34;&#34;&#34;
+        a = self.vecteur_n.x
+        b = self.vecteur_n.y
+        c = self.vecteur_n.z
+
+        signe_b = &#34;+ &#34; if b &gt;= 0 else &#34;&#34;
+        signe_c = &#34;+ &#34; if c &gt;= 0 else &#34;&#34;
+
+        total_p = a * self.point.x + b * self.point.y + c * self.point.z
+
+        d = -total_p
+        signe_d = &#34;+ &#34; if d &gt;= 0 else &#34;&#34;
+
+        str_equation = f&#34;{a}x {signe_b}{b}y {signe_c}{c}z {signe_d}{d} = 0&#34;
+        return (str_equation, (a, b, c, d))</code></pre>
+</details>
 </dd>
 <dt id="py3d.plans.Plan.vecteur_normal"><code class="name flex">
 <span>def <span class="ident">vecteur_normal</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Renvoie le vecteur normal au plan</p>
-<h2 id="returns">Retourne</h2>
+<h2 id="returns">Returns</h2>
 <dl>
 <dt><code>vecteurs.Vecteur</code></dt>
 <dd>Vecteur normal</dd>
 </dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def vecteur_normal(self):
+        &#34;&#34;&#34;Renvoie le vecteur normal au plan
+        
+        Returns:
+            vecteurs.Vecteur: Vecteur normal
+        &#34;&#34;&#34;
+        return self.vecteur_n</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
