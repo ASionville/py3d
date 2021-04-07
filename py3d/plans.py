@@ -7,7 +7,7 @@ Attributes:
 """
 import droites
 import vecteurs
-
+import calculs
 
 def parallelles(planA, *args):
 	"""Renvoie True si les plans donnés sont parallèles, False sinon
@@ -134,7 +134,8 @@ class Plan:
 
 			#Deux droites
 			elif isinstance(a, droites.Droite) and isinstance(b, droites.Droite):
-				raise NotImplementedError("La création d'un plan par deux droites n'est pas encore disponible")
+				self.point = calculs.intersection(a, b)
+				self.vecteur_n = a.vecteur.produit_vectoriel(b.vecteur)
 
 			else:
 				typeA = a.__class__.__name__
@@ -237,6 +238,12 @@ class Plan:
 		if isinstance(point, points.Point):
 			projete = point.projete_orthogonal(self)
 			return points.est_meme_point(point, projete)
+
+	def __str__(self):
+		return self.cartesienne()[0]
+
+	def __repr__(self):
+		return self.cartesienne()[0]
 
 plan_xy = Plan(0, 0, 1, 0)
 plan_yz = Plan(1, 0, 0, 0)
